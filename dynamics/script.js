@@ -2,8 +2,6 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
-    // Create image element if imageUrl is provided
-
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
@@ -17,7 +15,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         calculatorDiv.appendChild(image);
     }
 
-    // Create input fields
+    // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
         input.type = 'number';
@@ -40,14 +38,17 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             // Missing value for first input
             const [ , pmax, final] = inputValues; // Skip the first value
             result = formulas[0].calculate(pmax, final);
+            console.log(result)
         } else if (missingIndex === 1) {
             // Missing value for second input
             const [pteam, , final] = inputValues; // Skip the second value
             result = formulas[1].calculate(pteam, final);
+            console.log(result)
         } else if (missingIndex === 2) {
             // Missing value for third input
             const [tteam, tmax] = inputValues.slice(0, 2); // Use only the first two values
             result = formulas[2].calculate(tteam, tmax);
+            console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
@@ -67,19 +68,36 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     document.getElementById('calculator-container').appendChild(calculatorDiv);
 }
 
+const Pmax_manual = 50;
+const Pmax_dc = 75;
 
-const formulas = [
+const formulas_skidpad_manual = [
     {
         displayName: 'Calculate P team from P max',
-        calculate: (tmax, final) => Math.sqrt((1.25**2 * tmax ^2) / ((0.5625 * ((final - 0.05 * 50)/(0.95*50)) + 1)/1.25))
+        calculate: (tmax, final) => Math.sqrt((1.25**2 * tmax **2) / ((0.5625 * ((final - 0.05 * Pmax_manual)/(0.95*Pmax_manual)) + 1)/1.25))
     },
     {
         displayName: 'Calculate P max from P team',
-        calculate: (tteam, final) => Math.sqrt(((0.5625 * ((final - 0.05 * 50)/(0.95*50)) + 1)/1.25**2) * tteam **2)
+        calculate: (tteam, final) => Math.sqrt(((0.5625 * ((final - 0.05 * Pmax_manual)/(0.95*Pmax_manual)) + 1)/1.25**2) * tteam **2)
     },
     {
         displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (tteam, tmax) => 0.95 * 50 * ((tmax * 1.25 / tteam)**2 - 1) / 0.5625 + 0.05 * 50
+        calculate: (tteam, tmax) => 0.95 * Pmax_manual * ((tmax * 1.25 / tteam)**2 - 1) / 0.5625 + 0.05 * Pmax_manual
+    }
+];
+
+const formulas_skidpad_dc = [
+    {
+        displayName: 'Calculate P team from P max',
+        calculate: (tmax, final) => Math.sqrt((1.5**2 * tmax **2) / ((1.25 * ((final - 0.05 * Pmax_dc)/(0.95*Pmax_dc)) + 1)/1.5))
+    },
+    {
+        displayName: 'Calculate P max from P team',
+        calculate: (tteam, final) => Math.sqrt(((1.25 * ((final - 0.05 * Pmax_dc)/(0.95*Pmax_dc)) + 1)/1.5**2) * tteam **2)
+    },
+    {
+        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
+        calculate: (tteam, tmax) => 0.95 * Pmax_dc * ((tmax * 1.5 / tteam)**2 - 1) / 1.25 + 0.05 * Pmax_dc
     }
 ];
 
@@ -89,7 +107,17 @@ createCalculator('Manual Skidpad',
         { id: 'tmax', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
         { id: 'finalPoints', placeholder: 'Final Points (optional)' }
     ],
-    formulas,
+    formulas_skidpad_manual,
     '../assets/skidpad/skidpad_score.png'
+);
+
+createCalculator('DC Skidpad', 
+    [
+        { id: 'tteam1', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax1', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'finalPoints1', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_skidpad_dc,
+    '../assets/skidpad/skidpad_dc.png'
 );
 
