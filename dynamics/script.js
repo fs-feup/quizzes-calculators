@@ -46,8 +46,8 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             result = formulas[1].calculate(pteam, final);
         } else if (missingIndex === 2) {
             // Missing value for third input
-            const [pteam, pmax] = inputValues.slice(0, 2); // Use only the first two values
-            result = formulas[2].calculate(pteam, pmax);
+            const [tteam, tmax] = inputValues.slice(0, 2); // Use only the first two values
+            result = formulas[2].calculate(tteam, tmax);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
@@ -71,24 +71,25 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 const formulas = [
     {
         displayName: 'Calculate P team from P max',
-        calculate: (pmax, final) => final * pmax / 70
+        calculate: (tmax, final) => Math.sqrt((1.25**2 * tmax ^2) / ((0.5625 * ((final - 0.05 * 50)/(0.95*50)) + 1)/1.25))
     },
     {
         displayName: 'Calculate P max from P team',
-        calculate: (pteam, final) => (70 * pteam) / final
+        calculate: (tteam, final) => Math.sqrt(((0.5625 * ((final - 0.05 * 50)/(0.95*50)) + 1)/1.25**2) * tteam **2)
     },
     {
         displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (pteam, pmax) => (70 * (pteam / pmax))
+        calculate: (tteam, tmax) => 0.95 * 50 * ((tmax * 1.25 / tteam)**2 - 1) / 0.5625 + 0.05 * 50
     }
 ];
 
-createCalculator('Non Finalist Business Plan Presentation Points', 
+createCalculator('Manual Skidpad', 
     [
-        { id: 'pteam', placeholder: 'P team - Score awarded to the team' },
-        { id: 'pmax', placeholder: 'P max - Highest score of any non-finalist team' },
+        { id: 'tteam', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
         { id: 'finalPoints', placeholder: 'Final Points (optional)' }
     ],
     formulas,
-    '../assets/bpp/bpp_score.png'
+    '../assets/skidpad/skidpad_score.png'
 );
+

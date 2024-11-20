@@ -45,3 +45,9 @@ p {
     font-weight: bold;
 }
 
+
+.calculator-image {
+    width: 100%;            /* Make the image scale to the width of its parent */
+    height: auto;           /* Maintain aspect ratio */
+    object-fit: contain;    /* Ensure the image fits inside without distortion */
+}
