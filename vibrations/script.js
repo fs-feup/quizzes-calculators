@@ -34,7 +34,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
-        
+
         let result;
         if(title === 'Spring rate'){
             switch (missingIndex) {
@@ -67,8 +67,28 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
                     result = 'Please leave one input empty to calculate the missing value.';
                     break;
             }
+        }else if(title === 'Natural Frequency in radians'){
+            switch (missingIndex) {
+                case 0:
+                    // Missing value for first input
+                    [,k,m] = inputValues;
+                    result = formulas[0].calculate(k,m);
+                    break;
+                case 1:
+                    // Missing value for second input
+                    [w,,m] = inputValues;
+                    result = formulas[1].calculate(w,m);
+                    break;
+                case 2:
+                    // Missing value for third input
+                    [w,k,] = inputValues;
+                    result = formulas[2].calculate(w,k);
+                    break;
+                default:
+                    result = 'Please leave one input empty to calculate the missing value.';
+                    break;
+            }
         }
-        
         let resultParagraph = calculatorDiv.querySelector('.result');
         
         if (!resultParagraph) {
@@ -126,4 +146,32 @@ createCalculator('Spring rate',
     '../assets/vb/spring_rate.png'
 );
 
+// Natural frequency
+// w = natural frequecy
+// k = spring constant
+// m = mass
 
+const formulas_natural_f = [
+    {
+        displayName: 'Calculate natural frequency (w0) from k and m',
+        calculate: (k2,m) => Math.sqrt(k2 / m)
+    },
+    {
+        displayName: 'Calculate spring constant k from w and m',
+        calculate: (w,m) => Math.pow(w,2) * m 
+    },
+    {
+        displayName: 'Calculate mass m from w and k',
+        calculate: (w,k2) => Math.pow(w,2) * k2
+    }
+];
+
+createCalculator('Natural Frequency in radians', 
+    [
+        { id: 'w', placeholder: 'Natural frequency in radians (w)' },
+        { id: 'k2', placeholder: 'Spring constant in N/m (k)' },
+        { id: 'm', placeholder: 'mass in kg (m)' }
+    ],
+    formulas_natural_f,
+    '../assets/vb/natural_f.png'
+);
