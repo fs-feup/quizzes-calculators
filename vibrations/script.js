@@ -36,28 +36,37 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
         
         let result;
-        if (missingIndex === 0) {
-            // Missing value for first input
-            const [,g,mean,n,d] = inputValues; // Skip the first value
-            result = formulas[0].calculate(g,mean,n,d);
-        } else if (missingIndex === 1) {
-            // Missing value for second input
-            const [k,,mean,n,d] = inputValues; // Skip the second value
-            result = formulas[1].calculate(k,mean,n,d);
-        } else if (missingIndex === 2) {
-            // Missing value for third input
-            const [k,g,,n,d] = inputValues; // skip third input
-            result = formulas[2].calculate(k,g,n,d);
-        } else if(missingIndex == 3){
-            // Missing value for fourth input
-            const [k,g,mean,,d] = inputValues; // Skip fourth input
-            result = formulas[3].calculate(k,g,mean,d);
-        } else if(missingIndex == 4){
-            // Missing value for fifth input
-            const [k,g,mean,n,] = inputValues; // Skip fifth input
-            result = formulas[4].calculate(k,g,mean,n);
-        }else{
-            result = 'Please leave one input empty to calculate the missing value.';
+        if(title === 'Spring rate'){
+            switch (missingIndex) {
+                case 0:
+                    // Missing value for first input
+                    [,g,mean,n,d] = inputValues;
+                    result = formulas[0].calculate(g,mean,n,d);
+                    break;
+                case 1:
+                    // Missing value for second input
+                    [k,,mean,n,d] = inputValues;
+                    result = formulas[1].calculate(k,mean,n,d);
+                    break;
+                case 2:
+                    // Missing value for third input
+                    [k,g,,n,d] = inputValues; // skip third input
+                    result = formulas[2].calculate(k,g,n,d);
+                    break;
+                case 3:
+                    // Missing value for fourth input
+                    [k,g,mean,,d] = inputValues;
+                    result = formulas[2].calculate(k,g,n,d);
+                    break;
+                case 4:
+                    // Missing value for fifth input
+                    [k,g,mean,n,] = inputValues; // Skip fifth input
+                    result = formulas[4].calculate(k,g,mean,n);
+                    break;
+                default:
+                    result = 'Please leave one input empty to calculate the missing value.';
+                    break;
+            }
         }
         
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -82,7 +91,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 // n = number of active coils 
 // d = diameter of spring wire
 
-const formulas = [
+const formulas_spring_rate = [
     {
         displayName: 'Calculate spring rate from diameter of spring wire, elasticity, mean diameter and number of active coils',
         calculate: (g,mean,n,d) => (Math.pow(d, 4) * g) / (8 * Math.pow(mean, 3) * n)
@@ -113,7 +122,7 @@ createCalculator('Spring rate',
         { id: 'n', placeholder: 'Number of active coils (N)' },
         { id: 'd', placeholder: 'Diameter of spring wire (d)' }
     ],
-    formulas,
+    formulas_spring_rate,
     '../assets/vb/spring_rate.png'
 );
 
