@@ -56,11 +56,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
                 case 3:
                     // Missing value for fourth input
                     [k,g,mean,,d] = inputValues;
-                    result = formulas[2].calculate(k,g,n,d);
+                    result = formulas[3].calculate(k,g,mean,d);
                     break;
                 case 4:
                     // Missing value for fifth input
-                    [k,g,mean,n,] = inputValues; // Skip fifth input
+                    [k,g,mean,n,] = inputValues; 
                     result = formulas[4].calculate(k,g,mean,n);
                     break;
                 default:
@@ -83,6 +83,32 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
                     // Missing value for third input
                     [w,k,] = inputValues;
                     result = formulas[2].calculate(w,k);
+                    break;
+                default:
+                    result = 'Please leave one input empty to calculate the missing value.';
+                    break;
+            }
+        } else if(title === 'Damping ratio'){
+            switch (missingIndex) {
+                case 0:
+                    // Missing value for first input
+                    [,c,m2,k3] = inputValues;
+                    result = formulas[0].calculate(c,m2,k3);
+                    break;
+                case 1:
+                    // Missing value for second input
+                    [zeta,,m2,k3] = inputValues;
+                    result = formulas[1].calculate(zeta,m2,k3);
+                    break;
+                case 2:
+                    // Missing value for third input
+                    [zeta,c,,k3] = inputValues;
+                    result = formulas[2].calculate(zeta,c,k3);
+                    break;
+                case 3:
+                    // Missing value for fourth input
+                    [zeta,c,m2,] = inputValues;
+                    result = formulas[3].calculate(zeta,c,m2);
                     break;
                 default:
                     result = 'Please leave one input empty to calculate the missing value.';
@@ -174,4 +200,34 @@ createCalculator('Natural Frequency in radians',
     ],
     formulas_natural_f,
     '../assets/vb/natural_f.png'
+);
+
+const formulas_damping_r = [
+    {
+        displayName: 'Calculate damping ratio',
+        calculate: (c,m2,k3) => c / (2 * Math.sqrt(m2 * k3))
+    },
+    {
+        displayName: 'Calculate c',
+        calculate: (zeta,m2,k3) => 2 * zeta * Math.sqrt(m2 * k3)
+    },
+    {
+        displayName: 'Calculate mean diameter of points',
+        calculate: (zeta,c,k3) => Math.pow(c, 2) / (4 * Math.pow(zeta, 2) * k3)
+    },
+    {
+        displayName: 'Calculate number of active coils',
+        calculate: (zeta,c,m2,) => Math.pow(c, 2) / (4 * Math.pow(zeta, 2) * m2)
+    }
+];
+
+createCalculator('Damping ratio', 
+    [
+        { id: 'zeta', placeholder: 'Damping ratio (zeta)' },
+        { id: 'c', placeholder: 'Damping coefficient (c)' },
+        { id: 'm2', placeholder: 'mass in kg (m)' },
+        { id: 'k3', placeholder: 'Spring constant (k)' }
+    ],
+    formulas_damping_r,
+    '../assets/vb/damping_r.png'
 );
