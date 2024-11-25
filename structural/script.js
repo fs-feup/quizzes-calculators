@@ -137,6 +137,157 @@ const formula_rectangle_I_y_bar = [
     }
 ];
 
+const formula_triangle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (Tri_H) => Tri_H/3
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri_y_bar) => Tri_y_bar*3
+    },
+];
+
+const formula_triangle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (Tri_B2, Tri_H2) => (Tri_B2 * Tri_H2) / 2
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri_area, Tri_H2) => (2 * Tri_area) / Tri_H2
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri_area, Tri_B2) => (2 * Tri_area) / Tri_B2
+    },
+];
+
+const formula_triangle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (Tri_B3, Tri_H3) => (Tri_B3 * Tri_H3**3) / 36
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri_I_x_bar, Tri_H3) => (36 * Tri_I_x_bar) / Tri_H3**3
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri_I_x_bar, Tri_B3) => ((36 * Tri_I_x_bar) / Tri_B3)**(1/3)
+    },
+];
+
+const formula_triangle2_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (Tri2_B) => Tri2_B/3
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri2_x_bar) => Tri2_x_bar*3
+    },
+];
+
+const formula_triangle2_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (Tri2_H) => Tri2_H/3
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri2_y_bar) => Tri2_y_bar*3
+    },
+];
+
+const formula_triangle2_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (Tri2_B2, Tri2_H2) => (Tri2_B2 * Tri2_H2) / 2
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri2_area, Tri2_H2) => (2 * Tri2_area) / Tri2_H2
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri2_area, Tri2_B2) => (2 * Tri2_area) / Tri2_B2
+    },
+];
+
+const formula_triangle2_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (Tri2_B3, Tri2_H3) => (Tri2_B3 * Tri2_H3**3) / 36
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri2_I_x_bar, Tri2_H3) => (36 * Tri2_I_x_bar) / Tri2_H3**3
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri2_I_x_bar, Tri2_B3) => ((36 * Tri2_I_x_bar) / Tri2_B3)**(1/3)
+    },
+];
+
+const formula_triangle2_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (Tri2_B4, Tri2_H4) => (Tri2_H4 * Tri2_B4**3) / 36
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (Tri2_I_y_bar, Tri2_H4) => ((36 * Tri2_I_y_bar) / Tri2_H4)**(1/3)
+    },
+    {
+        displayName: 'Calculate H',
+        calculate: (Tri2_I_y_bar, Tri2_B4) => (36 * Tri2_I_y_bar) / Tri2_B4**3
+    },
+];
+
+const formula_circle_x_y_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (D) => D/2
+    },
+    {
+        displayName: 'Calculate D',
+        calculate: (x_bar) => x_bar*2
+    },
+];
+
+const formula_circle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (cir_r) => Math.PI * cir_r**2
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (cir_area) => (cir_area / Math.PI)**(1/2)
+    },
+];
+
+const formula_circle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (cir_r_x) => (Math.PI * cir_r_x**4) / 4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (cir_I_x_bar) => (4 * cir_I_x_bar / Math.PI)**(1/4)
+    },
+];
+
+const formula_circle_I_y_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (cir_r_y) => (Math.PI * cir_r_y**4) / 4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (cir_I_y_bar) => (4 * cir_I_y_bar / Math.PI)**(1/4)
+    },
+];
 
 createCalculator('Rectangle x bar', 
     [
@@ -184,4 +335,127 @@ createCalculator('Rectangle I y bar',
     ],
     formula_rectangle_I_y_bar,
     '../assets/structural/rectangle_I_y_bar.png'
+);
+
+
+createCalculator('Triangle y bar', 
+    [
+        { id: 'Tri_y_bar', placeholder: 'y bar' },
+        { id: 'Tri_H', placeholder: 'H' },
+    ],
+    formula_triangle_y_bar,
+    '../assets/structural/triangle_y_bar.png'
+);
+
+createCalculator('Triangle area', 
+    [
+        { id: 'Tri_area', placeholder: 'area' },
+        { id: 'Tri_B2', placeholder: 'B' },
+        { id: 'Tri_H2', placeholder: 'H' }
+    ],
+    formula_triangle_area,
+    '../assets/structural/triangle_area.png'
+);
+
+createCalculator('Triangle I x bar', 
+    [
+        { id: 'Tri_I_x_bar', placeholder: 'I x bar' },
+        { id: 'Tri_B3', placeholder: 'B' },
+        { id: 'Tri_H3', placeholder: 'H' }
+    ],
+    formula_triangle_I_x_bar,
+    '../assets/structural/triangle_I_x_bar.png'
+);
+
+createCalculator('Triangle x bar', 
+    [
+        { id: 'Tri2_x_bar', placeholder: 'x bar' },
+        { id: 'Tri2_B', placeholder: 'B' },
+    ],
+    formula_triangle2_x_bar,
+    '../assets/structural/triangle2_x_bar.png'
+);
+
+createCalculator('Triangle y bar',
+    [
+        { id: 'Tri2_y_bar', placeholder: 'y bar' },
+        { id: 'Tri2_H', placeholder: 'H' }
+    ],
+    formula_triangle2_y_bar,
+    '../assets/structural/triangle2_y_bar.png'
+);
+
+createCalculator('Triangle area',
+    [
+        { id: 'Tri2_area', placeholder: 'area' },
+        { id: 'Tri2_B2', placeholder: 'B' },
+        { id: 'Tri2_H2', placeholder: 'H' }
+    ],
+    formula_triangle2_area,
+    '../assets/structural/triangle2_area.png'
+);
+
+createCalculator('Triangle I x bar',
+    [
+        { id: 'Tri2_I_x_bar', placeholder: 'I x bar' },
+        { id: 'Tri2_B3', placeholder: 'B' },
+        { id: 'Tri2_H3', placeholder: 'H' }
+    ],
+    formula_triangle2_I_x_bar,
+    '../assets/structural/triangle2_I_x_bar.png'
+);
+
+createCalculator('Triangle I y bar',
+    [
+        { id: 'Tri2_I_y_bar', placeholder: 'I y bar' },
+        { id: 'Tri2_B4', placeholder: 'B' },
+        { id: 'Tri2_H4', placeholder: 'H' }
+    ],
+    formula_triangle2_I_y_bar,
+    '../assets/structural/triangle2_I_y_bar.png'
+);
+
+createCalculator('Circle x bar',
+    [
+        { id: 'x_y_bar', placeholder: 'x bar' },
+        { id: 'D', placeholder: 'D' }
+    ],
+    formula_circle_x_y_bar,
+    '../assets/structural/circle_x_bar.png'
+);
+
+createCalculator('Circle y bar',
+    [
+        { id: 'x_y_bar', placeholder: 'y bar' },
+        { id: 'D', placeholder: 'D' }
+    ],
+    formula_circle_x_y_bar,
+    '../assets/structural/circle_y_bar.png'
+);
+
+createCalculator('Circle area with radius',
+    [
+        { id: 'cir_area', placeholder: 'area' },
+        { id: 'cir_r', placeholder: 'radius' }
+    ],
+    formula_circle_area,
+    '../assets/structural/circle_area.png'
+);
+
+createCalculator('Circle I x bar',
+    [
+        { id: 'cir_I_x_bar', placeholder: 'I x bar' },
+        { id: 'cir_r_x', placeholder: 'radius' }
+    ],
+    formula_circle_I_x_bar,
+    '../assets/structural/circle_I_x_bar.png'
+);
+
+createCalculator('Circle I y bar',
+    [
+        { id: 'cir_I_y_bar', placeholder: 'I y bar' },
+        { id: 'cir_r_y', placeholder: 'radius' }
+    ],
+    formula_circle_I_y_bar,
+    '../assets/structural/circle_I_y_bar.png'
 );
