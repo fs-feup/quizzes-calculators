@@ -300,22 +300,22 @@ createCalculator4('Velocity Equation', [
 );
 
 createCalculator5('Positions Equation', [
-    { id: 'x', placeholder: 'x - Final Position' },
-    { id: 'xi', placeholder: 'x0 - Initial Position' },
-    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a', placeholder: 'a - Acceleration' },
-    { id: 't', placeholder: 't - Time' },
+    { id: 'x1', placeholder: 'x - Final Position' },
+    { id: 'xi1', placeholder: 'x0 - Initial Position' },
+    { id: 'vi1', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a1', placeholder: 'a - Acceleration' },
+    { id: 't1', placeholder: 't - Time' },
 ],
     formulas_positions_equation,
     '../assets/motion/position.png'
 );
 
 createCalculator5('Velocity from Positions Equation', [
-    { id: 'v', placeholder: 'v - Final Velocity' },
-    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a', placeholder: 'a - Acceleration' },
-    { id: 'x', placeholder: 'x - Final Position' },
-    { id: 'xi', placeholder: 'x0 - Initial Position' },
+    { id: 'v2', placeholder: 'v - Final Velocity' },
+    { id: 'vi2', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a2', placeholder: 'a - Acceleration' },
+    { id: 'x2', placeholder: 'x - Final Position' },
+    { id: 'xi2', placeholder: 'x0 - Initial Position' },
 ],
     formulas_velocity_squared,
     '../assets/motion/velocity_positions.png'
