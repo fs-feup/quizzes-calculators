@@ -71,35 +71,53 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 const Pmax_manual = 50;
 const Pmax_dc = 75;
 
-const formulas_skidpad_manual = [
-    {
-        displayName: 'Calculate P team from P max',
-        calculate: (tmax, final) => Math.sqrt((1.25**2 * tmax **2) / ((0.5625 * ((final - 0.05 * Pmax_manual)/(0.95*Pmax_manual)) + 1)/1.25))
-    },
-    {
-        displayName: 'Calculate P max from P team',
-        calculate: (tteam, final) => Math.sqrt(((0.5625 * ((final - 0.05 * Pmax_manual)/(0.95*Pmax_manual)) + 1)/1.25**2) * tteam **2)
-    },
-    {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (tteam, tmax) => 0.95 * Pmax_manual * ((tmax * 1.25 / tteam)**2 - 1) / 0.5625 + 0.05 * Pmax_manual
-    }
-];
+function generateFormulas(Pmax, denominator, factor) {
+    return [
+        {
+            displayName: 'Calculate P team from P max',
+            calculate: (tmax, final) => Math.sqrt(
+                (factor**2 * tmax**2) /
+                ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor)
+            )
+        },
+        {
+            displayName: 'Calculate P max from P team',
+            calculate: (tteam, final) => Math.sqrt(
+                ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor**2) *
+                tteam**2
+            )
+        },
+        {
+            displayName: 'Calculate Final Points from P team and P max',
+            calculate: (tteam, tmax) => 
+                0.95 * Pmax * ((tmax * factor / tteam)**2 - 1) / denominator + 0.05 * Pmax
+        }
+    ];
+}
 
-const formulas_skidpad_dc = [
+const formulas_skidpad_manual = generateFormulas(Pmax_manual, 0.5625, 1.25)
+
+const formulas_skidpad_dc = generateFormulas(Pmax_dc, 1.25, 1.5)
+
+const formulas_acceleration_manual = generateFormulas(50, 0.5, 1.5)
+
+const formulas_acceleration_dc = generateFormulas(75, 1, 2)
+
+const formulas_skidpad_dv = [
     {
-        displayName: 'Calculate P team from P max',
-        calculate: (tmax, final) => Math.sqrt((1.5**2 * tmax **2) / ((1.25 * ((final - 0.05 * Pmax_dc)/(0.95*Pmax_dc)) + 1)/1.5))
+        displayName: 'Calculate R_DV with nALl and points',
+        calculate: (nAll, points) => nAll + 1 + (points / 75) * nAll
     },
     {
-        displayName: 'Calculate P max from P team',
-        calculate: (tteam, final) => Math.sqrt(((1.25 * ((final - 0.05 * Pmax_dc)/(0.95*Pmax_dc)) + 1)/1.5**2) * tteam **2)
+        displayName: 'Calculate n_All with the R dv and points',
+        calculate: (rDV, points) => (1 - rDV) / (points / 75 - 1)
     },
     {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (tteam, tmax) => 0.95 * Pmax_dc * ((tmax * 1.5 / tteam)**2 - 1) / 1.25 + 0.05 * Pmax_dc
+        displayName: 'Calculate Points with N_all and R_dv',
+        calculate: (rDV, nAll) => 75 * (nAll + 1 - rDV) / nAll
     }
-];
+]
+
 
 createCalculator('Manual Skidpad', 
     [
@@ -111,6 +129,16 @@ createCalculator('Manual Skidpad',
     '../assets/skidpad/skidpad_score.png'
 );
 
+createCalculator('Driverless Skidpad',
+    [
+        {id: 'r_dv', placeholder: 'R DV -> Team\'s best autonomous time'},
+        {id: 'n_all', placeholder: 'n_all -> Number of teams who have at least one valid manual or autonomous run'},
+        {id: 'points', placeholder: 'Number of points got'}
+    ],
+    formulas_skidpad_dv,
+    '../assets/skidpad/DV_Skidpad.png'
+)
+
 createCalculator('DC Skidpad', 
     [
         { id: 'tteam1', placeholder: 'T team - Team\'s best manual mode including penalties' },
@@ -120,4 +148,17 @@ createCalculator('DC Skidpad',
     formulas_skidpad_dc,
     '../assets/skidpad/skidpad_dc.png'
 );
+
+console.log(formulas_acceleration_manual)
+
+createCalculator('Manual Acceleration', 
+    [
+        { id: 'tteam2', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax2', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'finalPoints2', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_acceleration_manual,
+    '../assets/skidpad/skidpad_dcd.png'
+);
+
 
