@@ -227,26 +227,26 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
 const Pmax_manual = 50;
 const Pmax_dc = 75;
 
-function generateFormulas(Pmax, denominator, factor) {
+function generateFormulas(Pmax, denominator, factor, exp = 2) {
     return [
         {
             displayName: 'Calculate P team from P max',
             calculate: (tmax, final) => Math.sqrt(
-                (factor**2 * tmax**2) /
+                (factor**exp * tmax**exp) /
                 ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor)
             )
         },
         {
             displayName: 'Calculate P max from P team',
             calculate: (tteam, final) => Math.sqrt(
-                ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor**2) *
-                tteam**2
+                ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor**exp) *
+                tteam**exp
             )
         },
         {
             displayName: 'Calculate Final Points from P team and P max',
             calculate: (tteam, tmax) => 
-                0.95 * Pmax * ((tmax * factor / tteam)**2 - 1) / denominator + 0.05 * Pmax
+                0.95 * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + 0.05 * Pmax
         }
     ];
 }
@@ -255,7 +255,7 @@ const formulas_skidpad_manual = generateFormulas(Pmax_manual, 0.5625, 1.25)
 
 const formulas_skidpad_dc = generateFormulas(Pmax_dc, 1.25, 1.5)
 
-const formulas_acceleration_manual = generateFormulas(50, 0.5, 1.5)
+const formulas_acceleration_manual = generateFormulas(50, 0.5, 1.5, 1)
 
 const formulas_acceleration_dc = generateFormulas(75, 1, 2)
 
@@ -273,8 +273,6 @@ const formulas_skidpad_dv = [
         calculate: (rDV, nAll) => 75 * (nAll + 1 - rDV) / nAll
     }
 ]
-
-
 
 createCalculator('Manual Skidpad',
     [
@@ -314,5 +312,5 @@ createCalculator('Manual Acceleration',
         { id: 'finalPoints2', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_manual,
-    '../assets/skidpad/skidpad_dcd.png'
+    '../assets/acceleration/m_acceleration.png'
 );
