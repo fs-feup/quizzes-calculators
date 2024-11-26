@@ -224,56 +224,101 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
     document.getElementById('calculator-container').appendChild(calculatorDiv);
 }
 
-const Pmax_manual = 50;
-const Pmax_dc = 75;
+const formulas_velocity_equation = [
+    {
+        displayName: 'Calculate v from vi, a, and t',
+        calculate: (vi, a, t) => vi + a * t
+    },
+    {
+        displayName: 'Calculate vi from v, a, and t',
+        calculate: (v, a, t) => v - a * t
+    },
+    {
+        displayName: 'Calculate a from v, vi, and t',
+        calculate: (v, vi, t) => (v - vi) / t
+    },
+    {
+        displayName: 'Calculate t from v, vi, and a',
+        calculate: (v, vi, a) => (v - vi) / a
+    },
+];
 
-const formulas_skidpad_manual = [
+const formulas_positions_equation = [
     {
-        displayName: 'Calculate P team from P max',
-        calculate: (tmax, final) => Math.sqrt((1.25 ** 2 * tmax ** 2) / ((0.5625 * ((final - 0.05 * Pmax_manual) / (0.95 * Pmax_manual)) + 1) / 1.25))
+        displayName: 'Calculate x from xi, vi, a, and t',
+        calculate: (xi, vi, a, t) => xi + vi * t + 0.5 * a * t ** 2
+    },
+    { 
+        displayName: 'Calculate vi from x, xi, a, and t',
+        calculate: (x, xi, a, t) => (x - xi - 0.5 * a * t ** 2) / t
     },
     {
-        displayName: 'Calculate P max from P team',
-        calculate: (tteam, final) => Math.sqrt(((0.5625 * ((final - 0.05 * Pmax_manual) / (0.95 * Pmax_manual)) + 1) / 1.25 ** 2) * tteam ** 2)
+        displayName: 'Calculate a from x, xi, vi, and t',
+        calculate: (x, xi, vi, t) => (x - xi - vi * t) / (0.5 * t ** 2)
     },
     {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (tteam, tmax) => 0.95 * Pmax_manual * ((tmax * 1.25 / tteam) ** 2 - 1) / 0.5625 + 0.05 * Pmax_manual
+        displayName: 'Calculate t from x, xi, vi, and a',
+        calculate: (x, xi, vi, a) => (-vi + Math.sqrt(vi ** 2 + 2 * a * (x - xi))) / a
+    },
+    {
+        displayName: 'Calculate xi from x, vi, a, and t',
+        calculate: (x, vi, a, t) => x - vi * t - 0.5 * a * t ** 2
     }
 ];
 
-const formulas_skidpad_dc = [
+const formulas_velocity_squared = [
     {
-        displayName: 'Calculate P team from P max',
-        calculate: (tmax, final) => Math.sqrt((1.5 ** 2 * tmax ** 2) / ((1.25 * ((final - 0.05 * Pmax_dc) / (0.95 * Pmax_dc)) + 1) / 1.5))
+        displayName: 'Calculate v from vi, a, x, and xi',
+        calculate: (vi, a, x, xi) => Math.sqrt(vi ** 2 + 2 * a * (x - xi))
     },
     {
-        displayName: 'Calculate P max from P team',
-        calculate: (tteam, final) => Math.sqrt(((1.25 * ((final - 0.05 * Pmax_dc) / (0.95 * Pmax_dc)) + 1) / 1.5 ** 2) * tteam ** 2)
+        displayName: 'Calculate vi from v, a, x, and xi',
+        calculate: (v, a, x, xi) => Math.sqrt(v ** 2 - 2 * a * (x - xi))
     },
     {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
-        calculate: (tteam, tmax) => 0.95 * Pmax_dc * ((tmax * 1.5 / tteam) ** 2 - 1) / 1.25 + 0.05 * Pmax_dc
+        displayName: 'Calculate a from v, vi, x, and xi',
+        calculate: (v, vi, x, xi) => (v ** 2 - vi ** 2) / (2 * (x - xi))
+    },
+    {
+        displayName: 'Calculate x from v, vi, a, and xi',
+        calculate: (v, vi, a, xi) => ((v ** 2 - vi ** 2) / (2 * a)) + xi
+    },
+    {
+        displayName: 'Calculate xi from v, vi, a, and x',
+        calculate: (v, vi, a, x) => x - ((v ** 2 - vi ** 2) / (2 * a))
     }
 ];
 
-
-createCalculator('Manual Skidpad',
-    [
-        { id: 'tteam', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
-        { id: 'finalPoints', placeholder: 'Final Points (optional)' }
-    ],
-    formulas_skidpad_manual,
-    '../assets/skidpad/skidpad_score.png'
+createCalculator4('Velocity Equation', [
+    { id: 'v', placeholder: 'v - Final Velocity' },
+    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a', placeholder: 'a - Acceleration' },
+    { id: 't', placeholder: 't - Time' },
+],
+    formulas_velocity_equation,
+    '../assets/motion/velocity.png'
 );
 
-createCalculator('DC Skidpad',
-    [
-        { id: 'tteam1', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax1', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
-        { id: 'finalPoints1', placeholder: 'Final Points (optional)' }
-    ],
-    formulas_skidpad_dc,
-    '../assets/skidpad/skidpad_dc.png'
+createCalculator5('Positions Equation', [
+    { id: 'x', placeholder: 'x - Final Position' },
+    { id: 'xi', placeholder: 'x0 - Initial Position' },
+    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a', placeholder: 'a - Acceleration' },
+    { id: 't', placeholder: 't - Time' },
+],
+    formulas_positions_equation,
+    '../assets/motion/position.png'
 );
+
+createCalculator5('Velocity from Positions Equation', [
+    { id: 'v', placeholder: 'v - Final Velocity' },
+    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a', placeholder: 'a - Acceleration' },
+    { id: 'x', placeholder: 'x - Final Position' },
+    { id: 'xi', placeholder: 'x0 - Initial Position' },
+],
+    formulas_velocity_squared,
+    '../assets/motion/velocity_positions.png'
+);
+
+
