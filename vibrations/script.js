@@ -40,49 +40,49 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             switch (missingIndex) {
                 case 0:
                     // Missing value for first input
-                    [,g,mean,n,d] = inputValues;
-                    result = formulas[0].calculate(g,mean,n,d);
+                    [,g0,mean0,n0,d0] = inputValues;
+                    result = formulas[0].calculate(g0,mean0,n0,d0);
                     break;
                 case 1:
                     // Missing value for second input
-                    [k,,mean,n,d] = inputValues;
-                    result = formulas[1].calculate(k,mean,n,d);
+                    [k0,,mean0,n0,d0] = inputValues;
+                    result = formulas[1].calculate(k0,mean0,n0,d0);
                     break;
                 case 2:
                     // Missing value for third input
-                    [k,g,,n,d] = inputValues; // skip third input
-                    result = formulas[2].calculate(k,g,n,d);
+                    [k0,g0,,n0,d0] = inputValues; // skip third input
+                    result = formulas[2].calculate(k0,g0,n0,d0);
                     break;
                 case 3:
                     // Missing value for fourth input
-                    [k,g,mean,,d] = inputValues;
-                    result = formulas[3].calculate(k,g,mean,d);
+                    [k0,g0,mean0,,d0] = inputValues;
+                    result = formulas[3].calculate(k0,g0,mean0,d0);
                     break;
                 case 4:
                     // Missing value for fifth input
-                    [k,g,mean,n,] = inputValues; 
-                    result = formulas[4].calculate(k,g,mean,n);
+                    [k0,g0,mean0,n0,] = inputValues; 
+                    result = formulas[4].calculate(k0,g0,mean0,n0);
                     break;
                 default:
                     result = 'Please leave one input empty to calculate the missing value.';
                     break;
             }
-        }else if(title === 'Natural Frequency in radians'){
+        }else if(title === 'Natural angular frequency'){
             switch (missingIndex) {
                 case 0:
                     // Missing value for first input
-                    [,k,m] = inputValues;
-                    result = formulas[0].calculate(k,m);
+                    [,k1,m1] = inputValues;
+                    result = formulas[0].calculate(k1,m1);
                     break;
                 case 1:
                     // Missing value for second input
-                    [w,,m] = inputValues;
-                    result = formulas[1].calculate(w,m);
+                    [w1,,m1] = inputValues;
+                    result = formulas[1].calculate(w1,m1);
                     break;
                 case 2:
                     // Missing value for third input
-                    [w,k,] = inputValues;
-                    result = formulas[2].calculate(w,k);
+                    [w1,k1,] = inputValues;
+                    result = formulas[2].calculate(w1,k1);
                     break;
                 default:
                     result = 'Please leave one input empty to calculate the missing value.';
@@ -92,23 +92,23 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             switch (missingIndex) {
                 case 0:
                     // Missing value for first input
-                    [,c,m2,k3] = inputValues;
-                    result = formulas[0].calculate(c,m2,k3);
+                    [,c2,m2,k2] = inputValues;
+                    result = formulas[0].calculate(c2,m2,k2);
                     break;
                 case 1:
                     // Missing value for second input
-                    [zeta,,m2,k3] = inputValues;
-                    result = formulas[1].calculate(zeta,m2,k3);
+                    [zeta2,,m2,k2] = inputValues;
+                    result = formulas[1].calculate(zeta2,m2,k2);
                     break;
                 case 2:
                     // Missing value for third input
-                    [zeta,c,,k3] = inputValues;
-                    result = formulas[2].calculate(zeta,c,k3);
+                    [zeta2,c2,,k2] = inputValues;
+                    result = formulas[2].calculate(zeta2,c2,k2);
                     break;
                 case 3:
                     // Missing value for fourth input
-                    [zeta,c,m2,] = inputValues;
-                    result = formulas[3].calculate(zeta,c,m2);
+                    [zeta2,c2,m2,] = inputValues;
+                    result = formulas[3].calculate(zeta2,c2,m2);
                     break;
                 default:
                     result = 'Please leave one input empty to calculate the missing value.';
@@ -140,63 +140,63 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 const formulas_spring_rate = [
     {
         displayName: 'Calculate spring rate from diameter of spring wire, elasticity, mean diameter and number of active coils',
-        calculate: (g,mean,n,d) => (Math.pow(d, 4) * g) / (8 * Math.pow(mean, 3) * n)
+        calculate: (g0,mean0,n0,d0) => (Math.pow(d0, 4) * g0) / (8 * Math.pow(mean0, 3) * n0)
     },
     {
         displayName: 'Calculate shear modulos of elasticity of the spring material',
-        calculate: (k,mean,n,d) => (8 * Math.pow(mean, 3) * n * k) / Math.pow(d, 4)
+        calculate: (k0,mean0,n0,d0) => (8 * Math.pow(mean0, 3) * n0 * k0) / Math.pow(d0, 4)
     },
     {
         displayName: 'Calculate mean diameter of points',
-        calculate: (k,g,n,d) => Math.pow((Math.pow(d, 4) * g) / (8 * n * k), 1 / 3)
+        calculate: (k0,g0,n0,d0) => Math.pow((Math.pow(d0, 4) * g0) / (8 * n0 * k0), 1 / 3)
     },
     {
         displayName: 'Calculate number of active coils',
-        calculate: (k,g,mean,d) => (Math.pow(d, 4) * g) / (8 * Math.pow(mean, 3) * k)
+        calculate: (k0,g0,mean0,d0) => (Math.pow(d0, 4) * g0) / (8 * Math.pow(mean0, 3) * k0)
     },
     {
         displayName: 'Calculate wire diameter',
-        calculate: (k,g,mean,n) => Math.pow((8 * Math.pow(mean, 3) * n * k) / g, 1 / 4)
+        calculate: (k0,g0,mean0,n0) => Math.pow((8 * Math.pow(mean0, 3) * n0 * k0) / g0, 1 / 4)
     }
 ];
 
 createCalculator('Spring rate', 
     [
-        { id: 'k', placeholder: 'Spring rate (k)' },
-        { id: 'g', placeholder: 'Shear modulus of elasticity of the spring material (G)' },
-        { id: 'mean', placeholder: 'Mean diameter of the springs coils (D)' },
-        { id: 'n', placeholder: 'Number of active coils (N)' },
-        { id: 'd', placeholder: 'Diameter of spring wire (d)' }
+        { id: 'k0', placeholder: 'Spring rate (k)' },
+        { id: 'g0', placeholder: 'Shear modulus of elasticity of the spring material (G)' },
+        { id: 'mean0', placeholder: 'Mean diameter of the springs coils (D)' },
+        { id: 'n0', placeholder: 'Number of active coils (N)' },
+        { id: 'd0', placeholder: 'Diameter of spring wire (d)' }
     ],
     formulas_spring_rate,
     '../assets/vb/spring_rate.png'
 );
 
 // Natural frequency
-// w = natural frequecy
+// w = angular natural frequecy
 // k = spring constant
 // m = mass
 
 const formulas_natural_f = [
     {
-        displayName: 'Calculate natural frequency (w0) from k and m',
-        calculate: (k2,m) => Math.sqrt(k2 / m)
+        displayName: 'Calculate angular natural frequency (w0) from k and m',
+        calculate: (k1,m1) => Math.sqrt(k1 / m1)
     },
     {
         displayName: 'Calculate spring constant k from w and m',
-        calculate: (w,m) => Math.pow(w,2) * m 
+        calculate: (w1,m1) => Math.pow(w1,2) * m1 
     },
     {
         displayName: 'Calculate mass m from w and k',
-        calculate: (w,k2) => Math.pow(w,2) * k2
+        calculate: (w1,k1) => k1 / Math.pow(w1,2) 
     }
 ];
 
-createCalculator('Natural Frequency in radians', 
+createCalculator('Natural angular frequency' , 
     [
-        { id: 'w', placeholder: 'Natural frequency in radians (w)' },
-        { id: 'k2', placeholder: 'Spring constant in N/m (k)' },
-        { id: 'm', placeholder: 'mass in kg (m)' }
+        { id: 'w1', placeholder: 'Natural angular frequency in radians (w)' },
+        { id: 'k1', placeholder: 'Spring constant in N/m (k)' },
+        { id: 'm1', placeholder: 'mass in kg (m)' }
     ],
     formulas_natural_f,
     '../assets/vb/natural_f.png'
@@ -205,28 +205,28 @@ createCalculator('Natural Frequency in radians',
 const formulas_damping_r = [
     {
         displayName: 'Calculate damping ratio',
-        calculate: (c,m2,k3) => c / (2 * Math.sqrt(m2 * k3))
+        calculate: (c2,m2,k2) => c2 / (2 * Math.sqrt(m2 * k2))
     },
     {
         displayName: 'Calculate c',
-        calculate: (zeta,m2,k3) => 2 * zeta * Math.sqrt(m2 * k3)
+        calculate: (zeta2,m2,k2) => 2 * zeta2 * Math.sqrt(m2 * k2)
     },
     {
         displayName: 'Calculate mean diameter of points',
-        calculate: (zeta,c,k3) => Math.pow(c, 2) / (4 * Math.pow(zeta, 2) * k3)
+        calculate: (zeta2,c2,k2) => Math.pow(c2, 2) / (4 * Math.pow(zeta2, 2) * k2)
     },
     {
         displayName: 'Calculate number of active coils',
-        calculate: (zeta,c,m2,) => Math.pow(c, 2) / (4 * Math.pow(zeta, 2) * m2)
+        calculate: (zeta2,c2,m2,) => Math.pow(c2, 2) / (4 * Math.pow(zeta2, 2) * m2)
     }
 ];
 
 createCalculator('Damping ratio', 
     [
-        { id: 'zeta', placeholder: 'Damping ratio (zeta)' },
-        { id: 'c', placeholder: 'Damping coefficient (c)' },
+        { id: 'zeta2', placeholder: 'Damping ratio (zeta)' },
+        { id: 'c2', placeholder: 'Damping coefficient (c)' },
         { id: 'm2', placeholder: 'mass in kg (m)' },
-        { id: 'k3', placeholder: 'Spring constant (k)' }
+        { id: 'k2', placeholder: 'Spring constant (k)' }
     ],
     formulas_damping_r,
     '../assets/vb/damping_r.png'
