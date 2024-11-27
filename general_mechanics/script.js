@@ -246,46 +246,46 @@ const formulas_velocity_equation = [
 const formulas_positions_equation = [
     {
         displayName: 'Calculate x from xi, vi, a, and t',
-        calculate: (xi, vi, a, t) => xi + vi * t + 0.5 * a * t ** 2
-    },
-    { 
-        displayName: 'Calculate vi from x, xi, a, and t',
-        calculate: (x, xi, a, t) => (x - xi - 0.5 * a * t ** 2) / t
-    },
-    {
-        displayName: 'Calculate a from x, xi, vi, and t',
-        calculate: (x, xi, vi, t) => (x - xi - vi * t) / (0.5 * t ** 2)
-    },
-    {
-        displayName: 'Calculate t from x, xi, vi, and a',
-        calculate: (x, xi, vi, a) => (-vi + Math.sqrt(vi ** 2 + 2 * a * (x - xi))) / a
+        calculate: (xi1, vi1, a1, t1) => xi1 + vi1 * t1 + 0.5 * a1 * t1 ** 2
     },
     {
         displayName: 'Calculate xi from x, vi, a, and t',
-        calculate: (x, vi, a, t) => x - vi * t - 0.5 * a * t ** 2
+        calculate: (x1, vi1, a1, t1) => x1 - vi1 * t1 - 0.5 * a1 * t1 ** 2
+    },
+    { 
+        displayName: 'Calculate vi from x, xi, a, and t',
+        calculate: (x1, xi1, a1, t1) => (x1 - xi1 - 0.5 * a1 * t1 ** 2) / t1
+    },
+    {
+        displayName: 'Calculate a from x, xi, vi, and t',
+        calculate: (x1, xi1, vi1, t1) => (x1 - xi1 - vi1 * t1) / (0.5 * t1 ** 2)
+    },
+    {
+        displayName: 'Calculate t from x, xi, vi, and a',
+        calculate: (x1, xi1, vi1, a1) => Math.max((-vi1 + Math.sqrt(vi1 ** 2 + 2 * a1 * (x1 - xi1))) / a1, (-vi1 - Math.sqrt(vi1 ** 2 + 2 * a1 * (x1 - xi1))) / a1 )
     }
 ];
 
 const formulas_velocity_squared = [
     {
         displayName: 'Calculate v from vi, a, x, and xi',
-        calculate: (vi, a, x, xi) => Math.sqrt(vi ** 2 + 2 * a * (x - xi))
+        calculate: (vi2, a2, x2, xi2) => Math.sqrt(vi2 ** 2 + 2 * a2 * (x2 - xi2))
     },
     {
         displayName: 'Calculate vi from v, a, x, and xi',
-        calculate: (v, a, x, xi) => Math.sqrt(v ** 2 - 2 * a * (x - xi))
+        calculate: (v2, a2, x2, xi2) => Math.sqrt(v2 ** 2 - 2 * a2 * (x2 - xi2))
     },
     {
         displayName: 'Calculate a from v, vi, x, and xi',
-        calculate: (v, vi, x, xi) => (v ** 2 - vi ** 2) / (2 * (x - xi))
+        calculate: (v2, vi2, x2, xi2) => (v2 ** 2 - vi2 ** 2) / (2 * (x2 - xi2))
     },
     {
         displayName: 'Calculate x from v, vi, a, and xi',
-        calculate: (v, vi, a, xi) => ((v ** 2 - vi ** 2) / (2 * a)) + xi
+        calculate: (v2, vi2, a2, xi2) => ((v2 ** 2 - vi2 ** 2) / (2 * a2)) + xi2
     },
     {
         displayName: 'Calculate xi from v, vi, a, and x',
-        calculate: (v, vi, a, x) => x - ((v ** 2 - vi ** 2) / (2 * a))
+        calculate: (v2, vi2, a2, x2) => x2 - ((v2 ** 2 - vi2 ** 2) / (2 * a2))
     }
 ];
 
@@ -300,22 +300,22 @@ createCalculator4('Velocity Equation', [
 );
 
 createCalculator5('Positions Equation', [
-    { id: 'x', placeholder: 'x - Final Position' },
-    { id: 'xi', placeholder: 'x0 - Initial Position' },
-    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a', placeholder: 'a - Acceleration' },
-    { id: 't', placeholder: 't - Time' },
+    { id: 'x1', placeholder: 'x - Final Position' },
+    { id: 'xi1', placeholder: 'x0 - Initial Position' },
+    { id: 'vi1', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a1', placeholder: 'a - Acceleration' },
+    { id: 't1', placeholder: 't - Time' },
 ],
     formulas_positions_equation,
     '../assets/motion/position.png'
 );
 
 createCalculator5('Velocity from Positions Equation', [
-    { id: 'v', placeholder: 'v - Final Velocity' },
-    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a', placeholder: 'a - Acceleration' },
-    { id: 'x', placeholder: 'x - Final Position' },
-    { id: 'xi', placeholder: 'x0 - Initial Position' },
+    { id: 'v2', placeholder: 'v - Final Velocity' },
+    { id: 'vi2', placeholder: 'v0 - Initial Velocity' },
+    { id: 'a2', placeholder: 'a - Acceleration' },
+    { id: 'x2', placeholder: 'x - Final Position' },
+    { id: 'xi2', placeholder: 'x0 - Initial Position' },
 ],
     formulas_velocity_squared,
     '../assets/motion/velocity_positions.png'
