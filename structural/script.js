@@ -245,14 +245,25 @@ const formula_triangle2_I_y_bar = [
     },
 ];
 
-const formula_circle_x_y_bar = [
+const formula_circle_x_bar = [
     {
         displayName: 'Calculate x_bar',
-        calculate: (D) => D/2
+        calculate: (cir_d_x) => cir_d_x/2
     },
     {
         displayName: 'Calculate D',
-        calculate: (x_bar) => x_bar*2
+        calculate: (cir_x_bar) => cir_x_bar*2
+    },
+];
+
+const formula_circle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (cir_d_y) => cir_d_y/2
+    },
+    {
+        displayName: 'Calculate D',
+        calculate: (cir_y_bar) => cir_y_bar*2
     },
 ];
 
@@ -417,19 +428,19 @@ createCalculator('Triangle I y bar',
 
 createCalculator('Circle x bar',
     [
-        { id: 'x_y_bar', placeholder: 'x bar' },
-        { id: 'D', placeholder: 'D' }
+        { id: 'cir_x_bar', placeholder: 'x bar' },
+        { id: 'cir_d_x', placeholder: 'D' }
     ],
-    formula_circle_x_y_bar,
+    formula_circle_x_bar,
     '../assets/structural/circle_x_bar.png'
 );
 
 createCalculator('Circle y bar',
     [
-        { id: 'x_y_bar', placeholder: 'y bar' },
-        { id: 'D', placeholder: 'D' }
+        { id: 'cir_y_bar', placeholder: 'y bar' },
+        { id: 'cir_d_y', placeholder: 'D' }
     ],
-    formula_circle_x_y_bar,
+    formula_circle_y_bar,
     '../assets/structural/circle_y_bar.png'
 );
 
