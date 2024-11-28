@@ -454,3 +454,31 @@ createCalculator('Efficiency Factor',
     formulas_efficiency_factor,
     '../assets/endurance/efficiency_factor.png'
 );
+
+
+
+const formulas_trackdrive = [
+    {
+        displayName: 'Calculate T team',
+        calculate: (t_best, score) => (2 * t_best) / (1 + (score / 150)),
+    },
+    {
+        displayName: 'Calculate T best',
+        calculate: (t_team, score) => (t_team * (1 + (score /150))) / 2
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (t_team, t_best) => 150 * ((t_best * 2) / t_team - 1) ,
+    },
+];
+
+createCalculator('Trackdrive', 
+    [
+        { id: 'tteam10', placeholder: 'T Team - Team\'s corrected elapsed time. Tteam is capped at Tmax' },
+        { id: 'tbest10', placeholder: 'T Best - Corrected elapsed time of the fastest vehicle. T max is 2 times T Best' },
+        { id: 'score10', placeholder: 'Final Score' }
+    ],
+    formulas_trackdrive,
+    '../assets/trackdrive/trackdrive.png'
+);
