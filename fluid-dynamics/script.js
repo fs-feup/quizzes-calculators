@@ -31,10 +31,10 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     button.onclick = () => {
         // Get input values
         const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
-        
+
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
-        
+
         let result;
         if (missingIndex === 0) {
             // Missing value for first input
@@ -52,22 +52,22 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             // Missing value for third input
             const [dCoeff, airDensity, velocity, , drag] = inputValues; // Use only the first two values
             result = formulas[3].calculate(dCoeff, airDensity, velocity, drag);
-        }  else if (missingIndex === 4) {
+        } else if (missingIndex === 4) {
             // Missing value for third input
-            const [dCoeff, airDensity, velocity, area, ] = inputValues; // Use only the first two values
+            const [dCoeff, airDensity, velocity, area,] = inputValues; // Use only the first two values
             result = formulas[4].calculate(dCoeff, airDensity, velocity, area);
-        }else {
+        } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
-        
+
         let resultParagraph = calculatorDiv.querySelector('.result');
-        
+
         if (!resultParagraph) {
             resultParagraph = document.createElement('p');
             resultParagraph.className = 'result';
             calculatorDiv.appendChild(resultParagraph);
         }
-    
+
         resultParagraph.innerText = `Result: ${result}`;
     };
 
@@ -95,11 +95,11 @@ const formulas = [
     },
     {
         displayName: 'Calculate Drag/Lift',
-        calculate: (dragCoefficient, airDensity, velocity, area) => area * dragCoefficient * airDensity * velocity * velocity/ 2
+        calculate: (dragCoefficient, airDensity, velocity, area) => area * dragCoefficient * airDensity * velocity * velocity / 2
     }
 ];
 
-createCalculator('Drag and Lift Calculator', 
+createCalculator('Drag and Lift Calculator',
     [
         { id: 'dCoeff', placeholder: 'Drag/Lift Coefficient' },
         { id: 'airDensity', placeholder: 'Air Density' },
@@ -143,10 +143,10 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
     button.onclick = () => {
         // Get input values
         const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
-        
+
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
-        
+
         let result;
         if (missingIndex === 0) {
             // Missing value for first input
@@ -154,7 +154,7 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
             result = reynoldsFormulas[0].calculate(density, length, velocity, viscosity);
         } else if (missingIndex === 1) {
             // Missing value for second input
-            const [reynolds, ,length, velocity, viscosity] = inputValues; // Skip the second value
+            const [reynolds, , length, velocity, viscosity] = inputValues; // Skip the second value
             result = reynoldsFormulas[1].calculate(reynolds, length, velocity, viscosity);
         } else if (missingIndex === 2) {
             // Missing value for third input
@@ -171,15 +171,15 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
-        
+
         let resultParagraph = calculatorDiv.querySelector('.result');
-        
+
         if (!resultParagraph) {
             resultParagraph = document.createElement('p');
             resultParagraph.className = 'result';
             calculatorDiv.appendChild(resultParagraph);
         }
-    
+
         resultParagraph.innerText = `Result: ${result}`;
     };
 
@@ -210,9 +210,9 @@ const reynoldsFormulas = [
     }
 ];
 
-createReynoldsCalculator('Reynolds Number Calculator', 
+createReynoldsCalculator('Reynolds Number Calculator',
     [
-        { id: 'reynolds', placeholder: 'Reynolds Number (Re)'},
+        { id: 'reynolds', placeholder: 'Reynolds Number (Re)' },
         { id: 'density', placeholder: 'Density (rho)' },
         { id: 'length', placeholder: 'Characteristic Length (l)' },
         { id: 'fluidVelocity', placeholder: 'Velocity (v)' },
@@ -220,4 +220,133 @@ createReynoldsCalculator('Reynolds Number Calculator',
     ],
     reynoldsFormulas,
     '../assets/fluid-dynamics/reynolds_number.png'
+);
+
+function createPerfectGasCalculator(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+
+        let result;
+        if (missingIndex === 0) {
+            const [, V1, n1, T1, P2, V2, n2, T2] = inputValues;
+            result = perfectGasFormulas[0].calculate(V1, n1, T1, P2, V2, n2, T2);
+        } else if (missingIndex === 1) {
+            const [P1, , n1, T1, P2, V2, n2, T2] = inputValues;
+            result = perfectGasFormulas[1].calculate(P1, n1, T1, P2, V2, n2, T2);
+        } else if (missingIndex === 2) {
+            const [P1, V1, , T1, P2, V2, n2, T2] = inputValues;
+            result = perfectGasFormulas[2].calculate(P1, V1, T1, P2, V2, n2, T2);
+        } else if (missingIndex === 3) {
+            const [P1, V1, n1, , P2, V2, n2, T2] = inputValues;
+            result = perfectGasFormulas[3].calculate(P1, V1, n1, P2, V2, n2, T2);
+        } else if (missingIndex === 4) {
+            const [P1, V1, n1, T1, , V2, n2, T2] = inputValues;
+            result = perfectGasFormulas[4].calculate(P1, V1, n1, T1, V2, n2, T2);
+        } else if (missingIndex === 5) {
+            const [P1, V1, n1, T1, P2, , n2, T2] = inputValues;
+            result = perfectGasFormulas[5].calculate(P1, V1, n1, T1, P2, n2, T2);
+        } else if (missingIndex === 6) {
+            const [P1, V1, n1, T1, P2, V2, , T2] = inputValues;
+            result = perfectGasFormulas[6].calculate(P1, V1, n1, T1, P2, V2, T2);
+        } else if (missingIndex === 7) {
+            const [P1, V1, n1, T1, P2, V2, n2, ] = inputValues;
+            result = perfectGasFormulas[7].calculate(P1, V1, n1, T1, P2, V2, n2);
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+
+        let resultParagraph = calculatorDiv.querySelector('.result');
+
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const perfectGasFormulas = [
+    {
+        displayName: 'Calculate P1',
+        calculate: (V1, n1, T1, P2, V2, n2, T2) => (P2 * V2 * n1 * T1) / (n2 * T2 * V1)
+    },
+    {
+        displayName: 'Calculate V1',
+        calculate: (P1, n1, T1, P2, V2, n2, T2) => (P2 * V2 * n1 * T1) / (P1 * n2 * T2)
+    },
+    {
+        displayName: 'Calculate n1',
+        calculate: (P1, V1, T1, P2, V2, n2, T2) => (P1 * V1 * n2 * T2) / (P2 * V2 * T1)
+    },
+    {
+        displayName: 'Calculate T1',
+        calculate: (P1, V1, n1, P2, V2, n2, T2) => (P1 * V1 * n2 * T2) / (P2 * V2 * n1)
+    },
+    {
+        displayName: 'Calculate P2',
+        calculate: (P1, V1, n1, T1, V2, n2, T2) => (P1 * V1 * n2 * T2) / (n1 * T1 * V2)
+    },
+    {
+        displayName: 'Calculate V2',
+        calculate: (P1, V1, n1, T1, P2, n2, T2) => (P1 * V1 * n2 * T2) / (P2 * n1 * T1)
+    },
+    {
+        displayName: 'Calculate n2',
+        calculate: (P1, V1, n1, T1, P2, V2, T2) => (P2 * V2 * n1 * T1) / (P1 * V1 * T2)
+    },
+    {
+        displayName: 'Calculate T2',
+        calculate: (P1, V1, n1, T1, P2, V2, n2) => (P2 * V2 * n1 * T1) / (P1 * V1 * n2)
+    }
+];
+
+createPerfectGasCalculator('Perfect Gas Law Calculator',
+    [
+        { id: 'P1', placeholder: 'Pressure 1 (P1)' },
+        { id: 'V1', placeholder: 'Volume 1 (V1)' },
+        { id: 'n1', placeholder: 'Moles 1 (n1)' },
+        { id: 'T1', placeholder: 'Temperature 1 (T1)' },
+        { id: 'P2', placeholder: 'Pressure 2 (P2)' },
+        { id: 'V2', placeholder: 'Volume 2 (V2)' },
+        { id: 'n2', placeholder: 'Moles 2 (n2)' },
+        { id: 'T2', placeholder: 'Temperature 2 (T2)' }
+    ],
+    perfectGasFormulas,
+    '../assets/fluid-dynamics/perfect_gas.png'
 );
