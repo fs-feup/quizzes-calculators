@@ -533,6 +533,62 @@ const formula_quarter_elipse_I_y_bar = [
     },
 ];
 
+const formula_parabola_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (para_h) => para_h*3/5
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_y_bar) => para_y_bar*5/3
+    },
+];
+
+const formula_parabola_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (para_a, para_h1) => (4*para_a*para_h1) / 3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_area, para_h1) => (3*para_area) / (4*para_h1)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_area, para_a) => (3*para_area) / (4*para_a)
+    },
+];
+
+const formula_parabola_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (para_a1, para_h2) => (16*para_a1*(para_h2**3)) / 175
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_I_x_bar, para_h2) => 175*para_I_x_bar / (16*para_h2**3)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_I_x_bar, para_a1) => (175*para_I_x_bar / (16*para_a1))**(1/3)
+    },
+];
+
+const formula_parabola_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (para_a2, para_h3) => (4 * para_a2**3 * para_h3) / 15
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_I_y_bar, para_h3) => (15*para_I_y_bar / (4*para_h3))**(1/3)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_I_y_bar, para_a2) => (15*para_I_y_bar / (4*para_a2**3))
+    },
+];
+
 createCalculator('Rectangle x bar', 
     [
         { id: 'x_bar', placeholder: 'x_bar' },
@@ -879,4 +935,43 @@ createCalculator('Quarter Elipse I y bar',
     ],
     formula_quarter_elipse_I_y_bar,
     '../assets/structural/quarter_elipse_I_y_bar.png'
+)
+
+createCalculator('Parabola y bar',
+    [
+        { id: 'para_y_bar', placeholder: 'y bar' },
+        { id: 'para_h', placeholder: 'h' }
+    ],
+    formula_parabola_y_bar,
+    '../assets/structural/parabola_y_bar.png'
+)
+
+createCalculator('Parabola area',
+    [
+        { id: 'para_area', placeholder: 'area' },
+        { id: 'para_a', placeholder: 'a' },
+        { id: 'para_h1', placeholder: 'h' }
+    ],
+    formula_parabola_area,
+    '../assets/structural/parabola_area.png'
+)
+
+createCalculator('Parabola I x bar',
+    [
+        { id: 'para_I_x_bar', placeholder: 'I x bar' },
+        { id: 'para_a1', placeholder: 'a' },
+        { id: 'para_h2', placeholder: 'h' }
+    ],
+    formula_parabola_I_x_bar,
+    '../assets/structural/parabola_I_x_bar.png'
+)
+
+createCalculator('Parabola I y bar',
+    [
+        { id: 'para_I_y_bar', placeholder: 'I y bar' },
+        { id: 'para_a2', placeholder: 'a' },
+        { id: 'para_h3', placeholder: 'h' }
+    ],
+    formula_parabola_I_y_bar,
+    '../assets/structural/parabola_I_y_bar.png'
 )
