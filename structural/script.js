@@ -466,6 +466,73 @@ const formula_half_elipse_I_y_bar = [
     },
 ];
 
+const formula_quarter_elipse_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (quarter_elipse_a) => (4*quarter_elipse_a)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_x_bar) => (3*Math.PI*quarter_elipse_x_bar) / 4
+    },
+];
+
+const formula_quarter_elipse_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (quarter_elipse_b) => (4*quarter_elipse_b)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_y_bar) => (3*Math.PI*quarter_elipse_y_bar) / 4
+    },
+];
+
+const formula_quarter_elipse_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (quarter_elipse_a1, quarter_elipse_b1) => (Math.PI * quarter_elipse_a1 * quarter_elipse_b1) / 4
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_area, quarter_elipse_b1) => (4 * quarter_elipse_area / (Math.PI * quarter_elipse_b1))
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_area, quarter_elipse_a1) => (4 * quarter_elipse_area / (Math.PI * quarter_elipse_a1))
+    },
+];
+
+const formula_quarter_elipse_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (quarter_elipse_a2, quarter_elipse_b2) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a2 * quarter_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_I_x_bar, quarter_elipse_b2) => ((144*Math.PI*quarter_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_I_x_bar, quarter_elipse_a2) => (((144*Math.PI*quarter_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a2)**(1/3)
+    },
+];
+
+const formula_quarter_elipse_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (quarter_elipse_a3, quarter_elipse_b3) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a3 * quarter_elipse_b3**3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_b3) => ((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b3**3
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_a3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a3)**(1/3)
+    },
+];
+
 createCalculator('Rectangle x bar', 
     [
         { id: 'x_bar', placeholder: 'x_bar' },
@@ -764,4 +831,52 @@ createCalculator('Half Elipse I y bar',
     ],
     formula_half_elipse_I_y_bar,
     '../assets/structural/half_elipse_I_y_bar.png'
+)
+
+createCalculator('Quarter Elipse x bar',
+    [
+        { id: 'quarter_elipse_x_bar', placeholder: 'x bar' },
+        { id: 'quarter_elipse_a', placeholder: 'a' }
+    ],
+    formula_quarter_elipse_x_bar,
+    '../assets/structural/quarter_elipse_x_bar.png'
+)
+
+createCalculator('Quarter Elipse y bar',
+    [
+        { id: 'quarter_elipse_y_bar', placeholder: 'y bar' },
+        { id: 'quarter_elipse_b', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_y_bar,
+    '../assets/structural/quarter_elipse_y_bar.png'
+)
+
+createCalculator('Quarter Elipse area',
+    [
+        { id: 'quarter_elipse_area', placeholder: 'area' },
+        { id: 'quarter_elipse_a1', placeholder: 'a' },
+        { id: 'quarter_elipse_b1', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_area,
+    '../assets/structural/quarter_elipse_area.png'
+)
+
+createCalculator('Quarter Elipse I x bar',
+    [
+        { id: 'quarter_elipse_I_x_bar', placeholder: 'I x bar' },
+        { id: 'quarter_elipse_a2', placeholder: 'a' },
+        { id: 'quarter_elipse_b2', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_I_x_bar,
+    '../assets/structural/quarter_elipse_I_x_bar.png'
+)
+
+createCalculator('Quarter Elipse I y bar',
+    [
+        { id: 'quarter_elipse_I_y_bar', placeholder: 'I y bar' },
+        { id: 'quarter_elipse_a3', placeholder: 'a' },
+        { id: 'quarter_elipse_b3', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_I_y_bar,
+    '../assets/structural/quarter_elipse_I_y_bar.png'
 )
