@@ -410,6 +410,61 @@ const formula_quarter_circle_I_y_bar = [
     },
 ];
 
+const formula_half_elipse_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (half_elipse_b) => (4*half_elipse_b)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_y_bar) => (3*Math.PI*half_elipse_y_bar) / 4
+    },
+];
+
+const formula_half_elipse_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (half_elipse_a, half_elipse_b1) => (Math.PI * half_elipse_a * half_elipse_b1) / 2
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_area, half_elipse_b1) => (2 * half_elipse_area / (Math.PI * half_elipse_b1))
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_area, half_elipse_a) => (2 * half_elipse_area / (Math.PI * half_elipse_a))
+    },
+];
+
+const formula_half_elipse_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (half_elipse_a1, half_elipse_b2) => ((9*Math.PI**2 - 64)/(72*Math.PI)) * half_elipse_a1 * half_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_I_x_bar, half_elipse_b2) => ((72*Math.PI*half_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / half_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_I_x_bar, half_elipse_a1) => (((72*Math.PI*half_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / half_elipse_a1)**(1/3)
+    },
+];
+
+const formula_half_elipse_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (half_elipse_a2, half_elipse_b3) => (Math.PI*half_elipse_a2**3*half_elipse_b3)/8
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_I_y_bar, half_elipse_b3) => ((8*half_elipse_I_y_bar) / (Math.PI*half_elipse_b3))**(1/3)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_I_y_bar, half_elipse_a2) => (8*half_elipse_I_y_bar) / (Math.PI*half_elipse_a2**3)
+    },
+];
 
 createCalculator('Rectangle x bar', 
     [
@@ -671,3 +726,42 @@ createCalculator('Quarter Circle I y bar',
     formula_quarter_circle_I_y_bar,
     '../assets/structural/quarter_cir_I_y_bar.png'
 );
+
+createCalculator('Half Elipse y bar',
+    [
+        { id: 'half_elipse_y_bar', placeholder: 'y bar' },
+        { id: 'half_elipse_b', placeholder: 'b' }
+    ],
+    formula_half_elipse_y_bar,
+    '../assets/structural/half_elipse_y_bar.png'
+)
+
+createCalculator('Half Elipse area',
+    [
+        { id: 'half_elipse_area', placeholder: 'area' },
+        { id: 'half_elipse_a', placeholder: 'a' },
+        { id: 'half_elipse_b1', placeholder: 'b' }
+    ],
+    formula_half_elipse_area,
+    '../assets/structural/half_elipse_area.png'
+)
+
+createCalculator('Half Elipse I x bar',
+    [
+        { id: 'half_elipse_I_x_bar', placeholder: 'I x bar' },
+        { id: 'half_elipse_a1', placeholder: 'a' },
+        { id: 'half_elipse_b2', placeholder: 'b' }
+    ],
+    formula_half_elipse_I_x_bar,
+    '../assets/structural/half_elipse_I_x_bar.png'
+)
+
+createCalculator('Half Elipse I y bar',
+    [
+        { id: 'half_elipse_I_y_bar', placeholder: 'I y bar' },
+        { id: 'half_elipse_a2', placeholder: 'a' },
+        { id: 'half_elipse_b3', placeholder: 'b' }
+    ],
+    formula_half_elipse_I_y_bar,
+    '../assets/structural/half_elipse_I_y_bar.png'
+)
