@@ -300,6 +300,61 @@ const formula_circle_I_y_bar = [
     },
 ];
 
+const formula_half_circle_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (half_cir_D) => half_cir_D/2
+    },
+    {
+        displayName: 'Calculate D',
+        calculate: (half_cir_x_bar) => half_cir_x_bar*2
+    },
+];
+
+const formula_half_circle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (half_cir_r) => (4*half_cir_r)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_y_bar) => (3*Math.PI*half_cir_y_bar) / 4
+    },
+];
+
+const formula_half_circle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (half_cir_r1) => (Math.PI * half_cir_r1**2) / 2
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_area) => (2 * half_cir_area / Math.PI)**(1/2)
+    },
+];
+
+const formula_half_circle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (half_cir_r2) => ((9*(Math.PI**2) - 64) / 72*Math.PI) * half_cir_r2**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_I_x_bar) => ((72*Math.PI*half_cir_I_x_bar) / (9*(Math.PI**2) - 64))**(1/4)
+    },
+];
+
+const formula_half_circle_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (half_cir_r3) => (Math.PI * half_cir_r3**4) / 8
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_I_y_bar) => (8 * half_cir_I_y_bar / Math.PI)**(1/4)
+    },
+];
+
 createCalculator('Rectangle x bar', 
     [
         { id: 'x_bar', placeholder: 'x_bar' },
@@ -469,4 +524,49 @@ createCalculator('Circle I y bar',
     ],
     formula_circle_I_y_bar,
     '../assets/structural/circle_I_y_bar.png'
+);
+
+createCalculator('Half Circle x bar',
+    [
+        { id: 'half_cir_x_bar', placeholder: 'x bar' },
+        { id: 'half_cir_D', placeholder: 'diameter' }
+    ],
+    formula_half_circle_x_bar,
+    '../assets/structural/half_cir_x_bar.png'
+);
+
+createCalculator('Half Circle y bar',
+    [
+        { id: 'half_cir_y_bar', placeholder: 'y bar' },
+        { id: 'half_cir_r', placeholder: 'radius' }
+    ],
+    formula_half_circle_y_bar,
+    '../assets/structural/half_cir_y_bar.png'
+);
+
+createCalculator('Half Circle area',
+    [
+        { id: 'half_cir_area', placeholder: 'area' },
+        { id: 'half_cir_r1', placeholder: 'radius' }
+    ],
+    formula_half_circle_area,
+    '../assets/structural/half_cir_area.png'
+);
+
+createCalculator('Half Circle I x bar',
+    [
+        { id: 'half_cir_I_x_bar', placeholder: 'I x bar' },
+        { id: 'half_cir_r2', placeholder: 'radius' }
+    ],
+    formula_half_circle_I_x_bar,
+    '../assets/structural/half_cir_I_x_bar.png'
+);
+
+createCalculator('Half Circle I y bar',
+    [
+        { id: 'half_cir_I_y_bar', placeholder: 'I y bar' },
+        { id: 'half_cir_r3', placeholder: 'radius' }
+    ],
+    formula_half_circle_I_y_bar,
+    '../assets/structural/half_cir_I_y_bar.png'
 );
