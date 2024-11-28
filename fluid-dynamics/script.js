@@ -350,3 +350,116 @@ createPerfectGasCalculator('Perfect Gas Law Calculator',
     perfectGasFormulas,
     '../assets/fluid-dynamics/perfect_gas.png'
 );
+
+function createCalculatorBernoulli(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+
+        let result;
+        if (missingIndex === 0) {
+            const [, rho1, v1, P2, rho2, v2] = inputValues;
+            result = bernoulliFormulas[0].calculate(rho1, v1, P2, rho2, v2);
+        } else if (missingIndex === 1) {
+            const [P1, , v1, P2, rho2, v2] = inputValues;
+            result = bernoulliFormulas[1].calculate(P1, v1, P2, rho2, v2);
+        } else if (missingIndex === 2) {
+            const [P1, rho1, , P2, rho2, v2] = inputValues;
+            result = bernoulliFormulas[2].calculate(P1, rho1, P2, rho2, v2);
+        } else if (missingIndex === 3) {
+            const [P1, rho1, v1, , rho2, v2] = inputValues;
+            result = bernoulliFormulas[3].calculate(P1, rho1, v1, rho2, v2);
+        } else if (missingIndex === 4) {
+            const [P1, rho1, v1, P2, , v2] = inputValues;
+            result = bernoulliFormulas[4].calculate(P1, rho1, v1, P2, v2);
+        } else if (missingIndex === 5) {
+            const [P1, rho1, v1, P2, rho2, ] = inputValues;
+            result = bernoulliFormulas[5].calculate(P1, rho1, v1, P2, rho2);
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+
+        let resultParagraph = calculatorDiv.querySelector('.result');
+
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const bernoulliFormulas = [
+    {
+        displayName: 'Calculate P1',
+        calculate: (rho1, v1, P2, rho2, v2) => P2 + (rho2 * v2 * v2 / 2) - (rho1 * v1 * v1 / 2)
+    },
+    {
+        displayName: 'Calculate rho1',
+        calculate: (P1, v1, P2, rho2, v2) => (2 * (P2 + (rho2 * v2 * v2 / 2) - P1)) / (v1 * v1)
+    },
+    {
+        displayName: 'Calculate v1',
+        calculate: (P1, rho1, P2, rho2, v2) => Math.sqrt((2 * (P2 + (rho2 * v2 * v2 / 2) - P1)) / rho1)
+    },
+    {
+        displayName: 'Calculate P2',
+        calculate: (P1, rho1, v1, rho2, v2) => P1 + (rho1 * v1 * v1 / 2) - (rho2 * v2 * v2 / 2)
+    },
+    {
+        displayName: 'Calculate rho2',
+        calculate: (P1, rho1, v1, P2, v2) => (2 * (P1 + (rho1 * v1 * v1 / 2) - P2)) / (v2 * v2)
+    },
+    {
+        displayName: 'Calculate v2',
+        calculate: (P1, rho1, v1, P2, rho2) => Math.sqrt((2 * (P1 + (rho1 * v1 * v1 / 2) - P2)) / rho2)
+    }
+];
+
+createCalculatorBernoulli('Bernoulli\'s Law Calculator',
+    [
+        { id: 'P1_bernoulli', placeholder: 'Pressure 1 (P1)' },
+        { id: 'rho1_bernoulli', placeholder: 'Density 1 (rho1)' },
+        { id: 'v1_bernoulli', placeholder: 'Velocity 1 (v1)' },
+        { id: 'P2_bernoulli', placeholder: 'Pressure 2 (P2)' },
+        { id: 'rho2_bernoulli', placeholder: 'Density 2 (rho2)' },
+        { id: 'v2_bernoulli', placeholder: 'Velocity 2 (v2)' }
+    ],
+    bernoulliFormulas,
+    '../assets/fluid-dynamics/bernoulli.png'
+);
