@@ -355,6 +355,62 @@ const formula_half_circle_I_y_bar = [
     },
 ];
 
+const formula_quarter_circle_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (quarter_cir_r) => (4*quarter_cir_r)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_x_bar) => (3*Math.PI*quarter_cir_x_bar) / 4
+    },
+];
+
+const formula_quarter_circle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (quarter_cir_r1) => (4*quarter_cir_r1)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_y_bar) => (3*Math.PI*quarter_cir_y_bar) / 4
+    },
+];
+
+const formula_quarter_circle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (quarter_cir_r2) => (Math.PI * quarter_cir_r2**2) / 4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_area) => (4 * quarter_cir_area / Math.PI)**(1/2)
+    },
+];
+
+const formula_quarter_circle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (quarter_cir_r3) => ((9*(Math.PI**2) - 64) / 144*Math.PI) * quarter_cir_r3**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_I_x_bar) => ((144*Math.PI*quarter_cir_I_x_bar) / (9*(Math.PI**2) - 64))**(1/4)
+    },
+];
+
+const formula_quarter_circle_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (quarter_cir_r4) => ((9*(Math.PI**2) - 64) / 144*Math.PI) * quarter_cir_r4**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_I_y_bar) => ((144*Math.PI*quarter_cir_I_y_bar) / (9*(Math.PI**2) - 64))**(1/4)
+    },
+];
+
+
 createCalculator('Rectangle x bar', 
     [
         { id: 'x_bar', placeholder: 'x_bar' },
@@ -569,4 +625,49 @@ createCalculator('Half Circle I y bar',
     ],
     formula_half_circle_I_y_bar,
     '../assets/structural/half_cir_I_y_bar.png'
+);
+
+createCalculator('Quarter Circle x bar',
+    [
+        { id: 'quarter_cir_x_bar', placeholder: 'x bar' },
+        { id: 'quarter_cir_r', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_x_bar,
+    '../assets/structural/quarter_cir_x_bar.png'
+);
+
+createCalculator('Quarter Circle y bar',
+    [
+        { id: 'quarter_cir_y_bar', placeholder: 'y bar' },
+        { id: 'quarter_cir_r1', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_y_bar,
+    '../assets/structural/quarter_cir_y_bar.png'
+);
+
+createCalculator('Quarter Circle area',
+    [
+        { id: 'quarter_cir_area', placeholder: 'area' },
+        { id: 'quarter_cir_r2', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_area,
+    '../assets/structural/quarter_cir_area.png'
+);
+
+createCalculator('Quarter Circle I x bar',
+    [
+        { id: 'quarter_cir_I_x_bar', placeholder: 'I x bar' },
+        { id: 'quarter_cir_r3', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_I_x_bar,
+    '../assets/structural/quarter_cir_I_x_bar.png'
+);
+
+createCalculator('Quarter Circle I y bar',
+    [
+        { id: 'quarter_cir_I_y_bar', placeholder: 'I y bar' },
+        { id: 'quarter_cir_r4', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_I_y_bar,
+    '../assets/structural/quarter_cir_I_y_bar.png'
 );
