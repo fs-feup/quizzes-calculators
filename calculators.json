@@ -1,0 +1,43 @@
+{
+    "Dynamics": [
+        "Manual Skidpad",
+        "Driverless Skidpad",
+        "DC Skidpad",
+        "Manual Acceleration",
+        "Driverless Acceleration",
+        "DC Acceleration"
+    ],
+    "Statics": [
+        "Non Finalist Business Plan Presentation Points"
+    ],
+    "Structural": [
+        "Rectangle x bar",
+        "Rectangle y bar",
+        "Rectangle area",
+        "Rectangle I x bar",
+        "Rectangle I y bar",
+        "Triangle y bar",
+        "Triangle area",
+        "Triangle I x bar",
+        "Triangle x bar",
+        "Circle x bar",
+        "Circle y bar",
+        "Circle area with radius",
+        "Circle I x bar",
+        "Circle I y bar"
+    ],
+    "Fluid and Aero Dynamics": [
+        "Drag and Lift Calculator",
+        "Reynolds Number Calculator"
+    ],
+    "Vibrations": [
+        "Spring rate",
+        "Natural angular frequency",
+        "Damping ratio"
+    ],
+    "General Mechanics": [
+        "Velocity Equation",
+        "Positions Equation",
+        "Velocity from Positions Equation"
+    ]
+}
