@@ -399,3 +399,58 @@ createCalculator('Endurance',
     formulas_endurance,
     '../assets/endurance/endurance.png'
 );
+
+const formulas_efficiency = [
+    {
+        displayName: 'Calculate EF team',
+        calculate: (ef_min, score) =>
+        (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 75,
+    },
+    {
+        displayName: 'Calculate EF min',
+        calculate: (tmin, tteam_total, finalPoints) => 
+            "Impossible to solve, any value of tmax would solve this equation",
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (ef_team, ef_min) => 
+            75 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min)),
+    },
+];
+
+createCalculator('Efficiency', 
+    [
+        { id: 'efteam', placeholder: 'EF team - Team\'s efficiency factor' },
+        { id: 'efmin', placeholder: 'T min - lowest efficiency factor. EF max = 1.5 EF min' },
+        { id: 'score', placeholder: 'Final Score' }
+    ],
+    formulas_efficiency,
+    '../assets/endurance/efficiency.png'
+);
+
+const formulas_efficiency_factor = [
+    {
+        displayName: 'Calculate T',
+        calculate: (e, ef) => Math.sqrt(ef / e),
+    },
+    {
+        displayName: 'Calculate E',
+        calculate: (t, ef) => ef / t**2
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (t, e) => e * t ** 2 ,
+    },
+];
+
+createCalculator('Efficiency Factor', 
+    [
+        { id: 'T', placeholder: 'Uncorrected elapsed driving time' },
+        { id: 'E', placeholder: 'CV - corrected used fuel mass / EV - used energy' },
+        { id: 'EF', placeholder: 'Final Score' }
+    ],
+    formulas_efficiency_factor,
+    '../assets/endurance/efficiency_factor.png'
+);
