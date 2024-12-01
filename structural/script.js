@@ -336,11 +336,11 @@ const formula_half_circle_area = [
 const formula_half_circle_I_x_bar = [
     {
         displayName: 'Calculate I_x_bar',
-        calculate: (half_cir_r2) => ((9*(Math.PI**2) - 64) / 72*Math.PI) * half_cir_r2**4
+        calculate: (half_cir_r2) => ((9*Math.PI**2 - 64) / (72*Math.PI)) * half_cir_r2**4
     },
     {
         displayName: 'Calculate r',
-        calculate: (half_cir_I_x_bar) => ((72*Math.PI*half_cir_I_x_bar) / (9*(Math.PI**2) - 64))**(1/4)
+        calculate: (half_cir_I_x_bar) => ((72*Math.PI*half_cir_I_x_bar) / (9*Math.PI**2 - 64))**(1/4)
     },
 ];
 
@@ -391,7 +391,7 @@ const formula_quarter_circle_area = [
 const formula_quarter_circle_I_x_bar = [
     {
         displayName: 'Calculate I_x_bar',
-        calculate: (quarter_cir_r3) => ((9*(Math.PI**2) - 64) / 144*Math.PI) * quarter_cir_r3**4
+        calculate: (quarter_cir_r3) => ((9*(Math.PI**2) - 64) / (144*Math.PI)) * quarter_cir_r3**4
     },
     {
         displayName: 'Calculate r',
@@ -402,7 +402,7 @@ const formula_quarter_circle_I_x_bar = [
 const formula_quarter_circle_I_y_bar = [
     {
         displayName: 'Calculate I_y_bar',
-        calculate: (quarter_cir_r4) => ((9*(Math.PI**2) - 64) / 144*Math.PI) * quarter_cir_r4**4
+        calculate: (quarter_cir_r4) => ((9*(Math.PI**2) - 64) / (144*Math.PI)) * quarter_cir_r4**4
     },
     {
         displayName: 'Calculate r',
