@@ -60,16 +60,15 @@ function createCalculator(title, sections, imageUrl) {
         const idInputMapNotNull = new Map(allFields.filter(field => !isNaN(field.inputValue)).map(field => [field.id, field]));
         const idInputMapNull = new Map(allFields.filter(field => isNaN(field.inputValue)).map(field => [field.id, field]));
 
-
-        console.log(idInputMapNotNull);
-        console.log(idInputMapNull);
-
         // Iterate over the map with null inputs
         for (const [id, field] of idInputMapNull) {
             for (formula of field.formulas) {
                 const necessaryFields = formula.necessary_ids.map(id => idInputMapNotNull.get(id)?.inputValue);
+                console.log(formula.formula_id);
                 if (necessaryFields.every(field => field !== undefined)) {
+                    console.log("calculating");
                     field.inputValue = formula.calculate(...necessaryFields);
+                    console.log(field.inputValue);
                 }
             }
         }
@@ -77,7 +76,9 @@ function createCalculator(title, sections, imageUrl) {
         // Update the input fields with the calculated values
         for (const field of allFields) {
             const input = calculatorDiv.querySelector(`#${field.id}`);
-            input.value = field.inputValue;
+            if (!isNaN(field.inputValue)) {
+                input.value = field.inputValue;
+            }
         }
     };
 
@@ -155,6 +156,18 @@ const sections = [
             ]
         },
         {
+            id: 'acc_power',
+            placeholder: 'Accumulator Power Output',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
+        },
+        {
             id: 'acc_cappacity',
             placeholder: 'Accumulator Capacity',
             inputValue: null,
@@ -163,6 +176,30 @@ const sections = [
                     formula_id: 'Cells and Weight',
                     necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
                     calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
+        },
+        {
+            id: 'acc_equivalent_resistance',
+            placeholder: 'Accumulator Equivalent Resistance',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
+        },
+        {
+            id: 'accumulator_maximum_current',
+            placeholder: 'Accumulator Maximum Current',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
+                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
+                    calculate: (acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage + Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance)
                 }
             ]
         },
@@ -249,6 +286,18 @@ const sections = [
             ]
         },
         {
+            id: 'segment_equivalent_resistance',
+            placeholder: 'Segment Equivalent Resistance',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
+        },
+        {
             id: 'seg_weight',
             placeholder: 'Segment Weight',
             inputValue: null,
@@ -319,6 +368,18 @@ const sections = [
             ]
         },
         {
+            id: 'cell_internal_resistance',
+            placeholder: 'Cell Internal Resistance',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
+        },
+        {
             id: 'cell_weight',
             placeholder: 'Cell Weight',
             inputValue: null,
@@ -329,7 +390,8 @@ const sections = [
                     calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
                 }
             ]
-        }]
+        }
+    ]
     },
 ];
 
