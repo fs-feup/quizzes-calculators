@@ -15,6 +15,10 @@ function createSection(subTitleName, fields, motherDiv) {
         sectionDiv.appendChild(input);
     });
 }
+// TODO(marhcouto): better structure with side by side view
+// TODO(marhcouto): recalculation process
+// TODO(marhcouto): add current formula
+// TODO(marhcouto): add more formulas
 
 function createCalculator(title, sections, imageUrl) {
     const calculatorDiv = document.createElement('div');
@@ -63,46 +67,18 @@ function createCalculator(title, sections, imageUrl) {
         // Iterate over the map with null inputs
         for (const [id, field] of idInputMapNull) {
             for (formula of field.formulas) {
-                const necessaryFields = formula.necessary_ids.map(id => idInputMapNotNull.get(id).inputValue);
-                field.inputValue = formula.calculate(...necessaryFields);
+                const necessaryFields = formula.necessary_ids.map(id => idInputMapNotNull.get(id)?.inputValue);
+                if (necessaryFields.every(field => field !== undefined)) {
+                    field.inputValue = formula.calculate(...necessaryFields);
+                }
             }
         }
 
-        // // Create a map out of the fields with the id as the key
-        // const fieldsMap = allFields.reduce((map, field) => {
-        //     map[field.id] = field;
-        //     return map;
-        // }, {});
-        // console.log(fieldsMap);
-
-
-
-        // let result;
-        // if (missingIndex === 0) {
-        //     // Missing inputValue for first input
-        //     const [ , pmax, final] = inputValues; // Skip the first inputValue
-        //     result = fields[0].calculate(pmax, final);
-        // } else if (missingIndex === 1) {
-        //     // Missing inputValue for second input
-        //     const [pteam, , final] = inputValues; // Skip the second inputValue
-        //     result = fields[1].calculate(pteam, final);
-        // } else if (missingIndex === 2) {
-        //     // Missing inputValue for third input
-        //     const [pteam, pmax] = inputValues.slice(0, 2); // Use only the first two values
-        //     result = fields[2].calculate(pteam, pmax);
-        // } else {
-        //     result = 'Please leave one input empty to calculate the missing inputValue.';
-        // }
-        
-        // let resultParagraph = calculatorDiv.querySelector('.result');
-        
-        // if (!resultParagraph) {
-        //     resultParagraph = document.createElement('p');
-        //     resultParagraph.className = 'result';
-        //     calculatorDiv.appendChild(resultParagraph);
-        // }
-    
-        // resultParagraph.innerText = `Result: ${result}`;
+        // Update the input fields with the calculated values
+        for (const field of allFields) {
+            const input = calculatorDiv.querySelector(`#${field.id}`);
+            input.value = field.inputValue;
+        }
     };
 
     calculatorDiv.appendChild(button);
@@ -117,43 +93,78 @@ const sections = [
             id: 'n_seg',
             placeholder: 'Number of Segments',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
-            id: 'acc_n_par',
+            id: 'acc_n_par', // TODO(marhcouto): Make option for segments in parallel
             placeholder: 'Number of Parallels in the Accumulator',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'seg_n_par',
+                    necessary_ids: ['seg_n_par'],
+                    calculate: (seg_n_par) => seg_n_par
+                }
+            ]
         },
         {
             id: 'acc_n_series',
             placeholder: 'Number of Series in the Accumulator',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'seg_n_series_and_n_seg',
+                    necessary_ids: ['seg_n_series', 'n_seg'],
+                    calculate: (seg_n_series, n_seg) => seg_n_series * n_seg
+                }
+            ]
         },
-        // {
-        //     id: 'acc_nom_voltage',
-        //     placeholder: 'Accumulator Nominal Voltage',
-        //     inputValue: null,     
-        //     calculate: (pmax, final) => final * pmax / 70
-        // },
         {
             id: 'acc_max_voltage',
             placeholder: 'Accumulator Maximum Voltage',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'cell_max_voltage_and_n_series',
+                    necessary_ids: ['acc_n_series', 'cell_max_voltage'],
+                    calculate: (acc_n_series, cell_max_voltage) => acc_n_series * cell_max_voltage
+                },
+                {
+                    formula_id: 'seg_max_voltage_and_n_seg',
+                    necessary_ids: ['seg_max_voltage', 'n_seg'],
+                    calculate: (seg_max_voltage, n_seg) => seg_max_voltage * n_seg
+                }
+            ]
         },
         {
             id: 'acc_energy',
             placeholder: 'Accumulator Energy',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'acc_cappacity',
             placeholder: 'Accumulator Capacity',
             inputValue: null,
-            calculate: (pmax, final) => final * pmax / 70
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'acc_weight',
@@ -181,31 +192,61 @@ const sections = [
             id: 'seg_n_par',
             placeholder: 'Number of Parallels in each Segment',
             inputValue: null,
-            calculate: (pteam, final) => (70 * pteam) / final
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'seg_n_series',
             placeholder: 'Number of Series in each Segment',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'seg_max_voltage',
             placeholder: 'Segment Maximum Voltage',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'seg_capacity',
             placeholder: 'Segment Capacity',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'seg_energy',
             placeholder: 'Segment Energy',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'seg_weight',
@@ -213,9 +254,14 @@ const sections = [
             inputValue: null,
             formulas: [
                 {
-                    formula_id: 'Cells and Weight',
+                    formula_id: 'cell_num_and_cell_weight',
                     necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
                     calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                },
+                {
+                    formula_id: 'seg_num_and_acc_weight',
+                    necessary_ids: ['acc_weight', 'n_seg'],
+                    calculate: (acc_weight, n_seg) => acc_weight / n_seg
                 }
             ]
         },
@@ -234,7 +280,13 @@ const sections = [
             id: 'cell_max_voltage',
             placeholder: 'Cell Maximum Voltage',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         // {
         //     id: 'cell_min_voltage',
@@ -246,19 +298,37 @@ const sections = [
             id: 'cell_capacity',
             placeholder: 'Cell Capacity',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'cell_energy',
             placeholder: 'Cell Energy',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         },
         {
             id: 'cell_weight',
             placeholder: 'Cell Weight',
             inputValue: null,
-            calculate: (pteam, pmax) => (70 * (pteam / pmax))
+            formulas: [
+                {
+                    formula_id: 'Cells and Weight',
+                    necessary_ids: ['n_par_seg', 'n_series_seg', 'cell_weight'],
+                    calculate: (n_par_seg, n_series_seg, cell_weight) => n_par_seg * n_series_seg * cell_weight
+                }
+            ]
         }]
     },
 ];
