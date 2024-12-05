@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.calculator {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    font-weight: bold;
+}
+
+
+.calculator-image {
+    width: 100%;            /* Make the image scale to the width of its parent */
+    height: auto;           /* Maintain aspect ratio */
+    object-fit: contain;    /* Ensure the image fits inside without distortion */
+}
+
+/* Make it so that the item with the id "segments-checkbox" is on the right of the item "segments-checkbox-text" */
+#segments-checkbox-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Make the checkbox bigger and align left */
+#segments-checkbox {
+    width: 20px;
+    height: 20px;
+}
