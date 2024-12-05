@@ -521,15 +521,15 @@ const formula_quarter_elipse_I_x_bar = [
 const formula_quarter_elipse_I_y_bar = [
     {
         displayName: 'Calculate I_y_bar',
-        calculate: (quarter_elipse_a3, quarter_elipse_b3) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a3 * quarter_elipse_b3**3
+        calculate: (quarter_elipse_a3, quarter_elipse_b3) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a3**3 * quarter_elipse_b3
     },
     {
         displayName: 'Calculate a',
-        calculate: (quarter_elipse_I_y_bar, quarter_elipse_b3) => ((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b3**3
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_b3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b3)**(1/3)
     },
     {
         displayName: 'Calculate b',
-        calculate: (quarter_elipse_I_y_bar, quarter_elipse_a3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a3)**(1/3)
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_a3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a3**3)
     },
 ];
 
