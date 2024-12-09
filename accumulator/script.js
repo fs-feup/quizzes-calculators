@@ -23,6 +23,8 @@ function createSection(subTitleName, fields, motherDiv) {
 // TODO(marhcouto): add current formula
 // TODO(marhcouto): add more formulas
 
+const CALCULATION_LIMIT = 5;
+
 function createCalculator(title, sections, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
@@ -97,13 +99,16 @@ function createCalculator(title, sections, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
 
-        let segments_in_par = document.getElementById('notes-checkbox').checked;
+        let segments_in_par = document.getElementById('segments-checkbox').checked;
 
         // Because only direct formulas are used, we need to run
         // the calculation multiple times to ensure all possible fields are calculated
         let calculated_some = false; 
+        let cycle_count = 0; 
         do {
             calculated_some = false;
+
+            console.log("Calculating");
 
             // Get input values
             for (const field of allFields) {
@@ -128,14 +133,15 @@ function createCalculator(title, sections, imageUrl) {
             }
 
             // Update the input fields with the calculated values and turn the text red
-            for (const field of allFields) {
+            for (const field of idInputMapNull.values()) {
                 const input = calculatorDiv.querySelector(`#${field.id}`);
                 if (!isNaN(field.inputValue)) {
                     input.value = field.inputValue;
                     input.style.color = 'red';
                 }
             }
-        } while (calculated_some);
+            cycle_count++;
+        } while (calculated_some && cycle_count < CALCULATION_LIMIT);
 
     };
 
@@ -185,7 +191,7 @@ const sections = [
                 {
                     formula_id: 'acc_capacity_and_seg_capacity',
                     necessary_ids: ['acc_capacity', 'seg_capacity'],
-                    calculate: (segs_in_par, acc_capacity, seg_capacity) => Math.floor(acc_capacity / seg_capacity)
+                    calculate: (segs_in_par, acc_capacity, seg_capacity) => !segs_in_par ? seg_capacity : Math.floor(acc_capacity / seg_capacity)
                 }
             ]
         },
@@ -205,9 +211,9 @@ const sections = [
                     calculate: (segs_in_par, acc_energy, acc_n_series, cell_energy) => Math.floor(acc_energy / (cell_energy * acc_n_series))
                 },
                 {
-                    formula_id: 'acc_capacity_and_acc_n_series_and_cell_capacity',
-                    necessary_ids: ['acc_capacity', 'acc_n_series','cell_capacity'],
-                    calculate: (segs_in_par, acc_capacity, acc_n_series, cell_capacity) => Math.floor(acc_capacity / (cell_capacity * acc_n_series))
+                    formula_id: 'acc_capacity_and_cell_capacity',
+                    necessary_ids: ['acc_capacity', 'cell_capacity'],
+                    calculate: (segs_in_par, acc_capacity, cell_capacity) => Math.floor(acc_capacity / cell_capacity)
                 },
                 {
                     formula_id: 'acc_internal_resistance_and_acc_n_series_and_cell_internal_resistance',
@@ -240,11 +246,6 @@ const sections = [
                     formula_id: 'acc_energy_and_acc_n_par_and_cell_energy',
                     necessary_ids: ['acc_energy', 'acc_n_par','cell_energy'],
                     calculate: (segs_in_par, acc_energy, acc_n_par, cell_energy) => Math.floor(acc_energy / (cell_energy * acc_n_par))
-                },
-                {
-                    formula_id: 'acc_capacity_and_acc_n_par_and_cell_capacity',
-                    necessary_ids: ['acc_capacity', 'acc_n_par','cell_capacity'],
-                    calculate: (segs_in_par, acc_capacity, acc_n_par, cell_capacity) => Math.floor(acc_capacity / (cell_capacity * acc_n_par))
                 },
                 {
                     formula_id: 'acc_internal_resistance_and_acc_n_par_and_cell_internal_resistance',
@@ -303,9 +304,9 @@ const sections = [
                     calculate: (segs_in_par, seg_capacity, n_seg) => seg_capacity * n_seg
                 },
                 {
-                    formula_id: 'cell_capacity_and_acc_n_series_and_acc_n_par',
-                    necessary_ids: ['acc_n_series', 'acc_n_par', 'cell_capacity'],
-                    calculate: (segs_in_par, acc_n_series, acc_n_par, cell_capacity) => acc_n_series * acc_n_par * cell_capacity
+                    formula_id: 'cell_capacity_and_acc_n_par',
+                    necessary_ids: ['acc_n_par', 'cell_capacity'],
+                    calculate: (segs_in_par, acc_n_par, cell_capacity) => acc_n_par * cell_capacity
                 },
                 {
                     formula_id: 'acc_energy_and_acc_max_voltage',
@@ -377,7 +378,7 @@ const sections = [
             },
             {
                 formula_id: 'cell_num_and_cell_weight',
-                necessary_ids: ['seg_n_par', 'seg_n_series', 'cell_weight'],
+                necessary_ids: ['acc_n_par', 'acc_n_series', 'cell_weight'],
                 calculate: (segs_in_par, seg_n_par, seg_n_series, cell_weight) => seg_n_par * seg_n_series * cell_weight
             },
             ]
@@ -403,9 +404,9 @@ const sections = [
                     calculate: (segs_in_par, seg_energy, seg_n_series, cell_energy) => Math.floor(seg_energy / (cell_energy * seg_n_series))
                 },
                 {
-                    formula_id: 'seg_capacity_and_seg_n_series_and_cell_capacity',
-                    necessary_ids: ['seg_capacity', 'seg_n_series','cell_capacity'],
-                    calculate: (segs_in_par, seg_capacity, seg_n_series, cell_capacity) => Math.floor(seg_capacity / (cell_capacity * seg_n_series))
+                    formula_id: 'seg_capacity_and_cell_capacity',
+                    necessary_ids: ['seg_capacity', 'cell_capacity'],
+                    calculate: (segs_in_par, seg_capacity, cell_capacity) => Math.floor(seg_capacity / cell_capacity)
                 },
                 {
                     formula_id: 'seg_internal_resistance_and_seg_n_series_and_cell_internal_resistance',
@@ -438,11 +439,6 @@ const sections = [
                     formula_id: 'seg_energy_and_seg_n_par_and_cell_energy',
                     necessary_ids: ['seg_energy', 'seg_n_par','cell_energy'],
                     calculate: (segs_in_par, seg_energy, seg_n_par, cell_energy) => Math.floor(seg_energy / (cell_energy * seg_n_par))
-                },
-                {
-                    formula_id: 'seg_capacity_and_seg_n_par_and_cell_capacity',
-                    necessary_ids: ['seg_capacity', 'seg_n_par','cell_capacity'],
-                    calculate: (segs_in_par, seg_capacity, seg_n_par, cell_capacity) => Math.floor(seg_capacity / (cell_capacity * seg_n_par))
                 },
                 {
                     formula_id: 'seg_internal_resistance_and_seg_n_par_and_cell_internal_resistance',
@@ -489,9 +485,9 @@ const sections = [
                     calculate: (segs_in_par, seg_energy, seg_max_voltage) => seg_energy / seg_max_voltage
                 },
                 {
-                    formula_id: 'n_par_seg_and_n_series_seg_and_cell_capacity',
-                    necessary_ids: ['seg_n_par', 'seg_n_series', 'cell_capacity'],
-                    calculate: (segs_in_par, seg_n_par, seg_n_series, cell_capacity) => seg_n_par * seg_n_series * cell_capacity
+                    formula_id: 'seg_n_par_and_and_cell_capacity',
+                    necessary_ids: ['seg_n_par', 'cell_capacity'],
+                    calculate: (segs_in_par, seg_n_par, cell_capacity) => seg_n_par * cell_capacity
                 },
                 {
                     formula_id: 'acc_capacity_and_n_seg',
@@ -612,13 +608,13 @@ const sections = [
                 },
                 {
                     formula_id: 'seg_capacity_and_seg_n_series_and_seg_n_par',
-                    necessary_ids: ['seg_capacity', 'seg_n_series', 'seg_n_par'],
-                    calculate: (segs_in_par, seg_capacity, seg_n_series, seg_n_par) => seg_capacity / (seg_n_series * seg_n_par)
+                    necessary_ids: ['seg_capacity', 'seg_n_par'],
+                    calculate: (segs_in_par, seg_capacity, seg_n_par) => seg_capacity / seg_n_par
                 },
                 {
-                    formula_id: 'acc_energy_and_acc_n_series_and_acc_n_par',
-                    necessary_ids: ['acc_energy', 'acc_n_series', 'acc_n_par'],
-                    calculate: (segs_in_par, acc_energy, acc_n_series, acc_n_par) => acc_energy / (acc_n_series * acc_n_par)
+                    formula_id: 'acc_energy_and_acc_n_par',
+                    necessary_ids: ['acc_energy', 'acc_n_par'],
+                    calculate: (segs_in_par, acc_energy, acc_n_par) => acc_energy / acc_n_par
                 }
             ]
         },
