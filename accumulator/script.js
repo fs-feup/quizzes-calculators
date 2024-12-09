@@ -217,8 +217,8 @@ const sections = [
                 },
                 {
                     formula_id: 'acc_internal_resistance_and_acc_n_series_and_cell_internal_resistance',
-                    necessary_ids: ['acc_internal_resistance', 'acc_n_series','cell_internal_resistance'],
-                    calculate: (segs_in_par, acc_internal_resistance, acc_n_series, cell_internal_resistance) => Math.floor(cell_internal_resistance * acc_n_series / acc_internal_resistance)
+                    necessary_ids: ['acc_equivalent_resistance', 'acc_n_series','cell_internal_resistance'],
+                    calculate: (segs_in_par, acc_equivalent_resistance, acc_n_series, cell_internal_resistance) => Math.floor(cell_internal_resistance * acc_n_series / acc_equivalent_resistance)
                 },
                 {
                     formula_id: 'acc_weight_and_acc_n_series_and_cell_weight',
@@ -249,8 +249,8 @@ const sections = [
                 },
                 {
                     formula_id: 'acc_internal_resistance_and_acc_n_par_and_cell_internal_resistance',
-                    necessary_ids: ['acc_internal_resistance', 'acc_n_par','cell_internal_resistance'],
-                    calculate: (segs_in_par, acc_internal_resistance, acc_n_par, cell_internal_resistance) => Math.floor(acc_internal_resistance * acc_n_par / cell_internal_resistance)
+                    necessary_ids: ['acc_equivalent_resistance', 'acc_n_par','cell_internal_resistance'],
+                    calculate: (segs_in_par, acc_equivalent_resistance, acc_n_par, cell_internal_resistance) => Math.floor(acc_equivalent_resistance * acc_n_par / cell_internal_resistance)
                 },
                 {
                     formula_id: 'acc_weight_and_acc_n_par_and_cell_weight',
@@ -349,8 +349,8 @@ const sections = [
                 },
                 {
                     formula_id: 'n_seg_and_seg_internal_resistance',
-                    necessary_ids: ['n_seg', 'seg_internal_resistance'],
-                    calculate: (segs_in_par, n_seg, seg_internal_resistance) => !segs_in_par ? seg_internal_resistance * n_seg : seg_internal_resistance / n_seg
+                    necessary_ids: ['n_seg', 'seg_equivalent_resistance'],
+                    calculate: (segs_in_par, n_seg, seg_equivalent_resistance) => !segs_in_par ? seg_equivalent_resistance * n_seg : seg_equivalent_resistance / n_seg
                 }
             ]
         },
@@ -363,6 +363,18 @@ const sections = [
                     formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
                     necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
                     calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage + Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance)
+                }
+            ]
+        },
+        {
+            id: 'accumulator_maximum_current_2',
+            placeholder: 'Accumulator Maximum Current (Second Value)',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
+                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
+                    calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage - Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance)
                 }
             ]
         },
@@ -410,8 +422,8 @@ const sections = [
                 },
                 {
                     formula_id: 'seg_internal_resistance_and_seg_n_series_and_cell_internal_resistance',
-                    necessary_ids: ['seg_internal_resistance', 'seg_n_series','cell_internal_resistance'],
-                    calculate: (segs_in_par, seg_internal_resistance, seg_n_series, cell_internal_resistance) => Math.floor(cell_internal_resistance * seg_n_series / seg_internal_resistance)
+                    necessary_ids: ['seg_equivalent_resistance', 'seg_n_series','cell_internal_resistance'],
+                    calculate: (segs_in_par, seg_equivalent_resistance, seg_n_series, cell_internal_resistance) => Math.floor(cell_internal_resistance * seg_n_series / seg_equivalent_resistance)
                 },
                 {
                     formula_id: 'seg_weight_and_seg_n_series_and_cell_weight',
@@ -442,8 +454,8 @@ const sections = [
                 },
                 {
                     formula_id: 'seg_internal_resistance_and_seg_n_par_and_cell_internal_resistance',
-                    necessary_ids: ['seg_internal_resistance', 'seg_n_par','cell_internal_resistance'],
-                    calculate: (segs_in_par, seg_internal_resistance, seg_n_par, cell_internal_resistance) => Math.floor(seg_internal_resistance * seg_n_par / cell_internal_resistance)
+                    necessary_ids: ['seg_equivalent_resistance', 'seg_n_par','cell_internal_resistance'],
+                    calculate: (segs_in_par, seg_equivalent_resistance, seg_n_par, cell_internal_resistance) => Math.floor(seg_equivalent_resistance * seg_n_par / cell_internal_resistance)
                 },
                 {
                     formula_id: 'seg_weight_and_seg_n_par_and_cell_weight',
@@ -524,7 +536,7 @@ const sections = [
             ]
         },
         {
-            id: 'segment_equivalent_resistance',
+            id: 'seg_equivalent_resistance',
             placeholder: 'Segment Equivalent Resistance',
             inputValue: null,
             formulas: [
@@ -534,9 +546,9 @@ const sections = [
                     calculate: (segs_in_par, cell_internal_resistance, seg_n_series, seg_n_par) => cell_internal_resistance * seg_n_series / seg_n_par
                 },
                 {
-                    formula_id: 'n_seg_and_acc_internal_resistance',
-                    necessary_ids: ['n_seg', 'acc_internal_resistance'],
-                    calculate: (segs_in_par, n_seg, acc_internal_resistance) => !segs_in_par ? acc_internal_resistance / n_seg : acc_internal_resistance * n_seg
+                    formula_id: 'n_seg_and_acc_equivalent_resistance',
+                    necessary_ids: ['n_seg', 'acc_equivalent_resistance'],
+                    calculate: (segs_in_par, n_seg, acc_equivalent_resistance) => !segs_in_par ? acc_equivalent_resistance / n_seg : acc_equivalent_resistance * n_seg
                 }
             ]
         },
@@ -646,14 +658,14 @@ const sections = [
             inputValue: null,
             formulas: [
                 {
-                    formula_id: 'acc_internal_resistance_and_acc_n_series_and_acc_n_par',
-                    necessary_ids: ['acc_internal_resistance', 'acc_n_series', 'acc_n_par'],
-                    calculate: (segs_in_par, acc_internal_resistance, acc_n_series, acc_n_par) => acc_internal_resistance * acc_n_par / acc_n_series
+                    formula_id: 'acc_equivalent_resistance_and_acc_n_series_and_acc_n_par',
+                    necessary_ids: ['acc_equivalent_resistance', 'acc_n_series', 'acc_n_par'],
+                    calculate: (segs_in_par, acc_equivalent_resistance, acc_n_series, acc_n_par) => acc_equivalent_resistance * acc_n_par / acc_n_series
                 },
                 {
                     formula_id: 'seg_internal_resistance_and_seg_n_series_and_seg_n_par',
-                    necessary_ids: ['seg_internal_resistance', 'seg_n_series', 'seg_n_par'],
-                    calculate: (segs_in_par, seg_internal_resistance, seg_n_series, seg_n_par) => seg_internal_resistance * seg_n_par / seg_n_series
+                    necessary_ids: ['seg_equivalent_resistance', 'seg_n_series', 'seg_n_par'],
+                    calculate: (segs_in_par, seg_equivalent_resistance, seg_n_series, seg_n_par) => seg_equivalent_resistance * seg_n_par / seg_n_series
                 }
             ]
         },
