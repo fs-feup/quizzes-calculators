@@ -18,10 +18,6 @@ function createSection(subTitleName, fields, motherDiv) {
         sectionDiv.appendChild(input);
     });
 }
-// TODO(marhcouto): better structure with side by side view
-// TODO(marhcouto): recalculation process
-// TODO(marhcouto): add current formula
-// TODO(marhcouto): add more formulas
 
 const CALCULATION_LIMIT = 5;
 
@@ -42,14 +38,15 @@ function createCalculator(title, sections, imageUrl) {
     const instructions = document.createElement('div');
     instructions.innerText = 'To use the calculator, fill in the fields with the values you have and click the calculate button.\
     The calculator will calculate all the missing values it possibly can, which will show red.\
-    If you want to calculate for an accumulator with the segments in parallel, check the box below.';
+    If you want to calculate for an accumulator with the segments in parallel, check the box below.\
+    \nCalculations take into account SI units.';
     const checkBoxDiv = document.createElement('p');
     checkBoxDiv.id = 'segments-checkbox-div';
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.id = 'segments-checkbox';
     const checkBoxText = document.createElement('span');
-    checkBoxText.innerText = 'Segments in par:';
+    checkBoxText.innerText = 'Segments are in parallel?:';
     checkBoxText.id = 'segments-checkbox-text';
     checkBoxDiv.appendChild(checkBoxText);
     checkBoxDiv.appendChild(checkBox);
@@ -94,10 +91,11 @@ function createCalculator(title, sections, imageUrl) {
     });
 
     const allFields = sections.map(section => section.fields).flat();
+    const calculatedFields = [];
 
-    const button = document.createElement('button');
-    button.innerText = 'Calculate';
-    button.onclick = () => {
+    const calculateButton = document.createElement('button');
+    calculateButton.innerText = 'Calculate';
+    calculateButton.onclick = () => {
 
         let segments_in_par = document.getElementById('segments-checkbox').checked;
 
@@ -107,8 +105,6 @@ function createCalculator(title, sections, imageUrl) {
         let cycle_count = 0; 
         do {
             calculated_some = false;
-
-            console.log("Calculating");
 
             // Get input values
             for (const field of allFields) {
@@ -126,6 +122,7 @@ function createCalculator(title, sections, imageUrl) {
                 for (formula of field.formulas) {
                     const necessaryFields = formula.necessary_ids.map(id => idInputMapNotNull.get(id)?.inputValue);
                     if (necessaryFields.every(field => field !== undefined)) {
+                        console.log(`Calculating ${field.id} with formula ${formula.formula_id}`);
                         calculated_some = true;
                         field.inputValue = formula.calculate(segments_in_par, ...necessaryFields);
                     }
@@ -138,6 +135,7 @@ function createCalculator(title, sections, imageUrl) {
                 if (!isNaN(field.inputValue)) {
                     input.value = field.inputValue;
                     input.style.color = 'red';
+                    calculatedFields.push(field);
                 }
             }
             cycle_count++;
@@ -145,7 +143,24 @@ function createCalculator(title, sections, imageUrl) {
 
     };
 
-    calculatorDiv.appendChild(button);
+    const resetCalculatedButton = document.createElement('button');
+    resetCalculatedButton.innerText = 'Reset Calculated Fields';
+    resetCalculatedButton.onclick = () => {
+        for (const field of calculatedFields) {
+            console.log(`Resetting ${field.id}`);
+            const input = calculatorDiv.querySelector(`#${field.id}`);
+            input.value = '';
+            input.style.color = 'black';
+        }
+    };
+
+    // Make the buttons separate
+    const div1 = document.createElement('div');
+    div1.style.marginTop = '10px';
+
+    calculatorDiv.appendChild(calculateButton);
+    calculatorDiv.appendChild(div1);
+    calculatorDiv.appendChild(resetCalculatedButton);
     document.getElementById('calculator-container').appendChild(calculatorDiv);
 }
 
@@ -197,7 +212,7 @@ const sections = [
         },
         {
             id: 'acc_n_par', // TODO(marhcouto): Make option for segments in par
-            placeholder: 'Number of pars in the Accumulator',
+            placeholder: 'Number of parallels in the Accumulator',
             inputValue: null,
             formulas: [
                 {
@@ -229,7 +244,7 @@ const sections = [
         },
         {
             id: 'acc_n_series',
-            placeholder: 'Number of Series in the Accumulator',
+            placeholder: 'Number of series in the Accumulator',
             inputValue: null,
             formulas: [
                 {
