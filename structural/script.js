@@ -34,20 +34,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
         
         let result;
-        if (missingIndex === 0) {
-            // Missing value for first input
-            const [ , pmax, final] = inputValues; // Skip the first value
-            result = formulas[0].calculate(pmax, final);
-            console.log(result)
-        } else if (missingIndex === 1) {
-            // Missing value for second input
-            const [pteam, , final] = inputValues; // Skip the second value
-            result = formulas[1].calculate(pteam, final);
-            console.log(result)
-        } else if (missingIndex === 2) {
-            // Missing value for third input
-            const [tteam, tmax] = inputValues.slice(0, 2); // Use only the first two values
-            result = formulas[2].calculate(tteam, tmax);
+        if(missingIndex >= 0 && missingIndex <= 4){
+            const arguments = inputValues.slice(0,missingIndex).concat(inputValues.slice(missingIndex+1));
+            result = formulas[missingIndex].calculate(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4]);
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
@@ -299,6 +288,157 @@ const formula_circle_I_y_bar = [
         calculate: (cir_I_y_bar) => (4 * cir_I_y_bar / Math.PI)**(1/4)
     },
 ];
+
+const formula_young_modulus = [
+    {
+        displayName: 'Calculate young modulus',
+        calculate: (stress,strain) => stress/strain
+    },
+    {
+        displayName: 'Calculate stress',
+        calculate: (young,strain) => young*strain
+    },
+    {
+        displayName: 'Calculate strain',
+        calculate: (young,stress) => stress/young
+    },
+]
+
+const formula_young_modulus_alternative = [
+    {
+        displayName: 'Calculate modulus of elasticity (E)',
+        calculate: (force, area, deltaL, length) => (force / area) / (deltaL / length)
+    },
+    {
+        displayName: 'Calculate force (F)',
+        calculate: (modulus, area, deltaL, length) => modulus * (deltaL / length) * area
+    },
+    {
+        displayName: 'Calculate area (A)',
+        calculate: (modulus, force, deltaL, length) => force / (modulus * (deltaL / length))
+    },
+    {
+        displayName: 'Calculate change in length (ΔL)',
+        calculate: (modulus, force, area, length) => (force / area) / (modulus / length)
+    },
+    {
+        displayName: 'Calculate original length (L)',
+        calculate: (modulus, force, area, deltaL) => modulus * deltaL / (force / area)
+    }
+]
+
+const formula_point_load_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (load) => load / 2,
+    },
+    {
+        displayName: 'Calculate Load (P) from Reaction Force',
+        calculate: (reaction) => reaction * 2,
+    }
+]
+
+const formula_point_load_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (load, length) => (load * length) / 4,
+    },
+    {
+        displayName: 'Calculate Load (P) from Moment',
+        calculate: (moment, length) => (moment * 4) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, load) => (moment * 4) / load,
+    }
+]
+
+const formula_point_load_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (load, length, youngModulus, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (P)',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 48 * youngModulus * momentOfInertia) / Math.pow(length, 3),
+    },
+    {
+        displayName: 'Calculate Length (L)',
+        calculate: (deflection, load, youngModulus, momentOfInertia) =>
+            Math.cbrt((deflection * 48 * youngModulus * momentOfInertia) / load),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E)',
+        calculate: (deflection, load, length, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I)',
+        calculate: (deflection, load, length, youngModulus) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * youngModulus),
+    }
+];
+
+const formula_udl_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (uniformLoad, length) => (uniformLoad * length) / 2,
+    },
+    {
+        displayName: 'Calculate Load (w) from Reaction Force',
+        calculate: (reaction, length) => (reaction * 2) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Reaction Force',
+        calculate: (reaction, uniformLoad) => (reaction * 2) / uniformLoad,
+    }
+];
+
+const formula_udl_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (uniformLoad, length) => (uniformLoad * Math.pow(length, 2)) / 8,
+    },
+    {
+        displayName: 'Calculate Load (w) from Moment',
+        calculate: (moment, length) => (moment * 8) / Math.pow(length, 2),
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, uniformLoad) => Math.sqrt((moment * 8) / uniformLoad),
+    }
+];
+
+const formula_udl_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (uniformLoad, length, youngModulus, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (w) from Deflection',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 384 * youngModulus * momentOfInertia) / (5 * Math.pow(length, 4)),
+    },
+    {
+        displayName: 'Calculate Length (L) from Deflection',
+        calculate: (deflection, uniformLoad, youngModulus, momentOfInertia) =>
+            Math.pow((deflection * 384 * youngModulus * momentOfInertia) / (5 * uniformLoad), 1 / 4),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E) from Deflection',
+        calculate: (deflection, uniformLoad, length, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I) from Deflection',
+        calculate: (deflection, uniformLoad, length, youngModulus) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * youngModulus),
+    }
+];
+
 
 const formula_half_circle_x_bar = [
     {
@@ -975,3 +1115,88 @@ createCalculator('Parabola I y bar',
     formula_parabola_I_y_bar,
     '../assets/structural/parabola_I_y_bar.png'
 )
+
+createCalculator('Young modulus (elasticity) formula',
+    [
+        {id: 'young_modu1', placeholder: 'young modulus in (Pa)'},
+        {id: 'stress1', placeholder: 'stress (force per unit area)'},
+        {id: 'strain1', placeholder: 'strain (deformation)'}
+    ],
+    formula_young_modulus,
+    '../assets/structural/young_modulus.png'
+);
+
+createCalculator('Young modulus (elasticity) alternative formula', 
+    [
+        {id: 'young_modulus1', placeholder: 'Young modulus in (Pa)'},
+        {id: 'young_force1', placeholder: 'Force (N)'},
+        {id: 'young_area1', placeholder: 'Cross-sectional area (m²)'},
+        {id: 'young_delta_length1', placeholder: 'Change in length (ΔL in m)'},
+        {id: 'young_original_length1', placeholder: 'Original length (L in m)'}
+    ],
+    formula_young_modulus_alternative,
+    '../assets/structural/young_modulus_altern.png'
+);
+
+createCalculator('Point load Reaction',
+    [
+        { id: 'reaction1345', placeholder: 'reaction' },
+        { id: 'load343', placeholder: 'load (P)' }
+    ],
+    formula_point_load_reaction,
+    '../assets/structural/pointload_reaction.png'
+);
+
+createCalculator('Point Load Moment', 
+    [
+        { id: 'moment54654', placeholder: 'Maximum Moment' },
+        { id: 'load54654', placeholder: 'Load (P)' },
+        { id: 'length654779', placeholder: 'Length (L)' }
+    ],
+    formula_point_load_moment,
+    '../assets/structural/point_load_moment.png'
+);
+
+createCalculator('Point Load Deflection', 
+    [
+        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
+        { id: 'load_97867', placeholder: 'Load (P)' },
+        { id: 'length_5y6u657', placeholder: 'Length (L)' },
+        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_point_load_deflection,
+    '../assets/structural/point_load_deflection.png'
+);
+
+createCalculator('UDL Reaction', 
+    [
+        { id: 'reaction134545', placeholder: 'reaction' },
+        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
+        { id: 'length_456b4h', placeholder: 'Length (L)' }
+    ],
+    formula_udl_reaction,
+    '../assets/structural/udl_reaction.png'
+);
+
+createCalculator('UDL Moment', 
+    [
+        { id: 'moment_54654', placeholder: 'Maximum Moment' },
+        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
+        { id: 'length', placeholder: 'Length (L)' }
+    ],
+    formula_udl_moment,
+    '../assets/structural/udl_moment.png'
+);
+
+createCalculator('UDL Deflection', 
+    [
+        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
+        { id: 'load2', placeholder: 'Load (P)' },
+        { id: 'length2', placeholder: 'Length (L)' },
+        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_udl_deflection,
+    '../assets/structural/udl_deflection.png'
+);

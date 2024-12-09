@@ -24,7 +24,15 @@ const sidebarData = {
         "Circle y bar",
         "Circle area with radius",
         "Circle I x bar",
-        "Circle I y bar"
+        "Circle I y bar",
+        'Young modulus (elasticity) formula',
+        'Young modulus (elasticity) alternative formula',
+        'Point load Reaction',
+        'Point Load Moment',
+        'Point Load Deflection',
+        'UDL Reaction',
+        'UDL Moment',
+        'UDL Deflection' 
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
@@ -43,12 +51,12 @@ const sidebarData = {
 };
 
 const pageMap = {
-    "Dynamics": "/dynamics/dynamics.html",
-    "Statics": "/statics/statics.html",
-    "Structural": "/structural/structural.html",
-    "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
-    "Vibrations": "/vibrations/vibrations.html",
-    "General Mechanics": "/general_mechanics/mechanics.html"
+    "Dynamics": "dynamics/dynamics.html",
+    "Statics": "statics/statics.html",
+    "Structural": "structural/structural.html",
+    "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "vibrations/vibrations.html",
+    "General Mechanics": "general_mechanics/mechanics.html"
 };
 
 const sidebar = document.getElementById('sidebar');
