@@ -900,92 +900,6 @@ createCalculator('Circle I y bar',
     '../assets/structural/circle_I_y_bar.png'
 );
 
-
-createCalculator('Young modulus (elasticity) formula',
-    [
-        {id: 'young_modu1', placeholder: 'young modulus in (Pa)'},
-        {id: 'stress1', placeholder: 'stress (force per unit area)'},
-        {id: 'strain1', placeholder: 'strain (deformation)'}
-    ],
-    formula_young_modulus,
-    '../assets/structural/young_modulus.png'
-);
-
-createCalculator('Young modulus (elasticity) alternative formula', 
-    [
-        {id: 'young_modulus1', placeholder: 'Young modulus in (Pa)'},
-        {id: 'young_force1', placeholder: 'Force (N)'},
-        {id: 'young_area1', placeholder: 'Cross-sectional area (m²)'},
-        {id: 'young_delta_length1', placeholder: 'Change in length (ΔL in m)'},
-        {id: 'young_original_length1', placeholder: 'Original length (L in m)'}
-    ],
-    formula_young_modulus_alternative,
-    '../assets/structural/young_modulus_altern.png'
-);
-
-createCalculator('Point load Reaction',
-    [
-        { id: 'reaction1345', placeholder: 'reaction' },
-        { id: 'load343', placeholder: 'load (P)' }
-    ],
-    formula_point_load_reaction,
-    '../assets/structural/pointload_reaction.png'
-);
-
-createCalculator('Point Load Moment', 
-    [
-        { id: 'moment54654', placeholder: 'Maximum Moment' },
-        { id: 'load54654', placeholder: 'Load (P)' },
-        { id: 'length654779', placeholder: 'Length (L)' }
-    ],
-    formula_point_load_moment,
-    '../assets/structural/point_load_moment.png'
-);
-
-createCalculator('Point Load Deflection', 
-    [
-        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
-        { id: 'load_97867', placeholder: 'Load (P)' },
-        { id: 'length_5y6u657', placeholder: 'Length (L)' },
-        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
-        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
-    ],
-    formula_point_load_deflection,
-    '../assets/structural/point_load_deflection.png'
-);
-
-createCalculator('UDL Reaction', 
-    [
-        { id: 'reaction134545', placeholder: 'reaction' },
-        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
-        { id: 'length_456b4h', placeholder: 'Length (L)' }
-    ],
-    formula_udl_reaction,
-    '../assets/structural/udl_reaction.png'
-);
-
-createCalculator('UDL Moment', 
-    [
-        { id: 'moment_54654', placeholder: 'Maximum Moment' },
-        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
-        { id: 'length', placeholder: 'Length (L)' }
-    ],
-    formula_udl_moment,
-    '../assets/structural/udl_moment.png'
-);
-
-createCalculator('UDL Deflection', 
-    [
-        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
-        { id: 'load2', placeholder: 'Load (P)' },
-        { id: 'length2', placeholder: 'Length (L)' },
-        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
-        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
-    ],
-    formula_udl_deflection,
-    '../assets/structural/udl_deflection.png'
-);
-
 createCalculator('Half Circle x bar',
     [
         { id: 'half_cir_x_bar', placeholder: 'x bar' },
@@ -1201,3 +1115,88 @@ createCalculator('Parabola I y bar',
     formula_parabola_I_y_bar,
     '../assets/structural/parabola_I_y_bar.png'
 )
+
+createCalculator('Young modulus (elasticity) formula',
+    [
+        {id: 'young_modu1', placeholder: 'young modulus in (Pa)'},
+        {id: 'stress1', placeholder: 'stress (force per unit area)'},
+        {id: 'strain1', placeholder: 'strain (deformation)'}
+    ],
+    formula_young_modulus,
+    '../assets/structural/young_modulus.png'
+);
+
+createCalculator('Young modulus (elasticity) alternative formula', 
+    [
+        {id: 'young_modulus1', placeholder: 'Young modulus in (Pa)'},
+        {id: 'young_force1', placeholder: 'Force (N)'},
+        {id: 'young_area1', placeholder: 'Cross-sectional area (m²)'},
+        {id: 'young_delta_length1', placeholder: 'Change in length (ΔL in m)'},
+        {id: 'young_original_length1', placeholder: 'Original length (L in m)'}
+    ],
+    formula_young_modulus_alternative,
+    '../assets/structural/young_modulus_altern.png'
+);
+
+createCalculator('Point load Reaction',
+    [
+        { id: 'reaction1345', placeholder: 'reaction' },
+        { id: 'load343', placeholder: 'load (P)' }
+    ],
+    formula_point_load_reaction,
+    '../assets/structural/pointload_reaction.png'
+);
+
+createCalculator('Point Load Moment', 
+    [
+        { id: 'moment54654', placeholder: 'Maximum Moment' },
+        { id: 'load54654', placeholder: 'Load (P)' },
+        { id: 'length654779', placeholder: 'Length (L)' }
+    ],
+    formula_point_load_moment,
+    '../assets/structural/point_load_moment.png'
+);
+
+createCalculator('Point Load Deflection', 
+    [
+        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
+        { id: 'load_97867', placeholder: 'Load (P)' },
+        { id: 'length_5y6u657', placeholder: 'Length (L)' },
+        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_point_load_deflection,
+    '../assets/structural/point_load_deflection.png'
+);
+
+createCalculator('UDL Reaction', 
+    [
+        { id: 'reaction134545', placeholder: 'reaction' },
+        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
+        { id: 'length_456b4h', placeholder: 'Length (L)' }
+    ],
+    formula_udl_reaction,
+    '../assets/structural/udl_reaction.png'
+);
+
+createCalculator('UDL Moment', 
+    [
+        { id: 'moment_54654', placeholder: 'Maximum Moment' },
+        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
+        { id: 'length', placeholder: 'Length (L)' }
+    ],
+    formula_udl_moment,
+    '../assets/structural/udl_moment.png'
+);
+
+createCalculator('UDL Deflection', 
+    [
+        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
+        { id: 'load2', placeholder: 'Load (P)' },
+        { id: 'length2', placeholder: 'Length (L)' },
+        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_udl_deflection,
+    '../assets/structural/udl_deflection.png'
+);

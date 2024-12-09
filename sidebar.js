@@ -24,7 +24,15 @@ const sidebarData = {
         "Circle y bar",
         "Circle area with radius",
         "Circle I x bar",
-        "Circle I y bar"
+        "Circle I y bar",
+        'Young modulus (elasticity) formula',
+        'Young modulus (elasticity) alternative formula',
+        'Point load Reaction',
+        'Point Load Moment',
+        'Point Load Deflection',
+        'UDL Reaction',
+        'UDL Moment',
+        'UDL Deflection' 
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
