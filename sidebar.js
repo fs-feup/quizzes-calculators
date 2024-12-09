@@ -51,12 +51,12 @@ const sidebarData = {
 };
 
 const pageMap = {
-    "Dynamics": "/dynamics/dynamics.html",
-    "Statics": "/statics/statics.html",
-    "Structural": "/structural/structural.html",
-    "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
-    "Vibrations": "/vibrations/vibrations.html",
-    "General Mechanics": "/general_mechanics/mechanics.html"
+    "Dynamics": "dynamics/dynamics.html",
+    "Statics": "statics/statics.html",
+    "Structural": "structural/structural.html",
+    "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "vibrations/vibrations.html",
+    "General Mechanics": "general_mechanics/mechanics.html"
 };
 
 const sidebar = document.getElementById('sidebar');
