@@ -1,3 +1,27 @@
+function createImage(title, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+
+
+
+
 function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
@@ -289,6 +313,74 @@ const formulas_velocity_squared = [
     }
 ];
 
+
+// Teorema do trabalho e energia
+const formulas_work_energy = [
+    {
+        displayName: 'Calculate w from vg, ve, and t',
+        calculate: (vg, ve, t) => vg + ve + t
+    },
+    {
+        displayName: 'Calculate vg from w, ve, and t',
+        calculate: (w, ve, t) => w - ve - t
+    },
+    {
+        displayName: 'Calculate ve from w, vg, and t',
+        calculate: (w, vg, t) => w - vg - t
+    },
+    {
+        displayName: 'Calculate t from w, vg, and ve',
+        calculate: (w, vg, ve) =>  w - vg - ve
+    },
+];
+
+
+// Energia Potencial Gravitica
+const formulas_epg = [
+    {
+        displayName: 'Calculate Vg from m, g, and h',
+        calculate: (m, g, h) => m * g * h
+    },
+    {
+        displayName: 'Calculate m from Vg, g, and h',
+        calculate: (vg, g, h) => vg / (g * h)
+    },
+    {
+        displayName: 'Calculate g from Vg, m, and h',
+        calculate: (vg, m, h) => vg / (m * h)
+    },
+    {
+        displayName: 'Calculate h from Vg, m, and g',
+        calculate: (vg, m, g) => vg / (m * g)
+    },
+];
+
+// Energia Potencial Elastica com deformacao angular
+const formulas_epe = [
+    { 
+        displayName : 'Calculate Ve from k, l, kl and θ',
+        calculate: (k, l, kl, θ) => 0.5 * k * l**2 + 0.5 * kl * θ**2
+    },
+    {
+        displayName : 'Calculate k from Ve, l, kl and θ',
+        calculate: (ve, l, kl, θ) => (ve - 0.5 * kl * θ**2) / (0.5 * l**2)
+    },
+    {
+        displayName : 'Calculate l from Ve, k, kl and θ',
+        calculate: (ve, k, kl, θ) => Math.sqrt((ve - 0.5 * kl * θ**2) / (0.5 * k))
+    },
+    {
+        displayName : 'Calculate kl from Ve, k, l and θ',
+        calculate: (ve, k, l, θ) => (ve - 0.5 * k * l**2) / (0.5 * θ**2)
+    },
+    {
+        displayName : 'Calculate θ from Ve, k, l and kl',
+        calculate: (ve, k, l, kl) => Math.sqrt((ve - 0.5 * k * l**2) / (0.5 * kl))
+    }
+];
+
+
+
 createCalculator4('Velocity Equation', [
     { id: 'v', placeholder: 'v - Final Velocity' },
     { id: 'vi', placeholder: 'v0 - Initial Velocity' },
@@ -321,4 +413,37 @@ createCalculator5('Velocity from Positions Equation', [
     '../assets/motion/velocity_positions.png'
 );
 
+createCalculator4('Work and Energy Theorem', [
+    { id: 'w3', placeholder: 'W - Work' },
+    { id: 'vg3', placeholder: 'ΔVg - Gravitational Potential Energy' },
+    { id: 've3', placeholder: 'ΔVe - Elastic Potential Energy' },
+    { id: 't3', placeholder: 'ΔT - Kinetic Energy' },
+],
+    formulas_work_energy,
+    '../assets/motion/workenergytheorem.png'
+);
 
+createCalculator4('Gravitational Potential Energy', [
+    { id: 'vg4', placeholder: 'Vg - Gravitational Potential Energy' },
+    { id: 'm4', placeholder: 'm - Mass' },
+    { id: 'g4', placeholder: 'g - Gravity' },
+    { id: 'h4', placeholder: 'h - Height' },
+],
+    formulas_epg,
+    '../assets/motion/epg.png'
+);
+
+createCalculator5('Elastic Potential Energy', [
+    { id: 've5', placeholder: 'Ve - Elastic Potential Energy' },
+    { id: 'k5', placeholder: 'k - Spring Constant' },
+    { id: 'l5', placeholder: 'Δl - Length' },
+    { id: 'kl5', placeholder: 'kl - Angular Deformation Constant' },
+    { id: 'θ5', placeholder: 'Δθ - Angular Deformation' },
+],
+    formulas_epe,
+    '../assets/motion/epe.png'
+);
+
+createImage('Work from Non-Conservative Forces', '../assets/motion/nonconservative.png');
+
+createImage('Kinetic Energy', '../assets/motion/kineticenergy.png');
