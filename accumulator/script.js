@@ -222,7 +222,7 @@ const sections = [
                 {
                     formula_id: 'acc_capacity_and_seg_capacity',
                     necessary_ids: ['acc_capacity', 'seg_capacity'],
-                    calculate: (segs_in_par, acc_capacity, seg_capacity) => !segs_in_par ? seg_capacity : Math.floor(acc_capacity / seg_capacity)
+                    calculate: (segs_in_par, acc_capacity, seg_capacity) => !segs_in_par ? undefined : Math.floor(acc_capacity / seg_capacity)
                 }
             ]
         },
@@ -298,7 +298,7 @@ const sections = [
                 {
                     formula_id: 'acc_capacity_and_acc_energy',
                     necessary_ids: ['acc_capacity', 'acc_energy'],
-                    calculate: (segs_in_par, acc_capacity, acc_energy) => acc_energy / acc_capacity
+                    calculate: (segs_in_par, acc_capacity, acc_energy) => acc_energy / (acc_capacity * 3600)
                 },
                 {
                     formula_id: 'cell_max_voltage_and_acc_n_series',
@@ -326,18 +326,18 @@ const sections = [
         },
         {
             id: 'acc_cappacity',
-            placeholder: 'Accumulator Capacity (Coulombs)',
+            placeholder: 'Accumulator Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'seg_capacity_and_n_seg',
                     necessary_ids: ['seg_capacity', 'n_seg'],
-                    calculate: (segs_in_par, seg_capacity, n_seg) => seg_capacity * n_seg
+                    calculate: (segs_in_par, seg_capacity, n_seg) => seg_capacity * 3600 * n_seg
                 },
                 {
                     formula_id: 'cell_capacity_and_acc_n_par',
                     necessary_ids: ['acc_n_par', 'cell_capacity'],
-                    calculate: (segs_in_par, acc_n_par, cell_capacity) => acc_n_par * cell_capacity
+                    calculate: (segs_in_par, acc_n_par, cell_capacity) => acc_n_par * cell_capacity * 3600
                 },
                 {
                     formula_id: 'acc_energy_and_acc_max_voltage',
@@ -364,7 +364,7 @@ const sections = [
                 {
                     formula_id: 'acc_capacity_and_acc_max_voltage',
                     necessary_ids: ['acc_capacity', 'acc_max_voltage'],
-                    calculate: (segs_in_par, acc_capacity, acc_max_voltage) => acc_capacity * acc_max_voltage
+                    calculate: (segs_in_par, acc_capacity, acc_max_voltage) => acc_capacity * 3600 * acc_max_voltage
                 }
             ]
         },
@@ -503,7 +503,7 @@ const sections = [
                 {
                     formula_id: 'seg_capacity_and_seg_energy',
                     necessary_ids: ['seg_capacity', 'seg_energy'],
-                    calculate: (segs_in_par, seg_capacity, seg_energy) => seg_energy / seg_capacity
+                    calculate: (segs_in_par, seg_capacity, seg_energy) => seg_energy / (seg_capacity * 3600)
                 },
                 {
                     formula_id: 'cell_max_voltage_and_seg_n_series',
@@ -519,7 +519,7 @@ const sections = [
         },
         {
             id: 'seg_capacity',
-            placeholder: 'Segment Capacity (Coulombs)',
+            placeholder: 'Segment Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
@@ -530,12 +530,12 @@ const sections = [
                 {
                     formula_id: 'seg_n_par_and_and_cell_capacity',
                     necessary_ids: ['seg_n_par', 'cell_capacity'],
-                    calculate: (segs_in_par, seg_n_par, cell_capacity) => seg_n_par * cell_capacity
+                    calculate: (segs_in_par, seg_n_par, cell_capacity) => seg_n_par * cell_capacity * 3600
                 },
                 {
                     formula_id: 'acc_capacity_and_n_seg',
                     necessary_ids: ['n_seg', 'acc_capacity'],
-                    calculate: (segs_in_par, n_seg, acc_capacity) => acc_capacity / n_seg
+                    calculate: (segs_in_par, n_seg, acc_capacity) => acc_capacity * 3600 / n_seg
                 }
             ]
         },
@@ -557,7 +557,7 @@ const sections = [
                 {
                     formula_id: 'seg_capacity_and_seg_max_voltage',
                     necessary_ids: ['seg_capacity', 'seg_max_voltage'],
-                    calculate: (segs_in_par, seg_capacity, seg_max_voltage) => seg_capacity * seg_max_voltage
+                    calculate: (segs_in_par, seg_capacity, seg_max_voltage) => seg_capacity * 3600 * seg_max_voltage
                 },
                 {
                     formula_id: 'acc_energy_and_n_seg',
@@ -619,7 +619,7 @@ const sections = [
                 {
                     formula_id: 'cell_capacity_and_cell_energy',
                     necessary_ids: ['cell_capacity', 'cell_energy'],
-                    calculate: (segs_in_par, cell_capacity, cell_energy) => cell_energy / cell_capacity
+                    calculate: (segs_in_par, cell_capacity, cell_energy) => cell_energy / (cell_capacity * 3600)
                 },
                 {
                     formula_id: 'seg_max_voltage_and_seg_n_series',
@@ -641,7 +641,7 @@ const sections = [
         // },
         {
             id: 'cell_capacity',
-            placeholder: 'Cell Capacity (Coulombs)',
+            placeholder: 'Cell Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
@@ -652,12 +652,12 @@ const sections = [
                 {
                     formula_id: 'seg_capacity_and_seg_n_series_and_seg_n_par',
                     necessary_ids: ['seg_capacity', 'seg_n_par'],
-                    calculate: (segs_in_par, seg_capacity, seg_n_par) => seg_capacity / seg_n_par
+                    calculate: (segs_in_par, seg_capacity, seg_n_par) => seg_capacity * 3600 / seg_n_par
                 },
                 {
-                    formula_id: 'acc_energy_and_acc_n_par',
-                    necessary_ids: ['acc_energy', 'acc_n_par'],
-                    calculate: (segs_in_par, acc_energy, acc_n_par) => acc_energy / acc_n_par
+                    formula_id: 'acc_capacity_and_acc_n_par',
+                    necessary_ids: ['acc_capacity', 'acc_n_par'],
+                    calculate: (segs_in_par, acc_capacity, acc_n_par) => acc_capacity * 3600 / acc_n_par
                 }
             ]
         },
@@ -669,7 +669,7 @@ const sections = [
                 {
                     formula_id: 'cell_capacity_and_cell_max_voltage',
                     necessary_ids: ['cell_capacity', 'cell_max_voltage'],
-                    calculate: (segs_in_par, cell_capacity, cell_max_voltage) => cell_capacity * cell_max_voltage
+                    calculate: (segs_in_par, cell_capacity, cell_max_voltage) => cell_capacity * 3600 * cell_max_voltage
                 },
                 {
                     formula_id: 'seg_energy_and_seg_n_series_and_seg_n_par',
