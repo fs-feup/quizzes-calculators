@@ -139,6 +139,7 @@ function createCalculator(title, sections, divId) {
                         console.log(`Calculating ${field.id} with formula ${formula.formula_id}`);
                         calculated_some = true;
                         field.inputValue = formula.calculate(segments_in_par, ...necessaryFields);
+                        console.log(`Calculated ${field.id} with value ${field.inputValue}`);
                     }
                 }
             }
@@ -721,11 +722,5 @@ const sections = [
 ];
 
 createCalculator('Accumulator Segments Calculator', 
-    sections, 'calculator-container-1'
-);
-createCalculator('Accumulator Segments Calculator', 
-    sections, 'calculator-container-2'
-);
-createCalculator('Accumulator Segments Calculator', 
-    sections, 'calculator-container-3'
+    sections, 'calculator-container'
 );
