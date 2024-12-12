@@ -20,8 +20,20 @@ function createSection(subTitleName, fields, motherDiv) {
 }
 
 const CALCULATION_LIMIT = 5;
+function validByRules(fieldName, value) {
+    if (fieldName === 'seg_energy' && value > 6000000) {
+        return false;
+    } else if (fieldName === "acc_max_voltage" && value > 600) {
+        return false;
+    } else if (fieldName === "seg_weight" && value > 12000) {
+        return false;
+    } else if (fieldName === "seg_max_voltage" && value > 120) {
+        return false;
+    }
+    return true;
+}
 
-function createCalculator(title, sections, imageUrl) {
+function createCalculator(title, sections, divId) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
@@ -37,7 +49,8 @@ function createCalculator(title, sections, imageUrl) {
     notesSubTitle.innerText = 'Configurations';
     const instructions = document.createElement('div');
     instructions.innerText = 'To use the calculator, fill in the fields with the values you have and click the calculate button.\
-    The calculator will calculate all the missing values it possibly can, which will show red.\
+    The calculator will calculate all the missing values it possibly can, which will show blue.\
+    Red values indicate that the value is violating rules.\
     If you want to calculate for an accumulator with the segments in parallel, check the box below.\
     \nCalculations take into account SI units.';
     const checkBoxDiv = document.createElement('p');
@@ -66,9 +79,10 @@ function createCalculator(title, sections, imageUrl) {
     rules.innerHTML = rules.innerHTML.replace(/12 kg/g, '<b>12 kg</b>');
     rules.innerHTML = rules.innerHTML.replace(/120 V DC/g, '<b>120 V DC</b>');
     rules.innerHTML = rules.innerHTML.replace(/6 MJ/g, '<b>6 MJ</b>');
-    // make the word red be red
     instructions.innerHTML = instructions.innerHTML.replace(/calculate all the missing values it possibly can/g, '<b>calculate all the missing values it possibly can</b>');
-    instructions.innerHTML = instructions.innerHTML.replace(/red/g, '<span style="color:red">red</span>');
+    instructions.innerHTML = instructions.innerHTML.replace(/violating rules/g, '<b>violating rules</b>');
+    instructions.innerHTML = instructions.innerHTML.replace(/blue/g, '<span style="color:blue">blue</span>');
+    instructions.innerHTML = instructions.innerHTML.replace(/Red/g, '<span style="color:red">Red</span>');
     rulesDiv.appendChild(rulesText);
     rulesDiv.appendChild(rules);
     notes.appendChild(instructions);
@@ -129,12 +143,13 @@ function createCalculator(title, sections, imageUrl) {
                 }
             }
 
-            // Update the input fields with the calculated values and turn the text red
+            // Update the input fields with the calculated values and turn the text blue
             for (const field of idInputMapNull.values()) {
                 const input = calculatorDiv.querySelector(`#${field.id}`);
                 if (!isNaN(field.inputValue)) {
                     input.value = field.inputValue;
-                    input.style.color = 'red';
+                    // If the field is the segment energy and the value is greater than 6 MJ, turn the text red
+                    input.style.color = validByRules(field.id, field.inputValue) ? 'blue' : 'red';
                     calculatedFields.push(field);
                 }
             }
@@ -161,7 +176,7 @@ function createCalculator(title, sections, imageUrl) {
     calculatorDiv.appendChild(calculateButton);
     calculatorDiv.appendChild(div1);
     calculatorDiv.appendChild(resetCalculatedButton);
-    document.getElementById('calculator-container').appendChild(calculatorDiv);
+    document.getElementById(divId).appendChild(calculatorDiv);
 }
 
 
@@ -276,7 +291,7 @@ const sections = [
         },
         {
             id: 'acc_max_voltage',
-            placeholder: 'Accumulator Maximum Voltage',
+            placeholder: 'Accumulator Maximum Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
@@ -298,7 +313,7 @@ const sections = [
         },
         {
             id: 'acc_power',
-            placeholder: 'Accumulator Power Output',
+            placeholder: 'Accumulator Power Output (Watts)',
             inputValue: null,
             formulas: [
                 {
@@ -310,7 +325,7 @@ const sections = [
         },
         {
             id: 'acc_cappacity',
-            placeholder: 'Accumulator Capacity',
+            placeholder: 'Accumulator Capacity (Coulombs)',
             inputValue: null,
             formulas: [
                 {
@@ -332,7 +347,7 @@ const sections = [
         },
         {
             id: 'acc_energy',
-            placeholder: 'Accumulator Energy',
+            placeholder: 'Accumulator Energy (Joules)',
             inputValue: null,
             formulas: [
                 {
@@ -354,7 +369,7 @@ const sections = [
         },
         {
             id: 'acc_equivalent_resistance',
-            placeholder: 'Accumulator Equivalent Resistance',
+            placeholder: 'Accumulator Equivalent Resistance (Ohms)',
             inputValue: null,
             formulas: [
                 {
@@ -371,7 +386,7 @@ const sections = [
         },
         {
             id: 'accumulator_maximum_current',
-            placeholder: 'Accumulator Maximum Current',
+            placeholder: 'Accumulator Maximum Current (Amperes)',
             inputValue: null,
             formulas: [
                 {
@@ -383,7 +398,7 @@ const sections = [
         },
         {
             id: 'accumulator_maximum_current_2',
-            placeholder: 'Accumulator Maximum Current (Second Value)',
+            placeholder: 'Accumulator Maximum Current (Second Value) (Amperes)',
             inputValue: null,
             formulas: [
                 {
@@ -395,7 +410,7 @@ const sections = [
         },
         {
             id: 'acc_weight',
-            placeholder: 'Accumulator Weight',
+            placeholder: 'Accumulator Weight (grams)',
             inputValue: null,
             formulas: [
             {
@@ -481,7 +496,7 @@ const sections = [
         },
         {
             id: 'seg_max_voltage',
-            placeholder: 'Segment Maximum Voltage',
+            placeholder: 'Segment Maximum Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
@@ -503,7 +518,7 @@ const sections = [
         },
         {
             id: 'seg_capacity',
-            placeholder: 'Segment Capacity',
+            placeholder: 'Segment Capacity (Coulombs)',
             inputValue: null,
             formulas: [
                 {
@@ -525,7 +540,7 @@ const sections = [
         },
         {
             id: 'seg_energy',
-            placeholder: 'Segment Energy',
+            placeholder: 'Segment Energy (Joules)',
             inputValue: null,
             formulas: [
                 // {
@@ -552,7 +567,7 @@ const sections = [
         },
         {
             id: 'seg_equivalent_resistance',
-            placeholder: 'Segment Equivalent Resistance',
+            placeholder: 'Segment Equivalent Resistance (Ohms)',
             inputValue: null,
             formulas: [
                 {
@@ -569,7 +584,7 @@ const sections = [
         },
         {
             id: 'seg_weight',
-            placeholder: 'Segment Weight',
+            placeholder: 'Segment Weight (grams)',
             inputValue: null,
             formulas: [
                 {
@@ -597,7 +612,7 @@ const sections = [
         // },
         {
             id: 'cell_max_voltage',
-            placeholder: 'Cell Maximum Voltage',
+            placeholder: 'Cell Maximum Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
@@ -625,7 +640,7 @@ const sections = [
         // },
         {
             id: 'cell_capacity',
-            placeholder: 'Cell Capacity',
+            placeholder: 'Cell Capacity (Coulombs)',
             inputValue: null,
             formulas: [
                 {
@@ -647,7 +662,7 @@ const sections = [
         },
         {
             id: 'cell_energy',
-            placeholder: 'Cell Energy',
+            placeholder: 'Cell Energy (Joules)',
             inputValue: null,
             formulas: [
                 {
@@ -669,7 +684,7 @@ const sections = [
         },
         {
             id: 'cell_internal_resistance',
-            placeholder: 'Cell Internal Resistance',
+            placeholder: 'Cell Internal Resistance (Ohms)',
             inputValue: null,
             formulas: [
                 {
@@ -686,7 +701,7 @@ const sections = [
         },
         {
             id: 'cell_weight',
-            placeholder: 'Cell Weight',
+            placeholder: 'Cell Weight (grams)',
             inputValue: null,
             formulas: [
                 {
@@ -706,5 +721,11 @@ const sections = [
 ];
 
 createCalculator('Accumulator Segments Calculator', 
-    sections,
+    sections, 'calculator-container-1'
+);
+createCalculator('Accumulator Segments Calculator', 
+    sections, 'calculator-container-2'
+);
+createCalculator('Accumulator Segments Calculator', 
+    sections, 'calculator-container-3'
 );

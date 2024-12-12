@@ -64,3 +64,13 @@ p {
     width: 20px;
     height: 20px;
 }
+
+#calculator-wrapper {
+    display: flex;
+    justify-content: space-around; /* Adjust alignment as needed */
+}
+
+#calculator-container-1, #calculator-container-2, #calculator-container-3 {
+    width: 100%; /* Adjust the width as needed */
+    margin: 10px; /* Adjust the margin as needed */
+}
