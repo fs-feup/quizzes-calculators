@@ -12,6 +12,11 @@ function createSection(subTitleName, fields, motherDiv) {
         input.id = field.id;
         input.placeholder = field.placeholder;
 
+        // Add event listener to change text color back to black on input
+        input.addEventListener('input', () => {
+            input.style.color = 'black';
+        });
+
         const text = document.createElement('div');
         text.innerText = field.placeholder;
         sectionDiv.appendChild(text);
@@ -105,12 +110,13 @@ function createCalculator(title, sections, divId) {
     });
 
     const allFields = sections.map(section => section.fields).flat();
-    const calculatedFields = [];
+    let calculatedFields = [];
 
     const calculateButton = document.createElement('button');
     calculateButton.innerText = 'Calculate';
     calculateButton.onclick = () => {
 
+        calculatedFields = [];
         let segments_in_par = document.getElementById('segments-checkbox').checked;
 
         // Because only direct formulas are used, we need to run
