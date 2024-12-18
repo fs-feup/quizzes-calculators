@@ -46,7 +46,12 @@ const sidebarData = {
     "General Mechanics": [
         "Velocity Equation",
         "Positions Equation",
-        "Velocity from Positions Equation"
+        "Velocity from Positions Equation",
+        "Work and Energy Theorem",
+        "Gravitational Potential Energy",
+        "Elastic Potential Energy",
+        "Work from Non-Conservative Forces",
+        "Kinetic Energy"
     ]
 };
 
