@@ -227,27 +227,27 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
 const Pmax_manual = 50;
 const Pmax_dc = 75;
 
-function generateFormulas(Pmax, denominator, factor, exp = 2) {
+function generateFormulas(Pmax, denominator, factor, exp = 2, factor_division = 0.95) {
     return [
         {
             displayName: 'Calculate P team from P max',
             calculate: (tmax, final) => tmax * factor /
                 Math.pow(
-                    (denominator * (final - 0.05 * Pmax)) / (0.95 * Pmax) + 1,
+                    (denominator * (final - (1 - factor_division) * Pmax)) / (factor_division * Pmax) + 1,
                     1 / exp
                 )
         },
         {
             displayName: 'Calculate P max from P team',
             calculate: (tteam, final) => (
-                ((denominator * ((final - 0.05 * Pmax) / (0.95 * Pmax)) + 1) / factor**exp) *
+                ((denominator * ((final - (1 - factor_division) * Pmax) / (factor_division * Pmax)) + 1) / factor**exp) *
                 tteam**exp
             ) ** (1 / exp)
         },
         {
             displayName: 'Calculate Final Points from P team and P max',
             calculate: (tteam, tmax) => 
-                0.95 * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + 0.05 * Pmax
+                factor_division * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + (1 - factor_division) * Pmax
         }
     ];
 }
@@ -338,3 +338,147 @@ createCalculator('DC Acceleration',
     '../assets/acceleration/dc_acceleration.png'
 );
 
+
+const formulas_autocross_manual = generateFormulas(100, 0.25, 1.25, 1)
+
+
+const formulas_autocross_dc = [
+    {
+        displayName: 'Calculate t min',
+        calculate: (tmax, tteam_total, finalPoints) => 
+            tmax - ((finalPoints - 10) * (tmax - tteam_total) / 90),
+    },
+    {
+        displayName: 'Calculate t max',
+        calculate: (tmin, tteam_total, finalPoints) => 
+            "Impossible to solve, any value of tmax would solve this equation",
+        
+    },
+    {
+        displayName: 'Calculate t total',
+        calculate: (tmin, tmax, finalPoints) => 
+            tmax - ((finalPoints - 10) * (tmax - tmin) / 90),
+    },
+    {
+        displayName: 'Calculate Final Points',
+        calculate: (tmin, tmax, tteam_total) => 
+            90 * (tmax - tteam_total) / (tmax - tmin) + 10,
+    }
+];
+
+createCalculator('Manual Autocross', 
+    [
+        { id: 'tteam4', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax4', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'finalPoints4', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_autocross_manual,
+    '../assets/autocross/m_autocross.png'
+);
+
+createCalculator4('DC Autocross', 
+    [
+        { id: 'tteam5', placeholder: 'T min' },
+        { id: 'tmax5', placeholder: 'T max' },
+        { id: 'ttotal5', placeholder: 'T Total' },
+        { id: 'finalPoints5', placeholder: 'Final Points (optional)' },
+    ],
+    formulas_autocross_dc,
+    '../assets/autocross/dc_autocross.png'
+);
+
+const formulas_endurance = generateFormulas(250, 0.333, 1.333, 1, 0.9)
+
+
+createCalculator('Endurance', 
+    [
+        { id: 'tteam6', placeholder: 'T team - Team\'s corrected elapsed time' },
+        { id: 'tmax6', placeholder: 'T max - Team\'s corrected elapsed time' },
+        { id: 'finalPoints6', placeholder: 'Final Points' }
+    ],
+    formulas_endurance,
+    '../assets/endurance/endurance.png'
+);
+
+const formulas_efficiency = [
+    {
+        displayName: 'Calculate EF team',
+        calculate: (ef_min, score) =>
+        (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 75,
+    },
+    {
+        displayName: 'Calculate EF min',
+        calculate: (tmin, tteam_total, finalPoints) => 
+            "Impossible to solve, any value of tmax would solve this equation",
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (ef_team, ef_min) => 
+            75 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min)),
+    },
+];
+
+createCalculator('Efficiency', 
+    [
+        { id: 'efteam', placeholder: 'EF team - Team\'s efficiency factor' },
+        { id: 'efmin', placeholder: 'T min - lowest efficiency factor. EF max = 1.5 EF min' },
+        { id: 'score', placeholder: 'Final Score' }
+    ],
+    formulas_efficiency,
+    '../assets/endurance/efficiency.png'
+);
+
+const formulas_efficiency_factor = [
+    {
+        displayName: 'Calculate T',
+        calculate: (e, ef) => Math.sqrt(ef / e),
+    },
+    {
+        displayName: 'Calculate E',
+        calculate: (t, ef) => ef / t**2
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (t, e) => e * t ** 2 ,
+    },
+];
+
+createCalculator('Efficiency Factor', 
+    [
+        { id: 'T', placeholder: 'Uncorrected elapsed driving time' },
+        { id: 'E', placeholder: 'CV - corrected used fuel mass / EV - used energy' },
+        { id: 'EF', placeholder: 'Final Score' }
+    ],
+    formulas_efficiency_factor,
+    '../assets/endurance/efficiency_factor.png'
+);
+
+
+
+const formulas_trackdrive = [
+    {
+        displayName: 'Calculate T team',
+        calculate: (t_best, score) => (2 * t_best) / (1 + (score / 150)),
+    },
+    {
+        displayName: 'Calculate T best',
+        calculate: (t_team, score) => (t_team * (1 + (score /150))) / 2
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (t_team, t_best) => 150 * ((t_best * 2) / t_team - 1) ,
+    },
+];
+
+createCalculator('Trackdrive', 
+    [
+        { id: 'tteam10', placeholder: 'T Team - Team\'s corrected elapsed time. Tteam is capped at Tmax' },
+        { id: 'tbest10', placeholder: 'T Best - Corrected elapsed time of the fastest vehicle. T max is 2 times T Best' },
+        { id: 'score10', placeholder: 'Final Score' }
+    ],
+    formulas_trackdrive,
+    '../assets/trackdrive/trackdrive.png'
+);

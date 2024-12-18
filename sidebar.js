@@ -5,7 +5,13 @@ const sidebarData = {
         "DC Skidpad",
         "Manual Acceleration",
         "Driverless Acceleration",
-        "DC Acceleration"
+        "DC Acceleration",
+        "Manual Autocross",
+        "DC Autocross",
+        "Endurance",
+        "Efficiency",
+        "Efficiency Factor",
+        "Trackdrive"
     ],
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
