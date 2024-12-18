@@ -34,20 +34,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
         
         let result;
-        if (missingIndex === 0) {
-            // Missing value for first input
-            const [ , pmax, final] = inputValues; // Skip the first value
-            result = formulas[0].calculate(pmax, final);
-            console.log(result)
-        } else if (missingIndex === 1) {
-            // Missing value for second input
-            const [pteam, , final] = inputValues; // Skip the second value
-            result = formulas[1].calculate(pteam, final);
-            console.log(result)
-        } else if (missingIndex === 2) {
-            // Missing value for third input
-            const [tteam, tmax] = inputValues.slice(0, 2); // Use only the first two values
-            result = formulas[2].calculate(tteam, tmax);
+        if(missingIndex >= 0 && missingIndex <= 4){
+            const arguments = inputValues.slice(0,missingIndex).concat(inputValues.slice(missingIndex+1));
+            result = formulas[missingIndex].calculate(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4]);
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
@@ -300,6 +289,446 @@ const formula_circle_I_y_bar = [
     },
 ];
 
+const formula_young_modulus = [
+    {
+        displayName: 'Calculate young modulus',
+        calculate: (stress,strain) => stress/strain
+    },
+    {
+        displayName: 'Calculate stress',
+        calculate: (young,strain) => young*strain
+    },
+    {
+        displayName: 'Calculate strain',
+        calculate: (young,stress) => stress/young
+    },
+]
+
+const formula_young_modulus_alternative = [
+    {
+        displayName: 'Calculate modulus of elasticity (E)',
+        calculate: (force, area, deltaL, length) => (force / area) / (deltaL / length)
+    },
+    {
+        displayName: 'Calculate force (F)',
+        calculate: (modulus, area, deltaL, length) => modulus * (deltaL / length) * area
+    },
+    {
+        displayName: 'Calculate area (A)',
+        calculate: (modulus, force, deltaL, length) => force / (modulus * (deltaL / length))
+    },
+    {
+        displayName: 'Calculate change in length (ΔL)',
+        calculate: (modulus, force, area, length) => (force / area) / (modulus / length)
+    },
+    {
+        displayName: 'Calculate original length (L)',
+        calculate: (modulus, force, area, deltaL) => modulus * deltaL / (force / area)
+    }
+]
+
+const formula_point_load_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (load) => load / 2,
+    },
+    {
+        displayName: 'Calculate Load (P) from Reaction Force',
+        calculate: (reaction) => reaction * 2,
+    }
+]
+
+const formula_point_load_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (load, length) => (load * length) / 4,
+    },
+    {
+        displayName: 'Calculate Load (P) from Moment',
+        calculate: (moment, length) => (moment * 4) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, load) => (moment * 4) / load,
+    }
+]
+
+const formula_point_load_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (load, length, youngModulus, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (P)',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 48 * youngModulus * momentOfInertia) / Math.pow(length, 3),
+    },
+    {
+        displayName: 'Calculate Length (L)',
+        calculate: (deflection, load, youngModulus, momentOfInertia) =>
+            Math.cbrt((deflection * 48 * youngModulus * momentOfInertia) / load),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E)',
+        calculate: (deflection, load, length, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I)',
+        calculate: (deflection, load, length, youngModulus) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * youngModulus),
+    }
+];
+
+const formula_udl_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (uniformLoad, length) => (uniformLoad * length) / 2,
+    },
+    {
+        displayName: 'Calculate Load (w) from Reaction Force',
+        calculate: (reaction, length) => (reaction * 2) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Reaction Force',
+        calculate: (reaction, uniformLoad) => (reaction * 2) / uniformLoad,
+    }
+];
+
+const formula_udl_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (uniformLoad, length) => (uniformLoad * Math.pow(length, 2)) / 8,
+    },
+    {
+        displayName: 'Calculate Load (w) from Moment',
+        calculate: (moment, length) => (moment * 8) / Math.pow(length, 2),
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, uniformLoad) => Math.sqrt((moment * 8) / uniformLoad),
+    }
+];
+
+const formula_udl_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (uniformLoad, length, youngModulus, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (w) from Deflection',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 384 * youngModulus * momentOfInertia) / (5 * Math.pow(length, 4)),
+    },
+    {
+        displayName: 'Calculate Length (L) from Deflection',
+        calculate: (deflection, uniformLoad, youngModulus, momentOfInertia) =>
+            Math.pow((deflection * 384 * youngModulus * momentOfInertia) / (5 * uniformLoad), 1 / 4),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E) from Deflection',
+        calculate: (deflection, uniformLoad, length, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I) from Deflection',
+        calculate: (deflection, uniformLoad, length, youngModulus) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * youngModulus),
+    }
+];
+
+
+const formula_half_circle_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (half_cir_D) => half_cir_D/2
+    },
+    {
+        displayName: 'Calculate D',
+        calculate: (half_cir_x_bar) => half_cir_x_bar*2
+    },
+];
+
+const formula_half_circle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (half_cir_r) => (4*half_cir_r)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_y_bar) => (3*Math.PI*half_cir_y_bar) / 4
+    },
+];
+
+const formula_half_circle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (half_cir_r1) => (Math.PI * half_cir_r1**2) / 2
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_area) => (2 * half_cir_area / Math.PI)**(1/2)
+    },
+];
+
+const formula_half_circle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (half_cir_r2) => ((9*Math.PI**2 - 64) / (72*Math.PI)) * half_cir_r2**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_I_x_bar) => ((72*Math.PI*half_cir_I_x_bar) / (9*Math.PI**2 - 64))**(1/4)
+    },
+];
+
+const formula_half_circle_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (half_cir_r3) => (Math.PI * half_cir_r3**4) / 8
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (half_cir_I_y_bar) => (8 * half_cir_I_y_bar / Math.PI)**(1/4)
+    },
+];
+
+const formula_quarter_circle_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (quarter_cir_r) => (4*quarter_cir_r)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_x_bar) => (3*Math.PI*quarter_cir_x_bar) / 4
+    },
+];
+
+const formula_quarter_circle_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (quarter_cir_r1) => (4*quarter_cir_r1)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_y_bar) => (3*Math.PI*quarter_cir_y_bar) / 4
+    },
+];
+
+const formula_quarter_circle_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (quarter_cir_r2) => (Math.PI * quarter_cir_r2**2) / 4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_area) => (4 * quarter_cir_area / Math.PI)**(1/2)
+    },
+];
+
+const formula_quarter_circle_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (quarter_cir_r3) => ((9*(Math.PI**2) - 64) / (144*Math.PI)) * quarter_cir_r3**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_I_x_bar) => ((144*Math.PI*quarter_cir_I_x_bar) / (9*(Math.PI**2) - 64))**(1/4)
+    },
+];
+
+const formula_quarter_circle_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (quarter_cir_r4) => ((9*(Math.PI**2) - 64) / (144*Math.PI)) * quarter_cir_r4**4
+    },
+    {
+        displayName: 'Calculate r',
+        calculate: (quarter_cir_I_y_bar) => ((144*Math.PI*quarter_cir_I_y_bar) / (9*(Math.PI**2) - 64))**(1/4)
+    },
+];
+
+const formula_half_elipse_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (half_elipse_b) => (4*half_elipse_b)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_y_bar) => (3*Math.PI*half_elipse_y_bar) / 4
+    },
+];
+
+const formula_half_elipse_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (half_elipse_a, half_elipse_b1) => (Math.PI * half_elipse_a * half_elipse_b1) / 2
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_area, half_elipse_b1) => (2 * half_elipse_area / (Math.PI * half_elipse_b1))
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_area, half_elipse_a) => (2 * half_elipse_area / (Math.PI * half_elipse_a))
+    },
+];
+
+const formula_half_elipse_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (half_elipse_a1, half_elipse_b2) => ((9*Math.PI**2 - 64)/(72*Math.PI)) * half_elipse_a1 * half_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_I_x_bar, half_elipse_b2) => ((72*Math.PI*half_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / half_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_I_x_bar, half_elipse_a1) => (((72*Math.PI*half_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / half_elipse_a1)**(1/3)
+    },
+];
+
+const formula_half_elipse_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (half_elipse_a2, half_elipse_b3) => (Math.PI*half_elipse_a2**3*half_elipse_b3)/8
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (half_elipse_I_y_bar, half_elipse_b3) => ((8*half_elipse_I_y_bar) / (Math.PI*half_elipse_b3))**(1/3)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (half_elipse_I_y_bar, half_elipse_a2) => (8*half_elipse_I_y_bar) / (Math.PI*half_elipse_a2**3)
+    },
+];
+
+const formula_quarter_elipse_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (quarter_elipse_a) => (4*quarter_elipse_a)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_x_bar) => (3*Math.PI*quarter_elipse_x_bar) / 4
+    },
+];
+
+const formula_quarter_elipse_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (quarter_elipse_b) => (4*quarter_elipse_b)/(3*Math.PI)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_y_bar) => (3*Math.PI*quarter_elipse_y_bar) / 4
+    },
+];
+
+const formula_quarter_elipse_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (quarter_elipse_a1, quarter_elipse_b1) => (Math.PI * quarter_elipse_a1 * quarter_elipse_b1) / 4
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_area, quarter_elipse_b1) => (4 * quarter_elipse_area / (Math.PI * quarter_elipse_b1))
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_area, quarter_elipse_a1) => (4 * quarter_elipse_area / (Math.PI * quarter_elipse_a1))
+    },
+];
+
+const formula_quarter_elipse_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (quarter_elipse_a2, quarter_elipse_b2) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a2 * quarter_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_I_x_bar, quarter_elipse_b2) => ((144*Math.PI*quarter_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b2**3
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_I_x_bar, quarter_elipse_a2) => (((144*Math.PI*quarter_elipse_I_x_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a2)**(1/3)
+    },
+];
+
+const formula_quarter_elipse_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (quarter_elipse_a3, quarter_elipse_b3) => ((9*Math.PI**2 - 64)/(144*Math.PI)) * quarter_elipse_a3**3 * quarter_elipse_b3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_b3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_b3)**(1/3)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (quarter_elipse_I_y_bar, quarter_elipse_a3) => (((144*Math.PI*quarter_elipse_I_y_bar) / (9*Math.PI**2 - 64)) / quarter_elipse_a3**3)
+    },
+];
+
+const formula_parabola_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (para_h) => para_h*3/5
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_y_bar) => para_y_bar*5/3
+    },
+];
+
+const formula_parabola_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (para_a, para_h1) => (4*para_a*para_h1) / 3
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_area, para_h1) => (3*para_area) / (4*para_h1)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_area, para_a) => (3*para_area) / (4*para_a)
+    },
+];
+
+const formula_parabola_I_x_bar = [
+    {
+        displayName: 'Calculate I_x_bar',
+        calculate: (para_a1, para_h2) => (16*para_a1*(para_h2**3)) / 175
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_I_x_bar, para_h2) => 175*para_I_x_bar / (16*para_h2**3)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_I_x_bar, para_a1) => (175*para_I_x_bar / (16*para_a1))**(1/3)
+    },
+];
+
+const formula_parabola_I_y_bar = [
+    {
+        displayName: 'Calculate I_y_bar',
+        calculate: (para_a2, para_h3) => (4 * para_a2**3 * para_h3) / 15
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (para_I_y_bar, para_h3) => (15*para_I_y_bar / (4*para_h3))**(1/3)
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (para_I_y_bar, para_a2) => (15*para_I_y_bar / (4*para_a2**3))
+    },
+];
+
 createCalculator('Rectangle x bar', 
     [
         { id: 'x_bar', placeholder: 'x_bar' },
@@ -469,4 +898,305 @@ createCalculator('Circle I y bar',
     ],
     formula_circle_I_y_bar,
     '../assets/structural/circle_I_y_bar.png'
+);
+
+createCalculator('Half Circle x bar',
+    [
+        { id: 'half_cir_x_bar', placeholder: 'x bar' },
+        { id: 'half_cir_D', placeholder: 'diameter' }
+    ],
+    formula_half_circle_x_bar,
+    '../assets/structural/half_cir_x_bar.png'
+);
+
+createCalculator('Half Circle y bar',
+    [
+        { id: 'half_cir_y_bar', placeholder: 'y bar' },
+        { id: 'half_cir_r', placeholder: 'radius' }
+    ],
+    formula_half_circle_y_bar,
+    '../assets/structural/half_cir_y_bar.png'
+);
+
+createCalculator('Half Circle area',
+    [
+        { id: 'half_cir_area', placeholder: 'area' },
+        { id: 'half_cir_r1', placeholder: 'radius' }
+    ],
+    formula_half_circle_area,
+    '../assets/structural/half_cir_area.png'
+);
+
+createCalculator('Half Circle I x bar',
+    [
+        { id: 'half_cir_I_x_bar', placeholder: 'I x bar' },
+        { id: 'half_cir_r2', placeholder: 'radius' }
+    ],
+    formula_half_circle_I_x_bar,
+    '../assets/structural/half_cir_I_x_bar.png'
+);
+
+createCalculator('Half Circle I y bar',
+    [
+        { id: 'half_cir_I_y_bar', placeholder: 'I y bar' },
+        { id: 'half_cir_r3', placeholder: 'radius' }
+    ],
+    formula_half_circle_I_y_bar,
+    '../assets/structural/half_cir_I_y_bar.png'
+);
+
+createCalculator('Quarter Circle x bar',
+    [
+        { id: 'quarter_cir_x_bar', placeholder: 'x bar' },
+        { id: 'quarter_cir_r', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_x_bar,
+    '../assets/structural/quarter_cir_x_bar.png'
+);
+
+createCalculator('Quarter Circle y bar',
+    [
+        { id: 'quarter_cir_y_bar', placeholder: 'y bar' },
+        { id: 'quarter_cir_r1', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_y_bar,
+    '../assets/structural/quarter_cir_y_bar.png'
+);
+
+createCalculator('Quarter Circle area',
+    [
+        { id: 'quarter_cir_area', placeholder: 'area' },
+        { id: 'quarter_cir_r2', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_area,
+    '../assets/structural/quarter_cir_area.png'
+);
+
+createCalculator('Quarter Circle I x bar',
+    [
+        { id: 'quarter_cir_I_x_bar', placeholder: 'I x bar' },
+        { id: 'quarter_cir_r3', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_I_x_bar,
+    '../assets/structural/quarter_cir_I_x_bar.png'
+);
+
+createCalculator('Quarter Circle I y bar',
+    [
+        { id: 'quarter_cir_I_y_bar', placeholder: 'I y bar' },
+        { id: 'quarter_cir_r4', placeholder: 'radius' }
+    ],
+    formula_quarter_circle_I_y_bar,
+    '../assets/structural/quarter_cir_I_y_bar.png'
+);
+
+createCalculator('Half Elipse y bar',
+    [
+        { id: 'half_elipse_y_bar', placeholder: 'y bar' },
+        { id: 'half_elipse_b', placeholder: 'b' }
+    ],
+    formula_half_elipse_y_bar,
+    '../assets/structural/half_elipse_y_bar.png'
+)
+
+createCalculator('Half Elipse area',
+    [
+        { id: 'half_elipse_area', placeholder: 'area' },
+        { id: 'half_elipse_a', placeholder: 'a' },
+        { id: 'half_elipse_b1', placeholder: 'b' }
+    ],
+    formula_half_elipse_area,
+    '../assets/structural/half_elipse_area.png'
+)
+
+createCalculator('Half Elipse I x bar',
+    [
+        { id: 'half_elipse_I_x_bar', placeholder: 'I x bar' },
+        { id: 'half_elipse_a1', placeholder: 'a' },
+        { id: 'half_elipse_b2', placeholder: 'b' }
+    ],
+    formula_half_elipse_I_x_bar,
+    '../assets/structural/half_elipse_I_x_bar.png'
+)
+
+createCalculator('Half Elipse I y bar',
+    [
+        { id: 'half_elipse_I_y_bar', placeholder: 'I y bar' },
+        { id: 'half_elipse_a2', placeholder: 'a' },
+        { id: 'half_elipse_b3', placeholder: 'b' }
+    ],
+    formula_half_elipse_I_y_bar,
+    '../assets/structural/half_elipse_I_y_bar.png'
+)
+
+createCalculator('Quarter Elipse x bar',
+    [
+        { id: 'quarter_elipse_x_bar', placeholder: 'x bar' },
+        { id: 'quarter_elipse_a', placeholder: 'a' }
+    ],
+    formula_quarter_elipse_x_bar,
+    '../assets/structural/quarter_elipse_x_bar.png'
+)
+
+createCalculator('Quarter Elipse y bar',
+    [
+        { id: 'quarter_elipse_y_bar', placeholder: 'y bar' },
+        { id: 'quarter_elipse_b', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_y_bar,
+    '../assets/structural/quarter_elipse_y_bar.png'
+)
+
+createCalculator('Quarter Elipse area',
+    [
+        { id: 'quarter_elipse_area', placeholder: 'area' },
+        { id: 'quarter_elipse_a1', placeholder: 'a' },
+        { id: 'quarter_elipse_b1', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_area,
+    '../assets/structural/quarter_elipse_area.png'
+)
+
+createCalculator('Quarter Elipse I x bar',
+    [
+        { id: 'quarter_elipse_I_x_bar', placeholder: 'I x bar' },
+        { id: 'quarter_elipse_a2', placeholder: 'a' },
+        { id: 'quarter_elipse_b2', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_I_x_bar,
+    '../assets/structural/quarter_elipse_I_x_bar.png'
+)
+
+createCalculator('Quarter Elipse I y bar',
+    [
+        { id: 'quarter_elipse_I_y_bar', placeholder: 'I y bar' },
+        { id: 'quarter_elipse_a3', placeholder: 'a' },
+        { id: 'quarter_elipse_b3', placeholder: 'b' }
+    ],
+    formula_quarter_elipse_I_y_bar,
+    '../assets/structural/quarter_elipse_I_y_bar.png'
+)
+
+createCalculator('Parabola y bar',
+    [
+        { id: 'para_y_bar', placeholder: 'y bar' },
+        { id: 'para_h', placeholder: 'h' }
+    ],
+    formula_parabola_y_bar,
+    '../assets/structural/parabola_y_bar.png'
+)
+
+createCalculator('Parabola area',
+    [
+        { id: 'para_area', placeholder: 'area' },
+        { id: 'para_a', placeholder: 'a' },
+        { id: 'para_h1', placeholder: 'h' }
+    ],
+    formula_parabola_area,
+    '../assets/structural/parabola_area.png'
+)
+
+createCalculator('Parabola I x bar',
+    [
+        { id: 'para_I_x_bar', placeholder: 'I x bar' },
+        { id: 'para_a1', placeholder: 'a' },
+        { id: 'para_h2', placeholder: 'h' }
+    ],
+    formula_parabola_I_x_bar,
+    '../assets/structural/parabola_I_x_bar.png'
+)
+
+createCalculator('Parabola I y bar',
+    [
+        { id: 'para_I_y_bar', placeholder: 'I y bar' },
+        { id: 'para_a2', placeholder: 'a' },
+        { id: 'para_h3', placeholder: 'h' }
+    ],
+    formula_parabola_I_y_bar,
+    '../assets/structural/parabola_I_y_bar.png'
+)
+
+createCalculator('Young modulus (elasticity) formula',
+    [
+        {id: 'young_modu1', placeholder: 'young modulus in (Pa)'},
+        {id: 'stress1', placeholder: 'stress (force per unit area)'},
+        {id: 'strain1', placeholder: 'strain (deformation)'}
+    ],
+    formula_young_modulus,
+    '../assets/structural/young_modulus.png'
+);
+
+createCalculator('Young modulus (elasticity) alternative formula', 
+    [
+        {id: 'young_modulus1', placeholder: 'Young modulus in (Pa)'},
+        {id: 'young_force1', placeholder: 'Force (N)'},
+        {id: 'young_area1', placeholder: 'Cross-sectional area (m²)'},
+        {id: 'young_delta_length1', placeholder: 'Change in length (ΔL in m)'},
+        {id: 'young_original_length1', placeholder: 'Original length (L in m)'}
+    ],
+    formula_young_modulus_alternative,
+    '../assets/structural/young_modulus_altern.png'
+);
+
+createCalculator('Point load Reaction',
+    [
+        { id: 'reaction1345', placeholder: 'reaction' },
+        { id: 'load343', placeholder: 'load (P)' }
+    ],
+    formula_point_load_reaction,
+    '../assets/structural/pointload_reaction.png'
+);
+
+createCalculator('Point Load Moment', 
+    [
+        { id: 'moment54654', placeholder: 'Maximum Moment' },
+        { id: 'load54654', placeholder: 'Load (P)' },
+        { id: 'length654779', placeholder: 'Length (L)' }
+    ],
+    formula_point_load_moment,
+    '../assets/structural/point_load_moment.png'
+);
+
+createCalculator('Point Load Deflection', 
+    [
+        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
+        { id: 'load_97867', placeholder: 'Load (P)' },
+        { id: 'length_5y6u657', placeholder: 'Length (L)' },
+        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_point_load_deflection,
+    '../assets/structural/point_load_deflection.png'
+);
+
+createCalculator('UDL Reaction', 
+    [
+        { id: 'reaction134545', placeholder: 'reaction' },
+        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
+        { id: 'length_456b4h', placeholder: 'Length (L)' }
+    ],
+    formula_udl_reaction,
+    '../assets/structural/udl_reaction.png'
+);
+
+createCalculator('UDL Moment', 
+    [
+        { id: 'moment_54654', placeholder: 'Maximum Moment' },
+        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
+        { id: 'length', placeholder: 'Length (L)' }
+    ],
+    formula_udl_moment,
+    '../assets/structural/udl_moment.png'
+);
+
+createCalculator('UDL Deflection', 
+    [
+        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
+        { id: 'load2', placeholder: 'Load (P)' },
+        { id: 'length2', placeholder: 'Length (L)' },
+        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_udl_deflection,
+    '../assets/structural/udl_deflection.png'
 );

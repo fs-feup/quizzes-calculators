@@ -36,85 +36,14 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
 
         let result;
-        if(title === 'Spring rate'){
-            switch (missingIndex) {
-                case 0:
-                    // Missing value for first input
-                    [,g0,mean0,n0,d0] = inputValues;
-                    result = formulas[0].calculate(g0,mean0,n0,d0);
-                    break;
-                case 1:
-                    // Missing value for second input
-                    [k0,,mean0,n0,d0] = inputValues;
-                    result = formulas[1].calculate(k0,mean0,n0,d0);
-                    break;
-                case 2:
-                    // Missing value for third input
-                    [k0,g0,,n0,d0] = inputValues; // skip third input
-                    result = formulas[2].calculate(k0,g0,n0,d0);
-                    break;
-                case 3:
-                    // Missing value for fourth input
-                    [k0,g0,mean0,,d0] = inputValues;
-                    result = formulas[3].calculate(k0,g0,mean0,d0);
-                    break;
-                case 4:
-                    // Missing value for fifth input
-                    [k0,g0,mean0,n0,] = inputValues; 
-                    result = formulas[4].calculate(k0,g0,mean0,n0);
-                    break;
-                default:
-                    result = 'Please leave one input empty to calculate the missing value.';
-                    break;
-            }
-        }else if(title === 'Natural angular frequency'){
-            switch (missingIndex) {
-                case 0:
-                    // Missing value for first input
-                    [,k1,m1] = inputValues;
-                    result = formulas[0].calculate(k1,m1);
-                    break;
-                case 1:
-                    // Missing value for second input
-                    [w1,,m1] = inputValues;
-                    result = formulas[1].calculate(w1,m1);
-                    break;
-                case 2:
-                    // Missing value for third input
-                    [w1,k1,] = inputValues;
-                    result = formulas[2].calculate(w1,k1);
-                    break;
-                default:
-                    result = 'Please leave one input empty to calculate the missing value.';
-                    break;
-            }
-        } else if(title === 'Damping ratio'){
-            switch (missingIndex) {
-                case 0:
-                    // Missing value for first input
-                    [,c2,m2,k2] = inputValues;
-                    result = formulas[0].calculate(c2,m2,k2);
-                    break;
-                case 1:
-                    // Missing value for second input
-                    [zeta2,,m2,k2] = inputValues;
-                    result = formulas[1].calculate(zeta2,m2,k2);
-                    break;
-                case 2:
-                    // Missing value for third input
-                    [zeta2,c2,,k2] = inputValues;
-                    result = formulas[2].calculate(zeta2,c2,k2);
-                    break;
-                case 3:
-                    // Missing value for fourth input
-                    [zeta2,c2,m2,] = inputValues;
-                    result = formulas[3].calculate(zeta2,c2,m2);
-                    break;
-                default:
-                    result = 'Please leave one input empty to calculate the missing value.';
-                    break;
-            }
+        if(missingIndex >= 0 && missingIndex <= 4){
+            const arguments = inputValues.slice(0,missingIndex).concat(inputValues.slice(missingIndex+1));
+            result = formulas[missingIndex].calculate(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4]);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
         }
+
         let resultParagraph = calculatorDiv.querySelector('.result');
         
         if (!resultParagraph) {
