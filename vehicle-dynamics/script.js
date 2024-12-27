@@ -78,7 +78,7 @@ createCalculator('Slip Angle Calculator',
         { id: 'L', placeholder: 'Wheelbase (m)' },
         { id: 'T', placeholder: 'Track Width (m)' },
         { id: 'delta', placeholder: 'Steering Angle (rad)' },
-        { id: 'wf', placeholder: 'Weight Distribution Front (fraction)' }
+        { id: 'wf', placeholder: 'Weight Distribution Front (fraction) [0;1]' }
     ],
     null,
     '../assets/vehicle/slip_angle.gif');
