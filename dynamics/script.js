@@ -247,7 +247,7 @@ function generateFormulas(Pmax, denominator, factor, exp = 2, factor_division = 
         {
             displayName: 'Calculate Final Points from P team and P max',
             calculate: (tteam, tmax) => 
-                factor_division * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + (1 - factor_division) * Pmax
+                Math.max(factor_division * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + (1 - factor_division) * Pmax, 0)
         }
     ];
 }
@@ -280,7 +280,7 @@ const formulas_acceleration_dv = formulas_skidpad_dv
 createCalculator('Manual Skidpad',
     [
         { id: 'tteam', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'tmax', placeholder: 'T Best - Fastest manual mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_manual,
@@ -300,7 +300,7 @@ createCalculator('Driverless Skidpad',
 createCalculator('DC Skidpad',
     [
         { id: 'tteam1', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax1', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'tmax1', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints1', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_dc,
@@ -311,7 +311,7 @@ createCalculator('DC Skidpad',
 createCalculator('Manual Acceleration', 
     [
         { id: 'tteam2', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax2', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'tmax2', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints2', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_manual,
@@ -331,7 +331,7 @@ createCalculator('Driverless Acceleration',
 createCalculator('DC Acceleration', 
     [
         { id: 'tteam3', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax3', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'tmax3', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints3', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_dc,
@@ -369,7 +369,7 @@ const formulas_autocross_dc = [
 createCalculator('Manual Autocross', 
     [
         { id: 'tteam4', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax4', placeholder: 'T max - Fastest manual mode vehicle including penalties.' },
+        { id: 'tmax4', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints4', placeholder: 'Final Points (optional)' }
     ],
     formulas_autocross_manual,
@@ -393,7 +393,7 @@ const formulas_endurance = generateFormulas(250, 0.333, 1.333, 1, 0.9)
 createCalculator('Endurance', 
     [
         { id: 'tteam6', placeholder: 'T team - Team\'s corrected elapsed time' },
-        { id: 'tmax6', placeholder: 'T max - Team\'s corrected elapsed time' },
+        { id: 'tmax6', placeholder: 'T best - Team\'s corrected elapsed time (Without factor)' },
         { id: 'finalPoints6', placeholder: 'Final Points' }
     ],
     formulas_endurance,
@@ -476,7 +476,7 @@ const formulas_trackdrive = [
 createCalculator('Trackdrive', 
     [
         { id: 'tteam10', placeholder: 'T Team - Team\'s corrected elapsed time. Tteam is capped at Tmax' },
-        { id: 'tbest10', placeholder: 'T Best - Corrected elapsed time of the fastest vehicle. T max is 2 times T Best' },
+        { id: 'tbest10', placeholder: 'T Best - Corrected elapsed time of the fastest vehicle (Without factor). T max is 2 times T Best' },
         { id: 'score10', placeholder: 'Final Score' }
     ],
     formulas_trackdrive,
