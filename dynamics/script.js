@@ -346,13 +346,16 @@ const formulas_autocross_dc = [
     {
         displayName: 'Calculate t min',
         calculate: (tmax, tteam_total, finalPoints) => 
-            tmax - ((finalPoints - 10) * (tmax - tteam_total) / 90),
+            - ((tmax - tteam_total - tmax * ((finalPoints-10)/90))/((finalPoints-10)/90)),
     },
     {
         displayName: 'Calculate t max',
-        calculate: (tmin, tteam_total, finalPoints) => 
-            "Impossible to solve, any value of tmax would solve this equation",
-        
+        calculate: (tmin, tteam_total, finalPoints) => {
+            if (tmin === finalPoints) {
+                return "Impossible to solve tmin == tmax";
+            }
+            return (tteam_total - tmin * ((finalPoints - 10) / 90)) / ((90 - finalPoints + 10) / 90);
+        }
     },
     {
         displayName: 'Calculate t total',
@@ -362,7 +365,7 @@ const formulas_autocross_dc = [
     {
         displayName: 'Calculate Final Points',
         calculate: (tmin, tmax, tteam_total) => 
-            90 * (tmax - tteam_total) / (tmax - tmin) + 10,
+            Math.max(90 * (tmax - tteam_total) / (tmax - tmin) + 10, 0),
     }
 ];
 
