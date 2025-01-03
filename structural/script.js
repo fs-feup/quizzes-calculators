@@ -1311,7 +1311,7 @@ const formula_beam_deflection1 = [
     }
 ];
 
-createCalculator2('Beam Maximum Deflection (occurs at the middle)', 
+createCalculator2('Beam Maximum Deflection (2 Point Loads; occurs at the middle)', 
     [
         { id: 'delta_max', placeholder: 'Maximum Deflection (delta_max) [m]' },
         { id: 'P', placeholder: 'Applied Point Load on the Beam(P) [N]' },
