@@ -32,7 +32,13 @@ const sidebarData = {
         'Point Load Deflection',
         'UDL Reaction',
         'UDL Moment',
-        'UDL Deflection' 
+        'UDL Deflection',
+        'Beam Maximum Deflection (2 Point loads)',
+        'Beam Maximum Deflection (1 Point load)',
+        'Coordinate of Beam Maximum Deflection (x)',
+        'Maximum Moment (occurs at Point of Load)',
+        'Reaction Force at Suppport A',
+        'Reaction Force at Suppport B'
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
