@@ -758,11 +758,11 @@ const formula_media_parabola_area = [
     },
     {
         displayName: 'Calculate a',
-        calculate: (h, area) => (3 * area) / (2*h),
+        calculate: (area, h) => (3 * area) / (2*h),
     },
     {
         displayName: 'Calculate h',
-        calculate: (a, area) => (3 * area) / (2 * a),
+        calculate: (area, a) => (3 * area) / (2 * a),
     },
 ];
 
@@ -773,11 +773,11 @@ const formula_media_parabola_I_x_bar = [
     },
     {
         displayName: 'Calculate a',
-        calculate: (h, I_x_bar) => (175 * I_x_bar) / (8*h**3),
+        calculate: (I_x_bar, h) => (175 * I_x_bar) / (8*h**3),
     },
     {
         displayName: 'Calculate h',
-        calculate: (a, I_x_bar) => ((175 * I_x_bar) / (8 * a))**(1/3),
+        calculate: (I_x_bar, a) => ((175 * I_x_bar) / (8 * a))**(1/3),
     },
 ];
 
@@ -788,11 +788,11 @@ const formula_media_parabola_I_y_bar = [
     },
     {
         displayName: 'Calculate a',
-        calculate: (h, I_y_bar) => ((480 * I_y_bar) / (19*h))**(1/3),
+        calculate: (I_y_bar, h) => ((480 * I_y_bar) / (19*h))**(1/3),
     },
     {
         displayName: 'Calculate h',
-        calculate: (a, I_y_bar) => ((480 * I_y_bar) / (19 * a**3)),
+        calculate: (I_y_bar, a) => ((480 * I_y_bar) / (19 * a**3)),
     },
 ];
 
@@ -851,7 +851,7 @@ const formula_parabolic_section_I_x_bar = [
 const formula_parabolic_section_I_y_bar = [
     {
         displayName: 'Calculate I_ȳ',
-        calculate: (a, h) => a**3 / 80,
+        calculate: (a, h) => h * a**3 / 80,
     },
     {
         displayName: 'Calculate a',
@@ -872,6 +872,10 @@ const formula_general_section_x_bar = [
         displayName: 'Calculate a',
         calculate: (x_bar, n) => (x_bar * (n + 2)) / (n + 1),
     },
+    {
+        displayName: 'Calculate n',
+        calculate: (x_bar, a) => "Impossible to solve for n"
+    },
 ];
 
 const formula_general_section_y_bar = [
@@ -882,6 +886,10 @@ const formula_general_section_y_bar = [
     {
         displayName: 'Calculate h',
         calculate: (y_bar, n) => (y_bar * (4 * n + 2)) / (n + 1),
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (x_bar, a) => "Impossible to solve for n"
     },
 ];
 
@@ -898,6 +906,11 @@ const formula_general_section_area = [
         displayName: 'Calculate h',
         calculate: (area, a, n) => (area * (n + 1)) / a,
     },
+    {
+        displayName: 'Calculate n',
+        calculate: (area, a, h) => "Impossible to solve for n"
+    },
+    
 ];
 
 const formula_general_section_I_x_bar = [
@@ -913,6 +926,10 @@ const formula_general_section_I_x_bar = [
         displayName: 'Calculate h',
         calculate: (I_x_bar, a, n) => ((I_x_bar * 12 * (3 * n + 1) * (2 * n + 1)**2) / ((7 * n**2 + 4 * n + 1) * a)) ** (1/3),
     },
+    {
+        displayName: 'Calculate n',
+        calculate: (I_x_bar, a, h) => "Impossible to solve for n"
+    },
 ];
 
 const formula_general_section_I_y_bar = [
@@ -927,6 +944,10 @@ const formula_general_section_I_y_bar = [
     {
         displayName: 'Calculate h',
         calculate: (I_y_bar, a, n) => (I_y_bar * (n + 3) * (n + 2)**2) / a**3,
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (I_y_bar, a, h) => "Impossible to solve for n"
     },
 ];
 
