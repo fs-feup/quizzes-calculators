@@ -10,6 +10,12 @@ const sidebarData = {
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
     ],
+    "Accumulator": [
+        "Accumulator Calculator",
+    ],
+    "Computer Vision": [
+        "Camera Problem Calculator",
+    ],
     "Structural": [
         "Rectangle x bar",
         "Rectangle y bar",
@@ -61,7 +67,9 @@ const pageMap = {
     "Structural": "structural/structural.html",
     "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
     "Vibrations": "vibrations/vibrations.html",
-    "General Mechanics": "general_mechanics/mechanics.html"
+    "General Mechanics": "general_mechanics/mechanics.html",
+    "Accumulator": "accumulator/accumulator.html",
+    "Computer Vision": "computer_vision/computer_vision.html"
 };
 
 const sidebar = document.getElementById('sidebar');
