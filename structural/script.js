@@ -1621,3 +1621,582 @@ createCalculator('UDL Deflection',
     formula_udl_deflection,
     '../assets/structural/udl_deflection.png'
 );
+
+function createCalculator2(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+        
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, P, A, L, E, I] = inputValues; 
+            result = formulas[0].calculate(P, A, L, E, I);
+            console.log(result)
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [dMax, , A, L, E, I] = inputValues;
+            result = formulas[1].calculate(dMax, A, L, E, I);
+            console.log(result)
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [dMax, P, , L, E, I] = inputValues;
+            rightSide = -6.0 * E * I * dMax / P;
+            coeff = - 0.75 * L * L;
+            result = "Too hard to compute a. Possible solutions are the ones that satisfy: a^3 + " + coeff + "a = " + rightSide;
+            console.log(result)
+        } else if (missingIndex === 3) {
+            // Missing value for third input
+            const [dMax, P, A, , E, I] = inputValues;
+            result = formulas[2].calculate(dMax, P, A,  E, I);
+            console.log(result)
+        } else if (missingIndex === 4) {
+            // Missing value for third input
+            const [dMax, P, A, L, , I] = inputValues;
+            result = formulas[3].calculate(dMax, P, A, L, I);
+            console.log(result)
+        } else if (missingIndex === 5) {
+            // Missing value for third input
+            const [dMax, P, A, L, E, ] = inputValues;
+            result = formulas[4].calculate(dMax, P, A, L, E);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+        
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+    
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const formula_beam_deflection1 = [
+    {
+        displayName: 'Calculate delta_max',
+        calculate: (P, A, L, E, I) => (P * A * (3 * L**2 - 4 * A**2)) / (24 * E * I)
+    },
+    {
+        displayName: 'Calculate P',
+        calculate: (delta_max, A, L, E, I) => (delta_max * 24 * E * I) / (A * (3 * L**2 - 4 * A**2))
+    },
+    {
+        displayName: 'Calculate L',
+        calculate: (delta_max, P, A, E, I) => Math.sqrt(((delta_max * 24 * E * I / (P * A)) + 4 * A**2) / 3)
+    },
+    {
+        displayName: 'Calculate E',
+        calculate: (delta_max, P, A, L, I) => P*A*(3*L**2 - 4*A**2) / (delta_max * 24 * I)
+    },
+    {
+        displayName: 'Calculate I',
+        calculate: (delta_max, P, A, L, E) => P*A*(3*L**2 - 4*A**2) / (delta_max * 24 * E)
+    }
+];
+
+createCalculator2('Beam Maximum Deflection (2 Point Loads; occurs at the middle)', 
+    [
+        { id: 'delta_max', placeholder: 'Maximum Deflection (delta_max) [m]' },
+        { id: 'P', placeholder: 'Applied Point Load on the Beam(P) [N]' },
+        { id: 'a', placeholder: 'Distance from point load to nearest support (a) [m]' },
+        { id: 'L', placeholder: 'Length of beam (L) [m]' },
+        { id: 'E', placeholder: 'Modulus of Elasticity (E) [N/m^2]' },
+        { id: 'I', placeholder: 'Moment of Inertia (I) [kg.m^2]' }
+    ],
+    formula_beam_deflection1,
+    '../assets/structural/beam_deflection.png'
+);
+
+
+function createCalculator3(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+        
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, P, A, B, L, E, I] = inputValues; 
+            result = formulas[0].calculate(P, A, B, L, E, I);
+            console.log(result)
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [dMax, , A, B, L, E, I] = inputValues;
+            result = formulas[1].calculate(dMax, A, B, L, E, I);
+            console.log(result)
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [dMax, P, , B, L, E, I] = inputValues;
+            rightSide = 1
+            coeff = 1
+            result = "Too hard to compute A";
+            console.log(result)
+        } else if (missingIndex === 3) {
+            // Missing value for third input
+            const [dMax, P, A, , L, E, I] = inputValues;
+            result = "Too hard to compute B";
+            console.log(result)
+        } else if (missingIndex === 4) {
+            // Missing value for third input
+            const [dMax, P, A, B, , E, I] = inputValues;
+            result = formulas[2].calculate(dMax, P, A, B, E, I);
+            console.log(result)
+        } else if (missingIndex === 5) {
+            // Missing value for third input
+            const [dMax, P, A, B, L, , I] = inputValues;
+            result = formulas[3].calculate(dMax, P, A, B, L, I);
+            console.log(result)
+        }  else if (missingIndex === 6) {
+            // Missing value for third input
+            const [dMax, P, A, B, L, E, ] = inputValues;
+            result = formulas[4].calculate(dMax, P, A, B, L, E);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+        
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+    
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const formula_beam_deflection3 = [
+    {
+        displayName: 'Calculate delta_max',
+        calculate: (P, A, B, L, E, I) => P * A * B * (A + 2* B) * Math.sqrt(3 * A * (A + 2 * B)) / (27 * L *E * I)
+    },
+    {
+        displayName: 'Calculate P',
+        calculate: (delta_max, A, B, L, E, I) => (delta_max * 27 * L * E * I) / (A * B * (A + 2 * B) * Math.sqrt(3 * A * (A + 2 * B)))
+    },
+    {
+        displayName: 'Calculate L',
+        calculate: (delta_max, P, A, B, E, I) => P * A * B * (A + 2* B) * Math.sqrt(3 * A * (A + 2 * B)) / (27 * delta_max *E * I)
+    },
+    {
+        displayName: 'Calculate E',
+        calculate: (delta_max, P, A, B, L, I) => P * A * B * (A + 2* B) * Math.sqrt(3 * A * (A + 2 * B)) / (27 * delta_max * L * I)
+    },
+    {
+        displayName: 'Calculate I',
+        calculate: (delta_max, P, A, B, L, E) => P * A * B * (A + 2* B) * Math.sqrt(3 * A * (A + 2 * B)) / (27 * delta_max *E * L)
+    }
+];
+
+createCalculator3('Beam Maximum Deflection (occurs at x)', 
+    [
+        { id: 'delta_max2', placeholder: 'Maximum Deflection (delta_max) [m]' },
+        { id: 'P2', placeholder: 'Applied Point Load on the Beam(P) [N]' },
+        { id: 'a2', placeholder: 'Distance from point load to support A (a) [m]' },
+        { id: 'b2', placeholder: 'Distance from point load to support B (b) [m]'},
+        { id: 'L2', placeholder: 'Length of beam (L) [m]' },
+        { id: 'E2', placeholder: 'Modulus of Elasticity (E) [N/m^2]' },
+        { id: 'I2', placeholder: 'Moment of Inertia (I) [kg.m^2]' }
+    ],
+    formula_beam_deflection3,
+    '../assets/structural/beam_deflections.png'
+);
+
+function createCalculator4(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+        
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, a, b] = inputValues; 
+            result = formulas[0].calculate(a,b);
+            console.log(result)
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [x,,b] = inputValues;
+            result = formulas[1].calculate(x,b);
+            console.log(result)
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [x,a,] = inputValues;
+            result = formulas[2].calculate(x,a);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+        
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+    
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const formula_beam_deflection4 = [
+    {
+        displayName: 'Calculate x',
+        calculate: (a,b) => Math.sqrt(a * (a + 2 * b) / 3)
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (x,b) => (- 2 * b + Math.sqrt(4 * b * b + 12 * x * x)) / (2)
+    },
+    {
+        displayName: 'Calculate b',
+        calculate: (x,a) => (x * x * 3  - a * a ) / (2 * a)
+    }
+];
+
+createCalculator4('Coordinate of Beam Maximum Deflection (x)', 
+    [
+        { id: 'x4', placeholder: 'Coordinate of Maximum Deflection (x) [m]' },
+        { id: 'a4', placeholder: 'Distance from support A to point load (a) [m]' },
+        { id: 'b4', placeholder: 'Distance from support B to point load (b) [m]' }
+    ],
+    formula_beam_deflection4,
+    '../assets/structural/beam_deflections.png'
+);
+
+function createCalculator5(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+        
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, P, A, B, L] = inputValues; 
+            result = formulas[0].calculate(P, A, B, L);
+            console.log(result)
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [m_max, , A, B, L] = inputValues;
+            result = formulas[1].calculate(m_max, A, B, L);
+            console.log(result)
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [m_max, P , , B, L] = inputValues;
+            result = formulas[2].calculate(m_max, P, B, L);
+            console.log(result)
+        } else if (missingIndex === 3) {
+            // Missing value for third input
+            const [m_max, P , A, , L] = inputValues;
+            result = formulas[3].calculate(m_max, P, A, L);
+            console.log(result)
+        } else if (missingIndex === 4) {
+            // Missing value for third input
+            const [m_max, P , A, B ,] = inputValues;
+            result = formulas[4].calculate(m_max, P, A, B);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+        
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+    
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const formula_beam_deflection5 = [
+    {
+        displayName: 'm_max',
+        calculate: (P, A, B, L) => P * A * B / L
+    },
+    {
+        displayName: 'Calculate P',
+        calculate: (m_max, A, B, L) => m_max * L / (A * B)
+    },
+    {
+        displayName: 'Calculate A',
+        calculate: (m_max, P, B, L) => m_max * L / (P * B)
+    },
+    {
+        displayName: 'Calculate B',
+        calculate: (m_max, P, A, L) => m_max * L / (P * A)
+    },
+    {
+        displayName: 'Calculate L',
+        calculate: (m_max, P, A, B) => P * A * B / m_max
+    }
+];
+
+createCalculator5('Maximum Moment (occurs at Point of Load)', 
+    [
+        { id: 'm_max5', placeholder: 'Maximum Deflection (Mmax) [m]' },
+        { id: 'P5', placeholder: 'Applied Point Load on the Beam(P) [N]' },
+        { id: 'a5', placeholder: 'Distance from point load to support A (a) [m]' },
+        { id: 'b5', placeholder: 'Distance from point load to support B (b) [m]'},
+        { id: 'L5', placeholder: 'Length of beam (L) [m]' }
+    ],
+    formula_beam_deflection5,
+    '../assets/structural/beam_max_moment.png'
+);
+
+function createCalculator6(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+        
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, P, A, L] = inputValues; 
+            result = formulas[0].calculate(P, A, L);
+            console.log(result)
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [R, , A, L] = inputValues;
+            result = formulas[1].calculate(R, A, L);
+            console.log(result)
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [R, P , , L] = inputValues;
+            result = formulas[2].calculate(R, P, L);
+            console.log(result)
+        } else if (missingIndex === 3) {
+            // Missing value for third input
+            const [R, P , A, ] = inputValues;
+            result = formulas[3].calculate(R, P, A);
+            console.log(result)
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+        
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+    
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
+const formula_beam_deflection6 = [
+    {
+        displayName: 'R',
+        calculate: (P, A, L) => P * A / L
+    },
+    {
+        displayName: 'P',
+        calculate: (R, A, L) => R * L / A
+    },
+    {
+        displayName: 'Calculate A',
+        calculate: (R, P, L) => R * L / P 
+    },
+    {
+        displayName: 'Calculate L',
+        calculate: (R, P, A) => P * A / R
+    }
+];
+
+createCalculator6('Reaction Force at Suppport A', 
+    [
+        { id: 'R6', placeholder: 'Reaction at support A [N]' },
+        { id: 'P6', placeholder: 'Applied Point Load on the Beam(P) [N]' },
+        { id: 'a6', placeholder: 'Distance from point load to support B (b) [m]' },
+        { id: 'L6', placeholder: 'Length of beam (L) [m]' }
+    ],
+    formula_beam_deflection6,
+    '../assets/structural/beam_reactions.png'
+);
+
+createCalculator6('Reaction Force at Suppport B', 
+    [
+        { id: 'R7', placeholder: 'Reaction at support B [N]' },
+        { id: 'P7', placeholder: 'Applied Point Load on the Beam(P) [N]' },
+        { id: 'b7', placeholder: 'Distance from point load to support A (a) [m]' },
+        { id: 'L7', placeholder: 'Length of beam (L) [m]' }
+    ],
+    formula_beam_deflection6,
+    '../assets/structural/beam_reactions.png'
+);
