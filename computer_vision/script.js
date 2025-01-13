@@ -168,7 +168,10 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             inputCameraCoordinatesX.style.color = 'blue';
             inputCameraCoordinatesY.style.color = 'blue';
             inputCameraCoordinatesZ.style.color = 'blue';
-        } else if (JSON.stringify(missingIndexes) === JSON.stringify(distanceMissing)) {
+        } else if (missingIndexes.includes(12) && !missingIndexes.includes(0)
+            && !missingIndexes.includes(1) && !missingIndexes.includes(2)
+            && !missingIndexes.includes(13) && !missingIndexes.includes(14) 
+            && !missingIndexes.includes(15)) { // I know, shitty code, means object and camera coordinates exist and distance not
             result = formulas[2].calculate(...inputValues);
             result = Math.round((result + Number.EPSILON) * 1000000) / 1000000;
             const input = calculatorDiv.querySelector(`#distance`);
@@ -246,20 +249,8 @@ const formulas = [
         calculate: (cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ, 
             pixelCoordinatesU, pixelCoordinatesV, principalPointCoordinatesCx, principalPointCoordinatesCy,
             roll, pitch, yaw, focalLengthX, focalLengthY, distance, x, y, z) => {
-                const rot = createRotationMatrix(roll, pitch, yaw); // Rotation matrix
-                const trans = [cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ]; // Initial coordinates
-                const objectPosition = [x, y, z]; // Final coordinates
                 
-                const v_x = (pixelCoordinatesU - principalPointCoordinatesCx) / focalLengthX;
-                const v_y = (pixelCoordinatesV - principalPointCoordinatesCy) / focalLengthY;
-                const v_z = 1;
-                const v = [v_x, v_y, v_z]; // Pixel coordinates of the object center in the frame
-                const vNorm = norm(v);
-
-                const tmp2 = objectPosition.map((val, index) => val - trans[index]);
-
-                const tmp = multiplyMatrices(inverseMatrix(rot), [[tmp2[0]], [tmp2[1]], [tmp2[2]]]);
-                const res = tmp[0] / v.map(val => (val / vNorm))[0]; // Distance between camera and object
+                const res = Math.sqrt((x - cameraCoordinatesX) ** 2 + (y - cameraCoordinatesY) ** 2 + (z - cameraCoordinatesZ) ** 2);
                 return res;
             }
     }
@@ -270,8 +261,8 @@ createCalculator('Camera Problem Calculator',
         { id: 'cameraCoordinatesX', placeholder: 'x - Camera Coordinates Relative to the car (m)' },
         { id: 'cameraCoordinatesY', placeholder: 'y - Camera Coordinates Relative to the car (m)' },
         { id: 'cameraCoordinatesZ', placeholder: 'z - Camera Coordinates Relative to the car (m)' },
-        { id: 'pixelCoordinatesU', placeholder: "u - Object center's coordinates in the fram (pixels)" },
-        { id: 'pixelCoordinatesV', placeholder: "v - Object center's coordinates in the fram (pixels)" },
+        { id: 'pixelCoordinatesU', placeholder: "u - Object center's coordinates in the frame (pixels)" },
+        { id: 'pixelCoordinatesV', placeholder: "v - Object center's coordinates in the frame (pixels)" },
         { id: 'principalPointCoordinatesCx', placeholder: 'cx - Principal point coordinates (pixels)' },
         { id: 'principalPointCoordinatesCy', placeholder: 'cy - Principal point coordinates (pixels)' },
         { id: 'roll', placeholder: 'roll - Euler angles of the camera (degrees)' },
