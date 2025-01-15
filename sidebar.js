@@ -5,7 +5,13 @@ const sidebarData = {
         "DC Skidpad",
         "Manual Acceleration",
         "Driverless Acceleration",
-        "DC Acceleration"
+        "DC Acceleration",
+        "Manual Autocross",
+        "DC Autocross",
+        "Endurance",
+        "Efficiency",
+        "Efficiency Factor",
+        "Trackdrive"
     ],
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
@@ -58,20 +64,49 @@ const sidebarData = {
         "Elastic Potential Energy",
         "Work from Non-Conservative Forces",
         "Kinetic Energy"
+    ],
+    "Accumulator Segments": [
+        "Accumulator Segments"
+    ],
+    "Thermodynamics": [
+        "Termodynamics Calculator"
+    ],
+    "Vehicle Dynamics": [
+        "Slip Angle Calculator"
     ]
 };
 
 const pageMap = {
-    "Dynamics": "dynamics/dynamics.html",
-    "Statics": "statics/statics.html",
-    "Structural": "structural/structural.html",
-    "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
-    "Vibrations": "vibrations/vibrations.html",
-    "General Mechanics": "general_mechanics/mechanics.html",
-    "Accumulator": "accumulator/accumulator.html",
+    "Dynamics": "/dynamics/dynamics.html",
+    "Statics": "/statics/statics.html",
+    "Structural": "/structural/structural.html",
+    "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "/vibrations/vibrations.html",
+    "General Mechanics": "/general_mechanics/mechanics.html",
+    "Accumulator Segments": "/accumulator/accumulator.html",
+    "Thermodynamics": "/thermodynamics/thermodynamics.html",
+    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html"
     "Computer Vision": "computer_vision/computer_vision.html"
 };
 
+const pageMap1 = {
+    "Dynamics": "../dynamics/dynamics.html",
+    "Statics": "../statics/statics.html",
+    "Structural": "../structural/structural.html",
+    "Fluid and Aero Dynamics": "../fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "../vibrations/vibrations.html",
+    "General Mechanics": "../general_mechanics/mechanics.html",
+    "Accumulator Segments": "../accumulator/accumulator.html",
+    "Thermodynamics": "../thermodynamics/thermodynamics.html",
+    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html"
+    "Computer Vision": "../computer_vision/computer_vision.html"
+};
+
+// Determine which map to use based on the current path
+const currentPath = window.location.pathname;
+const selectedPageMap = currentPath === "/index.html" || currentPath === "/index" ? pageMap : pageMap1;
+
+// Populate the sidebar
 const sidebar = document.getElementById('sidebar');
 
 for (const category in sidebarData) {
@@ -79,9 +114,12 @@ for (const category in sidebarData) {
     categoryDiv.className = 'category';
     const categoryTitle = document.createElement('h2');
     categoryTitle.innerText = category;
+
+    // Use the selected page map
     categoryTitle.addEventListener('click', () => {
-        window.location.href = pageMap[category];
+        window.location.href = selectedPageMap[category];
     });
+
     categoryDiv.appendChild(categoryTitle);
 
     const calculatorsList = document.createElement('ul');
