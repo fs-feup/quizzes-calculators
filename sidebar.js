@@ -16,6 +16,12 @@ const sidebarData = {
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
     ],
+    "Accumulator": [
+        "Accumulator Calculator",
+    ],
+    "Computer Vision": [
+        "Camera Problem Calculator",
+    ],
     "Structural": [
         "Rectangle x bar",
         "Rectangle y bar",
@@ -79,7 +85,8 @@ const pageMap = {
     "General Mechanics": "/general_mechanics/mechanics.html",
     "Accumulator Segments": "/accumulator/accumulator.html",
     "Thermodynamics": "/thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html"
+    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html",
+    "Computer Vision": "computer_vision/computer_vision.html"
 };
 
 const pageMap1 = {
@@ -91,7 +98,8 @@ const pageMap1 = {
     "General Mechanics": "../general_mechanics/mechanics.html",
     "Accumulator Segments": "../accumulator/accumulator.html",
     "Thermodynamics": "../thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html"
+    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html",
+    "Computer Vision": "../computer_vision/computer_vision.html"
 };
 
 // Determine which map to use based on the current path
