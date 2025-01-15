@@ -85,7 +85,7 @@ const pageMap = {
     "General Mechanics": "/general_mechanics/mechanics.html",
     "Accumulator Segments": "/accumulator/accumulator.html",
     "Thermodynamics": "/thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html"
+    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html"
 };
 
@@ -98,7 +98,7 @@ const pageMap1 = {
     "General Mechanics": "../general_mechanics/mechanics.html",
     "Accumulator Segments": "../accumulator/accumulator.html",
     "Thermodynamics": "../thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html"
+    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "../computer_vision/computer_vision.html"
 };
 
