@@ -5,10 +5,22 @@ const sidebarData = {
         "DC Skidpad",
         "Manual Acceleration",
         "Driverless Acceleration",
-        "DC Acceleration"
+        "DC Acceleration",
+        "Manual Autocross",
+        "DC Autocross",
+        "Endurance",
+        "Efficiency",
+        "Efficiency Factor",
+        "Trackdrive"
     ],
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
+    ],
+    "Accumulator": [
+        "Accumulator Calculator",
+    ],
+    "Computer Vision": [
+        "Camera Problem Calculator",
     ],
     "Structural": [
         "Rectangle x bar",
@@ -24,7 +36,15 @@ const sidebarData = {
         "Circle y bar",
         "Circle area with radius",
         "Circle I x bar",
-        "Circle I y bar"
+        "Circle I y bar",
+        'Young modulus (elasticity) formula',
+        'Young modulus (elasticity) alternative formula',
+        'Point load Reaction',
+        'Point Load Moment',
+        'Point Load Deflection',
+        'UDL Reaction',
+        'UDL Moment',
+        'UDL Deflection' 
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
@@ -38,10 +58,22 @@ const sidebarData = {
     "General Mechanics": [
         "Velocity Equation",
         "Positions Equation",
-        "Velocity from Positions Equation"
+        "Velocity from Positions Equation",
+        "Work and Energy Theorem",
+        "Gravitational Potential Energy",
+        "Elastic Potential Energy",
+        "Work from Non-Conservative Forces",
+        "Kinetic Energy"
+    ],
+    "Accumulator Segments": [
+        "Accumulator Segments"
+    ],
+    "Thermodynamics": [
+        "Termodynamics Calculator"
     ],
     "Vehicle Dynamics": [
-        "Curving Problem"
+        "Curving Problem",
+        "Slip Angle Calculator"
     ]
 };
 
@@ -52,9 +84,30 @@ const pageMap = {
     "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
     "Vibrations": "/vibrations/vibrations.html",
     "General Mechanics": "/general_mechanics/mechanics.html",
-    "Vehicle Dynamics": "/vehicle_dynamics/vehicle-dynamics.html"
+    "Accumulator Segments": "/accumulator/accumulator.html",
+    "Thermodynamics": "/thermodynamics/thermodynamics.html",
+    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html",
+    "Computer Vision": "computer_vision/computer_vision.html"
 };
 
+const pageMap1 = {
+    "Dynamics": "../dynamics/dynamics.html",
+    "Statics": "../statics/statics.html",
+    "Structural": "../structural/structural.html",
+    "Fluid and Aero Dynamics": "../fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "../vibrations/vibrations.html",
+    "General Mechanics": "../general_mechanics/mechanics.html",
+    "Accumulator Segments": "../accumulator/accumulator.html",
+    "Thermodynamics": "../thermodynamics/thermodynamics.html",
+    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html",
+    "Computer Vision": "../computer_vision/computer_vision.html"
+};
+
+// Determine which map to use based on the current path
+const currentPath = window.location.pathname;
+const selectedPageMap = currentPath === "/index.html" || currentPath === "/index" ? pageMap : pageMap1;
+
+// Populate the sidebar
 const sidebar = document.getElementById('sidebar');
 
 for (const category in sidebarData) {
@@ -62,9 +115,12 @@ for (const category in sidebarData) {
     categoryDiv.className = 'category';
     const categoryTitle = document.createElement('h2');
     categoryTitle.innerText = category;
+
+    // Use the selected page map
     categoryTitle.addEventListener('click', () => {
-        window.location.href = pageMap[category];
+        window.location.href = selectedPageMap[category];
     });
+
     categoryDiv.appendChild(categoryTitle);
 
     const calculatorsList = document.createElement('ul');

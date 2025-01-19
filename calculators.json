@@ -5,7 +5,13 @@
         "DC Skidpad",
         "Manual Acceleration",
         "Driverless Acceleration",
-        "DC Acceleration"
+        "DC Acceleration",
+        "Manual Autocross",
+        "DC Autocross",
+        "Endurance",
+        "Efficiency",
+        "Efficiency Factor",
+        "Trackdrive"
     ],
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
@@ -38,7 +44,12 @@
     "General Mechanics": [
         "Velocity Equation",
         "Positions Equation",
-        "Velocity from Positions Equation"
+        "Velocity from Positions Equation",
+        "Work and Energy Theorem",
+        "Gravitational Potential Energy",
+        "Elastic Potential Energy",
+        "Work from Non-Conservative Forces",
+        "Kinetic Energy"
     ],
     "Vehicle Dynamics": [
         "Curving Problem"

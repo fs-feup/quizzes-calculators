@@ -34,20 +34,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
         
         let result;
-        if (missingIndex === 0) {
-            // Missing value for first input
-            const [ , pmax, final] = inputValues; // Skip the first value
-            result = formulas[0].calculate(pmax, final);
-            console.log(result)
-        } else if (missingIndex === 1) {
-            // Missing value for second input
-            const [pteam, , final] = inputValues; // Skip the second value
-            result = formulas[1].calculate(pteam, final);
-            console.log(result)
-        } else if (missingIndex === 2) {
-            // Missing value for third input
-            const [tteam, tmax] = inputValues.slice(0, 2); // Use only the first two values
-            result = formulas[2].calculate(tteam, tmax);
+        if(missingIndex >= 0 && missingIndex <= 4){
+            const arguments = inputValues.slice(0,missingIndex).concat(inputValues.slice(missingIndex+1));
+            result = formulas[missingIndex].calculate(arguments[0],arguments[1],arguments[2],arguments[3],arguments[4]);
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
@@ -299,6 +288,157 @@ const formula_circle_I_y_bar = [
         calculate: (cir_I_y_bar) => (4 * cir_I_y_bar / Math.PI)**(1/4)
     },
 ];
+
+const formula_young_modulus = [
+    {
+        displayName: 'Calculate young modulus',
+        calculate: (stress,strain) => stress/strain
+    },
+    {
+        displayName: 'Calculate stress',
+        calculate: (young,strain) => young*strain
+    },
+    {
+        displayName: 'Calculate strain',
+        calculate: (young,stress) => stress/young
+    },
+]
+
+const formula_young_modulus_alternative = [
+    {
+        displayName: 'Calculate modulus of elasticity (E)',
+        calculate: (force, area, deltaL, length) => (force / area) / (deltaL / length)
+    },
+    {
+        displayName: 'Calculate force (F)',
+        calculate: (modulus, area, deltaL, length) => modulus * (deltaL / length) * area
+    },
+    {
+        displayName: 'Calculate area (A)',
+        calculate: (modulus, force, deltaL, length) => force / (modulus * (deltaL / length))
+    },
+    {
+        displayName: 'Calculate change in length (ΔL)',
+        calculate: (modulus, force, area, length) => (force / area) / (modulus / length)
+    },
+    {
+        displayName: 'Calculate original length (L)',
+        calculate: (modulus, force, area, deltaL) => modulus * deltaL / (force / area)
+    }
+]
+
+const formula_point_load_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (load) => load / 2,
+    },
+    {
+        displayName: 'Calculate Load (P) from Reaction Force',
+        calculate: (reaction) => reaction * 2,
+    }
+]
+
+const formula_point_load_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (load, length) => (load * length) / 4,
+    },
+    {
+        displayName: 'Calculate Load (P) from Moment',
+        calculate: (moment, length) => (moment * 4) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, load) => (moment * 4) / load,
+    }
+]
+
+const formula_point_load_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (load, length, youngModulus, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (P)',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 48 * youngModulus * momentOfInertia) / Math.pow(length, 3),
+    },
+    {
+        displayName: 'Calculate Length (L)',
+        calculate: (deflection, load, youngModulus, momentOfInertia) =>
+            Math.cbrt((deflection * 48 * youngModulus * momentOfInertia) / load),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E)',
+        calculate: (deflection, load, length, momentOfInertia) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I)',
+        calculate: (deflection, load, length, youngModulus) =>
+            (load * Math.pow(length, 3)) / (48 * deflection * youngModulus),
+    }
+];
+
+const formula_udl_reaction = [
+    {
+        displayName: 'Calculate Reaction Force (R_A or R_B)',
+        calculate: (uniformLoad, length) => (uniformLoad * length) / 2,
+    },
+    {
+        displayName: 'Calculate Load (w) from Reaction Force',
+        calculate: (reaction, length) => (reaction * 2) / length,
+    },
+    {
+        displayName: 'Calculate Length (L) from Reaction Force',
+        calculate: (reaction, uniformLoad) => (reaction * 2) / uniformLoad,
+    }
+];
+
+const formula_udl_moment = [
+    {
+        displayName: 'Calculate Maximum Moment (M_max)',
+        calculate: (uniformLoad, length) => (uniformLoad * Math.pow(length, 2)) / 8,
+    },
+    {
+        displayName: 'Calculate Load (w) from Moment',
+        calculate: (moment, length) => (moment * 8) / Math.pow(length, 2),
+    },
+    {
+        displayName: 'Calculate Length (L) from Moment',
+        calculate: (moment, uniformLoad) => Math.sqrt((moment * 8) / uniformLoad),
+    }
+];
+
+const formula_udl_deflection = [
+    {
+        displayName: 'Calculate Maximum Deflection (Δ_max)',
+        calculate: (uniformLoad, length, youngModulus, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * youngModulus * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Load (w) from Deflection',
+        calculate: (deflection, length, youngModulus, momentOfInertia) =>
+            (deflection * 384 * youngModulus * momentOfInertia) / (5 * Math.pow(length, 4)),
+    },
+    {
+        displayName: 'Calculate Length (L) from Deflection',
+        calculate: (deflection, uniformLoad, youngModulus, momentOfInertia) =>
+            Math.pow((deflection * 384 * youngModulus * momentOfInertia) / (5 * uniformLoad), 1 / 4),
+    },
+    {
+        displayName: 'Calculate Young’s Modulus (E) from Deflection',
+        calculate: (deflection, uniformLoad, length, momentOfInertia) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * momentOfInertia),
+    },
+    {
+        displayName: 'Calculate Moment of Inertia (I) from Deflection',
+        calculate: (deflection, uniformLoad, length, youngModulus) =>
+            (5 * uniformLoad * Math.pow(length, 4)) / (384 * deflection * youngModulus),
+    }
+];
+
 
 const formula_half_circle_x_bar = [
     {
@@ -586,6 +726,258 @@ const formula_parabola_I_y_bar = [
     {
         displayName: 'Calculate h',
         calculate: (para_I_y_bar, para_a2) => (15*para_I_y_bar / (4*para_a2**3))
+    },
+];
+
+const formula_media_parabola_x_bar = [
+    {
+        displayName: 'Calculate x_bar',
+        calculate: (a) => (3 * a) / 8,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (x_bar) => (8 * x_bar) / 3,
+    },
+];
+
+const formula_media_parabola_y_bar = [
+    {
+        displayName: 'Calculate y_bar',
+        calculate: (h) => (3 * h) / 5,
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (y_bar) => (5 * y_bar) / 3,
+    },
+];
+
+const formula_media_parabola_area = [
+    {
+        displayName: 'Calculate area',
+        calculate: (a,h) => (2 * a * h) / 3,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (area, h) => (3 * area) / (2*h),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (area, a) => (3 * area) / (2 * a),
+    },
+];
+
+const formula_media_parabola_I_x_bar = [
+    {
+        displayName: 'Calculate I x bar',
+        calculate: (a,h) => (8 * a * h**3) / 175,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_x_bar, h) => (175 * I_x_bar) / (8*h**3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_x_bar, a) => ((175 * I_x_bar) / (8 * a))**(1/3),
+    },
+];
+
+const formula_media_parabola_I_y_bar = [
+    {
+        displayName: 'Calculate I y bar',
+        calculate: (a,h) => (19 * h * a**3) / 480,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_y_bar, h) => ((480 * I_y_bar) / (19*h))**(1/3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_y_bar, a) => ((480 * I_y_bar) / (19 * a**3)),
+    },
+];
+
+const formula_parabolic_section_x_bar = [
+    {
+        displayName: 'Calculate x̄',
+        calculate: (a) => (3 * a) / 4,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (x_bar) => (4 * x_bar) / 3,
+    },
+];
+
+const formula_parabolic_section_y_bar = [
+    {
+        displayName: 'Calculate ȳ',
+        calculate: (h) => (3 * h) / 10,
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (y_bar) => (10 * y_bar) / 3,
+    },
+];
+
+const formula_parabolic_section_area = [
+    {
+        displayName: 'Calculate Area (A)',
+        calculate: (a, h) => (a * h) / 3,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (area, h) => (3 * area) / h,
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (area, a) => (3 * area) / a,
+    },
+];
+
+const formula_parabolic_section_I_x_bar = [
+    {
+        displayName: 'Calculate I_x̄',
+        calculate: (a, h) => (37 * a * h**3) / 2100,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_x_bar, h) => (2100 * I_x_bar) / (37 * h**3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_x_bar, a) => ((2100 * I_x_bar) / (37 * a))**(1 / 3),
+    },
+];
+
+const formula_parabolic_section_I_y_bar = [
+    {
+        displayName: 'Calculate I_ȳ',
+        calculate: (a, h) => h * a**3 / 80,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_y_bar, h) => ((80 * I_y_bar) / h)**(1/3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_y_bar, a) => (80 * I_y_bar) / a**3,
+    },
+];
+
+const formula_general_section_x_bar = [
+    {
+        displayName: 'Calculate x̄',
+        calculate: (a, n) => ((n + 1) / (n + 2)) * a,
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (x_bar, n) => (x_bar * (n + 2)) / (n + 1),
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (x_bar, a) => "Impossible to solve for n"
+    },
+];
+
+const formula_general_section_y_bar = [
+    {
+        displayName: 'Calculate ȳ',
+        calculate: (h, n) => ((n + 1) / (4 * n + 2)) * h,
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (y_bar, n) => (y_bar * (4 * n + 2)) / (n + 1),
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (x_bar, a) => "Impossible to solve for n"
+    },
+];
+
+const formula_general_section_area = [
+    {
+        displayName: 'Calculate Area (A)',
+        calculate: (a, h, n) => (a * h) / (n + 1),
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (area, h, n) => (area * (n + 1)) / h,
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (area, a, n) => (area * (n + 1)) / a,
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (area, a, h) => "Impossible to solve for n"
+    },
+    
+];
+
+const formula_general_section_I_x_bar = [
+    {
+        displayName: 'Calculate I_x̄',
+        calculate: (a, h, n) => ((7 * n**2 + 4 * n + 1) * a * h**3) / (12 * (3 * n + 1) * (2 * n + 1)**2),
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_x_bar, h, n) => (I_x_bar * 12 * (3 * n + 1) * (2 * n + 1)**2) / ((7 * n**2 + 4 * n + 1) * h**3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_x_bar, a, n) => ((I_x_bar * 12 * (3 * n + 1) * (2 * n + 1)**2) / ((7 * n**2 + 4 * n + 1) * a)) ** (1/3),
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (I_x_bar, a, h) => "Impossible to solve for n"
+    },
+];
+
+const formula_general_section_I_y_bar = [
+    {
+        displayName: 'Calculate I_ȳ',
+        calculate: (a, h, n) => (h * a**3) / ((n + 3) * (n + 2)**2),
+    },
+    {
+        displayName: 'Calculate a',
+        calculate: (I_y_bar, h, n) => ((I_y_bar * (n + 3) * (n + 2)**2) / h) ** (1/3),
+    },
+    {
+        displayName: 'Calculate h',
+        calculate: (I_y_bar, a, n) => (I_y_bar * (n + 3) * (n + 2)**2) / a**3,
+    },
+    {
+        displayName: 'Calculate n',
+        calculate: (I_y_bar, a, h) => "Impossible to solve for n"
+    },
+];
+
+const formula_cylindrical_I = [
+    {
+        displayName: 'Calculate I',
+        calculate: (D, d) => (Math.PI / 64) * ((D**4) - (d**4)),
+    },
+    {
+        displayName: 'Calculate D',
+        calculate: (I, d) => ((d**4) + (64 * I / Math.PI))**(1/4),
+    },
+    {
+        displayName: 'Calculate d',
+        calculate: (I, D) => ((D**4) - (64 * I / Math.PI))**(1/4),
+    },
+];
+
+const formula_cylindrical_I_2 = [
+    {
+        displayName: 'Calculate I',
+        calculate: (r_outer, r_inner) => (Math.PI / 4) * ((r_outer**4) - (r_inner**4)),
+    },
+    {
+        displayName: 'Calculate r_outer',
+        calculate: (I, r_inner) => ((4*I) / Math.PI + (r_inner**4))**(1/4),
+    },
+    {
+        displayName: 'Calculate r_inner',
+        calculate: (I, r_outer) => ((r_outer**4) - ((4 * I) / Math.PI))**(1/4),
     },
 ];
 
@@ -975,3 +1367,257 @@ createCalculator('Parabola I y bar',
     formula_parabola_I_y_bar,
     '../assets/structural/parabola_I_y_bar.png'
 )
+
+createCalculator('Media Parabola x bar',
+    [
+        { id: 'med_par_x_bar', placeholder: 'x bar' },
+        { id: 'med_par_a', placeholder: 'a' }
+    ],
+    formula_media_parabola_x_bar,
+    '../assets/structural/media_parabola.png'
+);
+
+createCalculator('Media Parabola y bar',
+    [
+        { id: 'med_par_y_bar', placeholder: 'y bar' },
+        { id: 'med_par_h', placeholder: 'h' }
+    ],
+    formula_media_parabola_y_bar,
+    '../assets/structural/media_parabola.png'
+);
+
+createCalculator('Media Parabola area',
+    [
+        { id: 'med_par_area', placeholder: 'area' },
+        { id: 'med_par_a2', placeholder: 'a' },
+        { id: 'med_par_h2', placeholder: 'h' }
+    ],
+    formula_media_parabola_area,
+    '../assets/structural/media_parabola.png'
+);
+
+createCalculator('Media Parabola I x bar',
+    [
+        { id: 'med_par_I_x_bar', placeholder: 'I x bar' },
+        { id: 'med_par_a3', placeholder: 'a' },
+        { id: 'med_par_h3', placeholder: 'h' }
+    ],
+    formula_media_parabola_I_x_bar,
+    '../assets/structural/media_parabola.png'
+);
+
+createCalculator('Media Parabola I y bar',
+    [
+        { id: 'med_par_I_y_bar', placeholder: 'I y bar' },
+        { id: 'med_par_a4', placeholder: 'a' },
+        { id: 'med_par_h4', placeholder: 'h' }
+    ],
+    formula_media_parabola_I_y_bar,
+    '../assets/structural/media_parabola.png'
+);
+
+createCalculator('Extrato parabolico x bar',
+    [
+        { id: 'para_sec_x_bar', placeholder: 'x bar' },
+        { id: 'para_sec_a', placeholder: 'a' }
+    ],
+    formula_parabolic_section_x_bar,
+    '../assets/structural/extrato_parabolico.png'
+);
+
+createCalculator('Extrato parabolico y bar',
+    [
+        { id: 'para_sec_y_bar', placeholder: 'y bar' },
+        { id: 'para_sec_h', placeholder: 'h' }
+    ],
+    formula_parabolic_section_y_bar,
+    '../assets/structural/extrato_parabolico.png'
+);
+
+createCalculator('Extrato parabolico area',
+    [
+        { id: 'para_sec_area', placeholder: 'area' },
+        { id: 'para_sec_a1', placeholder: 'a' },
+        { id: 'para_sec_h1', placeholder: 'h' }
+    ],
+    formula_parabolic_section_area,
+    '../assets/structural/extrato_parabolico.png'
+);
+
+createCalculator('Extrato parabolico I x bar',
+    [
+        { id: 'para_sec_I_x_bar', placeholder: 'I x bar' },
+        { id: 'para_sec_a2', placeholder: 'a' },
+        { id: 'para_sec_h2', placeholder: 'h' }
+    ],
+    formula_parabolic_section_I_x_bar,
+    '../assets/structural/extrato_parabolico.png'
+);
+
+createCalculator('Extrato parabolico I y bar',
+    [
+        { id: 'para_sec_I_y_bar', placeholder: 'I y bar' },
+        { id: 'para_sec_a3', placeholder: 'a' },
+        { id: 'para_sec_h3', placeholder: 'h' }
+    ],
+    formula_parabolic_section_I_y_bar,
+    '../assets/structural/extrato_parabolico.png'
+);
+
+createCalculator('General section x bar',
+    [
+        { id: 'gen_sec_x_bar', placeholder: 'x bar' },
+        { id: 'gen_sec_a', placeholder: 'a' },
+        { id: 'gen_sec_n', placeholder: 'n' }
+    ],
+    formula_general_section_x_bar,
+    '../assets/structural/general_section.png'
+);
+
+createCalculator('General section y bar',
+    [
+        { id: 'gen_sec_y_bar', placeholder: 'y bar' },
+        { id: 'gen_sec_h', placeholder: 'h' },
+        { id: 'gen_sec_n1', placeholder: 'n' }
+    ],
+    formula_general_section_y_bar,
+    '../assets/structural/general_section.png'
+);
+
+createCalculator('General section area',
+    [
+        { id: 'gen_sec_area', placeholder: 'area' },
+        { id: 'gen_sec_a1', placeholder: 'a' },
+        { id: 'gen_sec_h1', placeholder: 'h' },
+        { id: 'gen_sec_n2', placeholder: 'n' }
+    ],
+    formula_general_section_area,
+    '../assets/structural/general_section.png'
+);
+
+createCalculator('General section I x bar',
+    [
+        { id: 'gen_sec_I_x_bar', placeholder: 'I x bar' },
+        { id: 'gen_sec_a2', placeholder: 'a' },
+        { id: 'gen_sec_h2', placeholder: 'h' },
+        { id: 'gen_sec_n3', placeholder: 'n' }
+    ],
+    formula_general_section_I_x_bar,
+    '../assets/structural/general_section.png'
+);
+
+createCalculator('General section I y bar',
+    [
+        { id: 'gen_sec_I_y_bar', placeholder: 'I y bar' },
+        { id: 'gen_sec_a3', placeholder: 'a' },
+        { id: 'gen_sec_h3', placeholder: 'h' },
+        { id: 'gen_sec_n4', placeholder: 'n' }
+    ],
+    formula_general_section_I_y_bar,
+    '../assets/structural/general_section.png'
+);
+
+createCalculator('Cylindrical I',
+    [
+        { id: 'cylindrical_I', placeholder: 'I' },
+        { id: 'cylindrical_D', placeholder: 'D' },
+        { id: 'cylindrical_d', placeholder: 'd' },
+    ],
+    formula_cylindrical_I,
+    '../assets/structural/cylindrical_I.png'
+);
+
+createCalculator('Cylindrical I 2',
+    [
+        { id: 'cylindrical_I2', placeholder: 'I' },
+        { id: 'cylindrical_r_outer', placeholder: 'r_outer' },
+        { id: 'cylindrical_r_inner', placeholder: 'r_inner' },
+    ],
+    formula_cylindrical_I_2,
+    '../assets/structural/cylindrical_I.png'
+);
+
+createCalculator('Young modulus (elasticity) formula',
+    [
+        {id: 'young_modu1', placeholder: 'young modulus in (Pa)'},
+        {id: 'stress1', placeholder: 'stress (force per unit area)'},
+        {id: 'strain1', placeholder: 'strain (deformation)'}
+    ],
+    formula_young_modulus,
+    '../assets/structural/young_modulus.png'
+);
+
+createCalculator('Young modulus (elasticity) alternative formula', 
+    [
+        {id: 'young_modulus1', placeholder: 'Young modulus in (Pa)'},
+        {id: 'young_force1', placeholder: 'Force (N)'},
+        {id: 'young_area1', placeholder: 'Cross-sectional area (m²)'},
+        {id: 'young_delta_length1', placeholder: 'Change in length (ΔL in m)'},
+        {id: 'young_original_length1', placeholder: 'Original length (L in m)'}
+    ],
+    formula_young_modulus_alternative,
+    '../assets/structural/young_modulus_altern.png'
+);
+
+createCalculator('Point load Reaction',
+    [
+        { id: 'reaction1345', placeholder: 'reaction' },
+        { id: 'load343', placeholder: 'load (P)' }
+    ],
+    formula_point_load_reaction,
+    '../assets/structural/pointload_reaction.png'
+);
+
+createCalculator('Point Load Moment', 
+    [
+        { id: 'moment54654', placeholder: 'Maximum Moment' },
+        { id: 'load54654', placeholder: 'Load (P)' },
+        { id: 'length654779', placeholder: 'Length (L)' }
+    ],
+    formula_point_load_moment,
+    '../assets/structural/point_load_moment.png'
+);
+
+createCalculator('Point Load Deflection', 
+    [
+        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
+        { id: 'load_97867', placeholder: 'Load (P)' },
+        { id: 'length_5y6u657', placeholder: 'Length (L)' },
+        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_point_load_deflection,
+    '../assets/structural/point_load_deflection.png'
+);
+
+createCalculator('UDL Reaction', 
+    [
+        { id: 'reaction134545', placeholder: 'reaction' },
+        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
+        { id: 'length_456b4h', placeholder: 'Length (L)' }
+    ],
+    formula_udl_reaction,
+    '../assets/structural/udl_reaction.png'
+);
+
+createCalculator('UDL Moment', 
+    [
+        { id: 'moment_54654', placeholder: 'Maximum Moment' },
+        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
+        { id: 'length', placeholder: 'Length (L)' }
+    ],
+    formula_udl_moment,
+    '../assets/structural/udl_moment.png'
+);
+
+createCalculator('UDL Deflection', 
+    [
+        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
+        { id: 'load2', placeholder: 'Load (P)' },
+        { id: 'length2', placeholder: 'Length (L)' },
+        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
+        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
+    ],
+    formula_udl_deflection,
+    '../assets/structural/udl_deflection.png'
+);
