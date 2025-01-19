@@ -39,6 +39,9 @@ const sidebarData = {
         "Velocity Equation",
         "Positions Equation",
         "Velocity from Positions Equation"
+    ],
+    "Vehicle Dynamics": [
+        "Curving Problem"
     ]
 };
 
@@ -48,7 +51,8 @@ const pageMap = {
     "Structural": "/structural/structural.html",
     "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
     "Vibrations": "/vibrations/vibrations.html",
-    "General Mechanics": "/general_mechanics/mechanics.html"
+    "General Mechanics": "/general_mechanics/mechanics.html",
+    "Vehicle Dynamics": "/vehicle_dynamics/vehicle-dynamics.html"
 };
 
 const sidebar = document.getElementById('sidebar');

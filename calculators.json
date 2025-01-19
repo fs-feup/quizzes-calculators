@@ -39,5 +39,8 @@
         "Velocity Equation",
         "Positions Equation",
         "Velocity from Positions Equation"
+    ],
+    "Vehicle Dynamics": [
+        "Curving Problem"
     ]
 }
