@@ -72,6 +72,7 @@ const sidebarData = {
         "Termodynamics Calculator"
     ],
     "Vehicle Dynamics": [
+        "Curving Problem",
         "Slip Angle Calculator"
     ]
 };
