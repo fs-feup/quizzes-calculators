@@ -16,9 +16,6 @@ const sidebarData = {
     "Statics": [
         "Non Finalist Business Plan Presentation Points"
     ],
-    "Accumulator": [
-        "Accumulator Calculator",
-    ],
     "Computer Vision": [
         "Camera Problem Calculator",
     ],
@@ -44,11 +41,52 @@ const sidebarData = {
         'Point Load Deflection',
         'UDL Reaction',
         'UDL Moment',
-        'UDL Deflection' 
+        'UDL Deflection' ,
+        "Cylindrical I",
+        "Cylindrical I 2",
+        "General section I y bar",
+        "General section I x bar",
+        "General section area",
+        "General section y bar",
+        "General section x bar",
+        "Extrato parabolico I y bar",
+        "Extrato parabolico I x bar",
+        "Extrato parabolico area",
+        "Extrato parabolico y bar",
+        "Extrato parabolico x bar",
+        "Media Parabola I y bar",
+        "Media Parabola I x bar",
+        "Media Parabola area",
+        "Media Parabola y bar",
+        "Media Parabola x bar",
+        "Parabola I x bar",
+        "Parabola area",
+        "Parabola y bar",
+        "Quarter Elipse I y bar",
+        "Quarter Elipse I x bar",
+        "Quarter Elipse area",
+        "Quarter Elipse y bar",
+        "Quarter Elipse x bar",
+        "Half Elipse I y bar",
+        "Half Elipse I x bar",
+        "Half Elipse area",
+        "Half Elipse y bar",
+        "Quarter Circle I y bar",
+        "Quarter Circle I x bar",
+        "Quarter Circle area",
+        "Quarter Circle y bar",
+        "Quarter Circle x bar",
+        "Half Circle I y bar",
+        "Half Circle I x bar",
+        "Half Circle area",
+        "Half Circle x bar",
+        "Half Circle y bar"
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
-        "Reynolds Number Calculator"
+        "Reynolds Number Calculator",
+        "Perfect Gas Law Calculator",
+        "Bernoulli's Law Calculator"
     ],
     "Vibrations": [
         "Spring rate",
@@ -78,15 +116,15 @@ const sidebarData = {
 };
 
 const pageMap = {
-    "Dynamics": "/dynamics/dynamics.html",
-    "Statics": "/statics/statics.html",
-    "Structural": "/structural/structural.html",
-    "Fluid and Aero Dynamics": "/fluid-dynamics/fluid-dynamics.html",
-    "Vibrations": "/vibrations/vibrations.html",
-    "General Mechanics": "/general_mechanics/mechanics.html",
-    "Accumulator Segments": "/accumulator/accumulator.html",
-    "Thermodynamics": "/thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "/vehicle-dynamics/vehicle-dynamics.html",
+    "Dynamics": "dynamics/dynamics.html",
+    "Statics": "statics/statics.html",
+    "Structural": "structural/structural.html",
+    "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
+    "Vibrations": "vibrations/vibrations.html",
+    "General Mechanics": "general_mechanics/mechanics.html",
+    "Accumulator Segments": "accumulator/accumulator.html",
+    "Thermodynamics": "thermodynamics/thermodynamics.html",
+    "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html"
 };
 
@@ -103,9 +141,17 @@ const pageMap1 = {
     "Computer Vision": "../computer_vision/computer_vision.html"
 };
 
-// Determine which map to use based on the current path
+// Get the current path
 const currentPath = window.location.pathname;
-const selectedPageMap = currentPath === "/index.html" || currentPath === "/index" ? pageMap : pageMap1;
+
+// Check if the current path indicates the root or the quizzes-calculators directory
+const isRootPath = currentPath === "/index.html" || currentPath === "/index" || currentPath.endsWith("/quizzes-calculators/") || currentPath.endsWith("/");
+
+// Select the appropriate page map
+const selectedPageMap = isRootPath ? pageMap : pageMap1;
+
+console.log(selectedPageMap);
+
 
 // Populate the sidebar
 const sidebar = document.getElementById('sidebar');
