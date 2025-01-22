@@ -14,7 +14,7 @@ const sidebarData = {
         "Trackdrive"
     ],
     "Statics": [
-        "Non Finalist Business Plan Presentation Points"
+        "Non Finalist BPP Points"
     ],
     "Computer Vision": [
         "Camera Problem Calculator",
@@ -35,7 +35,7 @@ const sidebarData = {
         "Circle I x bar",
         "Circle I y bar",
         'Young modulus (elasticity) formula',
-        'Young modulus (elasticity) alternative formula',
+        'Young modulus (elasticity) altern.',
         'Point load Reaction',
         'Point Load Moment',
         'Point Load Deflection',
@@ -100,7 +100,7 @@ const sidebarData = {
         "Work and Energy Theorem",
         "Gravitational Potential Energy",
         "Elastic Potential Energy",
-        "Work from Non-Conservative Forces",
+        "Work from Non-Conser. Forces",
         "Kinetic Energy"
     ],
     "Accumulator Segments": [
