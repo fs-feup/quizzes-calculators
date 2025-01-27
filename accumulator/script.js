@@ -1,32 +1,73 @@
-function createSection(subTitleName, fields, motherDiv) {
+/**
+ * Eliminates all sections in the calculator
+ */
+function eliminateSections() {
+    const calculatorContents = document.getElementById('calculator-contents');
+    while (calculatorContents.firstChild) {
+        calculatorContents.removeChild(calculatorContents.firstChild);
+    }
+}
+
+function createSection(subTitleName, fields, motherDiv, advancedMode = false) {
     const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'calculator-section';
     const subTitle3 = document.createElement('h3');
     subTitle3.innerText = subTitleName;
     motherDiv.appendChild(sectionDiv);
     sectionDiv.appendChild(subTitle3);
 
+    let current_problem_vars = false;
+    
+
     // Create input fields
     fields.forEach(field => {
+
+        if (!current_problem_vars && field.current_problem) {
+            const separatorDiv = document.createElement('div');
+            separatorDiv.className = 'separator';
+            const separatorText = document.createElement('span');
+            separatorText.innerText = 'Current Problem Variables:';
+            separatorText.style.fontWeight = 'bold';
+            separatorText.style.color = 'red';
+            sectionDiv.appendChild(separatorDiv);
+            sectionDiv.appendChild(separatorText);
+        }
+        current_problem_vars = field.current_problem;
+        
         const input = document.createElement('input');
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
-
+        
         // Add event listener to change text color back to black on input
         input.addEventListener('input', () => {
             input.style.color = 'black';
+            // remove this field from the calculated fields
+            const index = calculatedFields.indexOf(field);
+            console.log(calculatedFields);
+            if (index > -1) {
+                calculatedFields.splice(index, 1);
+            }
         });
-
+        
         const text = document.createElement('div');
         text.innerText = field.placeholder;
         sectionDiv.appendChild(text);
         sectionDiv.appendChild(input);
+
+        // Hide the field if it is advanced and the advanced mode is not enabled
+        if (field.advanced && !advancedMode) {
+            input.style.display = 'none';
+            text.style.display = 'none';
+        }
     });
 }
 
 const CALCULATION_LIMIT = 5;
+let calculatedFields = [];
+
 function validByRules(fieldName, value) {
-    if (fieldName === 'seg_energy' && value > 6000000) {
+    if (fieldName === 'seg_energy' && value * 3600 > 6000000) {
         return false;
     } else if (fieldName === "acc_max_voltage" && value > 600) {
         return false;
@@ -48,7 +89,14 @@ function createCalculator(title, sections, divId) {
     titleElement.innerText = title;
     calculatorDiv.appendChild(titleElement);
 
+    // Create calculator contents div
+    const calculatorContents = document.createElement('div');
+    calculatorContents.id = 'calculator-contents';
+    calculatorDiv.appendChild(calculatorContents);
+
     // Create notes section
+
+    // Instructions of usage
     const notes = document.createElement('div');
     const notesSubTitle = document.createElement('h3');
     notesSubTitle.innerText = 'Configurations';
@@ -56,67 +104,83 @@ function createCalculator(title, sections, divId) {
     instructions.innerText = 'To use the calculator, fill in the fields with the values you have and click the calculate button.\
     The calculator will calculate all the missing values it possibly can, which will show blue.\
     Red values indicate that the value is violating rules.\
-    If you want to calculate for an accumulator with the segments in parallel, check the box below.\
-    \nCalculations take into account SI units.';
-    const checkBoxDiv = document.createElement('p');
-    checkBoxDiv.id = 'segments-checkbox-div';
-    const checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    checkBox.id = 'segments-checkbox';
-    const checkBoxText = document.createElement('span');
-    checkBoxText.innerText = 'Segments are in parallel?:';
-    checkBoxText.id = 'segments-checkbox-text';
-    checkBoxDiv.appendChild(checkBoxText);
-    checkBoxDiv.appendChild(checkBox);
-    const rulesDiv = document.createElement('div');
-    const rulesText = document.createElement('h3');
-    const rules = document.createElement('span');
-    rulesText.innerText = 'Rules';
-    rules.innerText = 'EV 4.1.1 The maximum allowed voltage\
-     that may occur between any two electric connections is 600 V DC\
-     and for motor controller and Accumulator Management System (AMS)\
-     internal low power control signals 630 V DC.\n\n\
-     EV 5.3.2 Each TS accumulator segment must not exceed a maximum\
-     static voltage of 120 V DC, amaximum energy of 6 MJ, see EV 5.1.2,\
-     and a maximum mass of 12 kg.';
-    rules.innerHTML = rules.innerHTML.replace(/600 V DC/g, '<b>600 V DC</b>');
-    rules.innerHTML = rules.innerHTML.replace(/630 V DC/g, '<b>630 V DC</b>');
-    rules.innerHTML = rules.innerHTML.replace(/12 kg/g, '<b>12 kg</b>');
-    rules.innerHTML = rules.innerHTML.replace(/120 V DC/g, '<b>120 V DC</b>');
-    rules.innerHTML = rules.innerHTML.replace(/6 MJ/g, '<b>6 MJ</b>');
+    If you want to calculate for an accumulator with the segments in parallel, check the box below.';
     instructions.innerHTML = instructions.innerHTML.replace(/calculate all the missing values it possibly can/g, '<b>calculate all the missing values it possibly can</b>');
     instructions.innerHTML = instructions.innerHTML.replace(/violating rules/g, '<b>violating rules</b>');
     instructions.innerHTML = instructions.innerHTML.replace(/blue/g, '<span style="color:blue">blue</span>');
     instructions.innerHTML = instructions.innerHTML.replace(/Red/g, '<span style="color:red">Red</span>');
-    rulesDiv.appendChild(rulesText);
-    rulesDiv.appendChild(rules);
+
+    // Checkboxes for configurations
+    const segmentsCheckboxDiv = document.createElement('p');
+    segmentsCheckboxDiv.className = 'configuration-div';
+    segmentsCheckboxDiv.id = 'segments-checkbox-div';
+    const segmentsCheckbox = document.createElement('input');
+    segmentsCheckbox.type = 'checkbox';
+    segmentsCheckbox.id = 'segments-checkbox';
+    const segmentsCheckboxText = document.createElement('span');
+    segmentsCheckboxText.innerText = 'Segments are in parallel?:';
+    segmentsCheckboxText.id = 'segments-checkbox-text';
+    segmentsCheckboxDiv.appendChild(segmentsCheckboxText);
+    segmentsCheckboxDiv.appendChild(segmentsCheckbox);
+    const calculatorModeCheckboxDiv = document.createElement('p');
+    calculatorModeCheckboxDiv.className = 'configuration-div';
+    calculatorModeCheckboxDiv.id = 'calculatormode-checkbox-div';
+    const calculatorModeCheckbox = document.createElement('button');
+    calculatorModeCheckbox.innerText = 'Toggle advanced calculator';
+    calculatorModeCheckbox.id = 'calculatormode-checkbox';
+    const calculatorModeCheckboxText = document.createElement('span');
+    calculatorModeCheckboxText.innerText = 'Advanced calculator?:';
+    calculatorModeCheckboxDiv.appendChild(calculatorModeCheckbox);
+
+    // Rules
+    // const rulesDiv = document.createElement('div');
+    // const rulesText = document.createElement('h3');
+    // const rules = document.createElement('span');
+    // rulesText.innerText = 'Rules';
+    // rules.innerText = 'EV 4.1.1 The maximum allowed voltage\
+    //  that may occur between any two electric connections is 600 V DC\
+    //  and for motor controller and Accumulator Management System (AMS)\
+    //  internal low power control signals 630 V DC.\n\n\
+    //  EV 5.3.2 Each TS accumulator segment must not exceed a maximum\
+    //  static voltage of 120 V DC, amaximum energy of 6 MJ, see EV 5.1.2,\
+    //  and a maximum mass of 12 kg.';
+    // rules.innerHTML = rules.innerHTML.replace(/600 V DC/g, '<b>600 V DC</b>');
+    // rules.innerHTML = rules.innerHTML.replace(/630 V DC/g, '<b>630 V DC</b>');
+    // rules.innerHTML = rules.innerHTML.replace(/12 kg/g, '<b>12 kg</b>');
+    // rules.innerHTML = rules.innerHTML.replace(/120 V DC/g, '<b>120 V DC</b>');
+    // rules.innerHTML = rules.innerHTML.replace(/6 MJ/g, '<b>6 MJ</b>');
+    // rulesDiv.appendChild(rulesText);
+    // rulesDiv.appendChild(rules);
+
     notes.appendChild(instructions);
     notes.appendChild(notesSubTitle);
-    notes.appendChild(checkBoxDiv);
-    notes.appendChild(rulesDiv);
+    notes.appendChild(segmentsCheckboxDiv);
+    notes.appendChild(calculatorModeCheckboxDiv);
+    // notes.appendChild(rulesDiv);
     calculatorDiv.appendChild(notes);
-    
-    // Create image element if imageUrl is provided
-    // if (imageUrl) {
-    //     const image = document.createElement('img');
-    //     image.src = imageUrl;
-    //     image.alt = 'Calculator Image';
-    //     image.className = 'calculator-image';
-    //     calculatorDiv.appendChild(image);
-    // }
+    calculatorDiv.appendChild(calculatorContents);
 
+    // Create calculator sections
     sections.forEach(section => {
-        createSection(section.section_name, section.fields, calculatorDiv);
+        createSection(section.section_name, section.fields, calculatorContents);
     });
 
     const allFields = sections.map(section => section.fields).flat();
-    let calculatedFields = [];
+    let calculatorModeAdvanced = false;
+    calculatedFields = [];
+
+    calculatorModeCheckbox.onclick = () => {
+        eliminateSections();
+        calculatorModeAdvanced = !calculatorModeAdvanced;
+        sections.forEach(section => {
+            createSection(section.section_name, section.fields, calculatorContents, calculatorModeAdvanced);
+        });
+    }
 
     const calculateButton = document.createElement('button');
     calculateButton.innerText = 'Calculate';
     calculateButton.onclick = () => {
 
-        calculatedFields = [];
         let segments_in_par = document.getElementById('segments-checkbox').checked;
 
         // Because only direct formulas are used, we need to run
@@ -192,7 +256,9 @@ const sections = [
         section_name: 'Accumulator',
         fields: [{
             id: 'n_seg',
-            placeholder: 'Number of Segments',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'No. Segments',
             inputValue: null,
             formulas: [
                 {
@@ -223,7 +289,7 @@ const sections = [
                 {
                     formula_id: 'acc_energy_and_seg_energy',
                     necessary_ids: ['acc_energy', 'seg_energy'],
-                    calculate: (segs_in_par, acc_energy, seg_energy) => Math.floor(acc_energy / seg_energy)
+                    calculate: (segs_in_par, acc_energy, seg_energy) => Math.floor(acc_energy * 3600 / seg_energy * 3600)
                 },
                 {
                     formula_id: 'acc_capacity_and_seg_capacity',
@@ -233,8 +299,9 @@ const sections = [
             ]
         },
         {
-            id: 'acc_n_par', // TODO(marhcouto): Make option for segments in par
-            placeholder: 'Number of parallels in the Accumulator',
+            id: 'acc_n_par',
+            advanced: 1, // TODO(marhcouto): Make option for segments in par
+            placeholder: 'No. cells in parallel',
             inputValue: null,
             formulas: [
                 {
@@ -245,7 +312,7 @@ const sections = [
                 {
                     formula_id: 'acc_energy_and_acc_n_series_and_cell_energy',
                     necessary_ids: ['acc_energy', 'acc_n_series','cell_energy'],
-                    calculate: (segs_in_par, acc_energy, acc_n_series, cell_energy) => Math.floor(acc_energy / (cell_energy * acc_n_series))
+                    calculate: (segs_in_par, acc_energy, acc_n_series, cell_energy) => Math.floor(acc_energy * 3600 / (cell_energy * 3600 * acc_n_series))
                 },
                 {
                     formula_id: 'acc_capacity_and_cell_capacity',
@@ -266,7 +333,8 @@ const sections = [
         },
         {
             id: 'acc_n_series',
-            placeholder: 'Number of series in the Accumulator',
+            advanced: 1,
+            placeholder: 'No. cells in series',
             inputValue: null,
             formulas: [
                 {
@@ -282,7 +350,7 @@ const sections = [
                 {
                     formula_id: 'acc_energy_and_acc_n_par_and_cell_energy',
                     necessary_ids: ['acc_energy', 'acc_n_par','cell_energy'],
-                    calculate: (segs_in_par, acc_energy, acc_n_par, cell_energy) => Math.floor(acc_energy / (cell_energy * acc_n_par))
+                    calculate: (segs_in_par, acc_energy, acc_n_par, cell_energy) => Math.floor(acc_energy * 3600 / (cell_energy * 3600 * acc_n_par))
                 },
                 {
                     formula_id: 'acc_internal_resistance_and_acc_n_par_and_cell_internal_resistance',
@@ -298,13 +366,15 @@ const sections = [
         },
         {
             id: 'acc_max_voltage',
-            placeholder: 'Accumulator Maximum Voltage (Volts)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Max. Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'acc_capacity_and_acc_energy',
                     necessary_ids: ['acc_capacity', 'acc_energy'],
-                    calculate: (segs_in_par, acc_capacity, acc_energy) => acc_energy / (acc_capacity * 3600)
+                    calculate: (segs_in_par, acc_capacity, acc_energy) => acc_energy * 3600 / (acc_capacity * 3600)
                 },
                 {
                     formula_id: 'cell_max_voltage_and_acc_n_series',
@@ -319,20 +389,9 @@ const sections = [
             ]
         },
         {
-            id: 'acc_power',
-            placeholder: 'Accumulator Power Output (Watts)',
-            inputValue: null,
-            formulas: [
-                {
-                    formula_id: '-',
-                    necessary_ids: ['seg_n_par', 'seg_n_series', 'cell_weight'],
-                    calculate: () => undefined
-                }
-            ]
-        },
-        {
             id: 'acc_cappacity',
-            placeholder: 'Accumulator Capacity (Ah)',
+            advanced: 1,
+            placeholder: 'Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
@@ -348,13 +407,15 @@ const sections = [
                 {
                     formula_id: 'acc_energy_and_acc_max_voltage',
                     necessary_ids: ['acc_energy', 'acc_max_voltage'],
-                    calculate: (segs_in_par, acc_energy, acc_max_voltage) => acc_energy / (acc_max_voltage * 3600)
+                    calculate: (segs_in_par, acc_energy, acc_max_voltage) => acc_energy * 3600 / (acc_max_voltage * 3600)
                 }
             ]
         },
         {
             id: 'acc_energy',
-            placeholder: 'Accumulator Energy (Joules)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Energy (Wh)',
             inputValue: null,
             formulas: [
                 {
@@ -370,13 +431,14 @@ const sections = [
                 {
                     formula_id: 'acc_capacity_and_acc_max_voltage',
                     necessary_ids: ['acc_capacity', 'acc_max_voltage'],
-                    calculate: (segs_in_par, acc_capacity, acc_max_voltage) => acc_capacity * 3600 * acc_max_voltage
+                    calculate: (segs_in_par, acc_capacity, acc_max_voltage) => acc_capacity * acc_max_voltage
                 }
             ]
         },
         {
             id: 'acc_equivalent_resistance',
-            placeholder: 'Accumulator Equivalent Resistance (Ohms)',
+            advanced: 1,
+            placeholder: 'Equivalent Resistance (mOhms)',
             inputValue: null,
             formulas: [
                 {
@@ -392,32 +454,10 @@ const sections = [
             ]
         },
         {
-            id: 'accumulator_maximum_current',
-            placeholder: 'Accumulator Maximum Current (Amperes)',
-            inputValue: null,
-            formulas: [
-                {
-                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
-                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
-                    calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage + Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance)
-                }
-            ]
-        },
-        {
-            id: 'accumulator_maximum_current_2',
-            placeholder: 'Accumulator Maximum Current (Second Value) (Amperes)',
-            inputValue: null,
-            formulas: [
-                {
-                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
-                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
-                    calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage - Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance)
-                }
-            ]
-        },
-        {
             id: 'acc_weight',
-            placeholder: 'Accumulator Weight (grams)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Weight (grams)',
             inputValue: null,
             formulas: [
             {
@@ -432,6 +472,48 @@ const sections = [
             },
             ]
         },
+        {
+            id: 'acc_power',
+            advanced: 0,
+            current_problem: 1,
+            placeholder: 'Power Output (kW)',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: '-',
+                    necessary_ids: ['seg_n_par', 'seg_n_series', 'cell_weight'],
+                    calculate: () => undefined
+                }
+            ]
+        },
+        {
+            id: 'accumulator_maximum_current',
+            advanced: 0,
+            current_problem: 1,
+            placeholder: 'Max. Current (Amperes)',
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
+                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
+                    calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage - Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance / 1000)
+                }
+            ]
+        },
+        {
+            id: 'accumulator_maximum_current_2',
+            advanced: 1,
+            current_problem: 1,
+            placeholder: "Max. Current (Segundo valor vindo do '+' da formula resolvente, não deverá significar algo real) (Amperes)",
+            inputValue: null,
+            formulas: [
+                {
+                    formula_id: 'acc_max_voltage, acc_equivalent_resistance and acc_power',
+                    necessary_ids: ['acc_max_voltage', 'acc_equivalent_resistance', 'acc_power'],
+                    calculate: (segs_in_par, acc_max_voltage, acc_equivalent_resistance, acc_power) => (acc_max_voltage + Math.sqrt(acc_max_voltage**2 - 4 * acc_equivalent_resistance * acc_power)) / (2 * acc_equivalent_resistance / 1000)
+                }
+            ]
+        },
     ]
     },
     {
@@ -439,7 +521,9 @@ const sections = [
         fields: [
         {
             id: 'seg_n_par',
-            placeholder: 'Number of pars in each Segment',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'No. cells in parallel',
             inputValue: null,
             formulas: [
                 {
@@ -450,7 +534,7 @@ const sections = [
                 {
                     formula_id: 'seg_energy_and_seg_n_series_and_cell_energy',
                     necessary_ids: ['seg_energy', 'seg_n_series','cell_energy'],
-                    calculate: (segs_in_par, seg_energy, seg_n_series, cell_energy) => Math.floor(seg_energy / (cell_energy * seg_n_series))
+                    calculate: (segs_in_par, seg_energy, seg_n_series, cell_energy) => Math.floor(seg_energy * 3600 / (cell_energy * 3600 * seg_n_series))
                 },
                 {
                     formula_id: 'seg_capacity_and_cell_capacity',
@@ -471,7 +555,9 @@ const sections = [
         },
         {
             id: 'seg_n_series',
-            placeholder: 'Number of Series in each Segment',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'No. cells in series',
             inputValue: null,
             formulas: [
                 {
@@ -503,13 +589,15 @@ const sections = [
         },
         {
             id: 'seg_max_voltage',
-            placeholder: 'Segment Maximum Voltage (Volts)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Max. Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'seg_capacity_and_seg_energy',
                     necessary_ids: ['seg_capacity', 'seg_energy'],
-                    calculate: (segs_in_par, seg_capacity, seg_energy) => seg_energy / (seg_capacity * 3600)
+                    calculate: (segs_in_par, seg_capacity, seg_energy) => seg_energy * 3600 / (seg_capacity * 3600)
                 },
                 {
                     formula_id: 'cell_max_voltage_and_seg_n_series',
@@ -525,13 +613,14 @@ const sections = [
         },
         {
             id: 'seg_capacity',
-            placeholder: 'Segment Capacity (Ah)',
+            advanced: 1,
+            placeholder: 'Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'seg_energy_and_seg_max_voltage',
                     necessary_ids: ['seg_energy', 'seg_max_voltage'],
-                    calculate: (segs_in_par, seg_energy, seg_max_voltage) => seg_energy / (seg_max_voltage * 3600)
+                    calculate: (segs_in_par, seg_energy, seg_max_voltage) => seg_energy * 3600 / (seg_max_voltage * 3600)
                 },
                 {
                     formula_id: 'seg_n_par_and_and_cell_capacity',
@@ -547,7 +636,9 @@ const sections = [
         },
         {
             id: 'seg_energy',
-            placeholder: 'Segment Energy (Joules)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Energy (Wh)',
             inputValue: null,
             formulas: [
                 // {
@@ -563,18 +654,19 @@ const sections = [
                 {
                     formula_id: 'seg_capacity_and_seg_max_voltage',
                     necessary_ids: ['seg_capacity', 'seg_max_voltage'],
-                    calculate: (segs_in_par, seg_capacity, seg_max_voltage) => seg_capacity * 3600 * seg_max_voltage
+                    calculate: (segs_in_par, seg_capacity, seg_max_voltage) => seg_capacity * seg_max_voltage
                 },
                 {
                     formula_id: 'acc_energy_and_n_seg',
                     necessary_ids: ['n_seg', 'acc_energy'],
-                    calculate: (segs_in_par, n_seg, acc_energy) => acc_energy / n_seg
+                    calculate: (segs_in_par, n_seg, acc_energy) => acc_energy / n_seg 
                 }
             ]
         },
         {
             id: 'seg_equivalent_resistance',
-            placeholder: 'Segment Equivalent Resistance (Ohms)',
+            advanced: 1,
+            placeholder: 'Equivalent Resistance (mOhms)',
             inputValue: null,
             formulas: [
                 {
@@ -591,7 +683,9 @@ const sections = [
         },
         {
             id: 'seg_weight',
-            placeholder: 'Segment Weight (grams)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Weight (grams)',
             inputValue: null,
             formulas: [
                 {
@@ -613,19 +707,23 @@ const sections = [
         fields: [
         // {
         //     id: 'cell_nom_voltage',
-        //     placeholder: 'Cell Nominal Voltage',
+        // advanced: 0,
+        // current_problem: 0,
+        //     placeholder: 'Nominal Voltage',
         //     inputValue: null,     
         //     calculate: (pteam, final) => (70 * pteam) / final
         // },
         {
             id: 'cell_max_voltage',
-            placeholder: 'Cell Maximum Voltage (Volts)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Max. Voltage (Volts)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'cell_capacity_and_cell_energy',
                     necessary_ids: ['cell_capacity', 'cell_energy'],
-                    calculate: (segs_in_par, cell_capacity, cell_energy) => cell_energy / (cell_capacity * 3600)
+                    calculate: (segs_in_par, cell_capacity, cell_energy) => cell_energy * 3600 / (cell_capacity * 3600)
                 },
                 {
                     formula_id: 'seg_max_voltage_and_seg_n_series',
@@ -641,19 +739,23 @@ const sections = [
         },
         // {
         //     id: 'cell_min_voltage',
-        //     placeholder: 'Cell Minimum Voltage',
+        // advanced: 0,
+        // current_problem: 0,
+        //     placeholder: 'Minimum Voltage',
         //     inputValue: null,     
         //     calculate: (pteam, pmax) => (70 * (pteam / pmax))
         // },
         {
             id: 'cell_capacity',
-            placeholder: 'Cell Capacity (Ah)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Capacity (Ah)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'cell_energy_and_cell_max_voltage',
                     necessary_ids: ['cell_energy', 'cell_max_voltage'],
-                    calculate: (segs_in_par, cell_energy, cell_max_voltage) => cell_energy / (cell_max_voltage * 3600)
+                    calculate: (segs_in_par, cell_energy, cell_max_voltage) => cell_energy * 3600 / (cell_max_voltage * 3600)
                 },
                 {
                     formula_id: 'seg_capacity_and_seg_n_series_and_seg_n_par',
@@ -669,13 +771,14 @@ const sections = [
         },
         {
             id: 'cell_energy',
-            placeholder: 'Cell Energy (Joules)',
+            advanced: 1,
+            placeholder: 'Energy (Wh)',
             inputValue: null,
             formulas: [
                 {
                     formula_id: 'cell_capacity_and_cell_max_voltage',
                     necessary_ids: ['cell_capacity', 'cell_max_voltage'],
-                    calculate: (segs_in_par, cell_capacity, cell_max_voltage) => cell_capacity * 3600 * cell_max_voltage
+                    calculate: (segs_in_par, cell_capacity, cell_max_voltage) => cell_capacity * cell_max_voltage
                 },
                 {
                     formula_id: 'seg_energy_and_seg_n_series_and_seg_n_par',
@@ -691,7 +794,9 @@ const sections = [
         },
         {
             id: 'cell_internal_resistance',
-            placeholder: 'Cell Internal Resistance (Ohms)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Internal Resistance (mOhms)',
             inputValue: null,
             formulas: [
                 {
@@ -708,7 +813,9 @@ const sections = [
         },
         {
             id: 'cell_weight',
-            placeholder: 'Cell Weight (grams)',
+            advanced: 0,
+            current_problem: 0,
+            placeholder: 'Weight (grams)',
             inputValue: null,
             formulas: [
                 {
