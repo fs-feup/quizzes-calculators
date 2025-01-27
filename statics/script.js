@@ -20,9 +20,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -83,6 +86,22 @@ const formulas = [
     }
 ];
 
+const formulas_austria = [
+    {
+        displayName: 'Calculate P team from P max',
+        calculate: (pmax, final) => final * pmax / 71
+    },
+    {
+        displayName: 'Calculate P max from P team',
+        calculate: (pteam, final) => (71 * pteam) / final
+    },
+    {
+        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
+        calculate: (pteam, pmax) => (71 * (pteam / pmax))
+    }
+];
+
+
 createCalculator('Non Finalist Business Plan Presentation Points', 
     [
         { id: 'pteam', placeholder: 'P team - Score awarded to the team' },
@@ -91,4 +110,14 @@ createCalculator('Non Finalist Business Plan Presentation Points',
     ],
     formulas,
     '../assets/bpp/bpp_score.png'
+);
+
+createCalculator('Non Finalist Business Plan Presentation Points Austria', 
+    [
+        { id: 'pteam', placeholder: 'P team / your - Score awarded to the team' },
+        { id: 'pmax', placeholder: 'P min-F - Lowest score of any finalist team' },
+        { id: 'finalPoints', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_austria,
+    '../assets/bpp/bpp_score_austria.png'
 );
