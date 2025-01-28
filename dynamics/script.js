@@ -18,9 +18,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -88,9 +91,12 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -164,9 +170,12 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -291,7 +300,7 @@ createCalculator('Driverless Skidpad',
     [
         {id: 'r_dv', placeholder: 'R DV -> Team\'s best autonomous time'},
         {id: 'n_all', placeholder: 'n_all -> Number of teams who have at least one valid manual or autonomous run'},
-        {id: 'points', placeholder: 'Number of points got'}
+        {id: 'points', placeholder: 'Final Points'}
     ],
     formulas_skidpad_dv,
     '../assets/skidpad/DV_Skidpad.png'
@@ -299,8 +308,8 @@ createCalculator('Driverless Skidpad',
 
 createCalculator('DC Skidpad',
     [
-        { id: 'tteam1', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax1', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam1', placeholder: 'T team - Team\'s best autonomous mode including penalties' },
+        { id: 'tmax1', placeholder: 'T best - Fastest autonomous mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints1', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_dc,
@@ -330,8 +339,8 @@ createCalculator('Driverless Acceleration',
 
 createCalculator('DC Acceleration', 
     [
-        { id: 'tteam3', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax3', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam3', placeholder: 'T team - Team\'s best autonomous mode including penalties' },
+        { id: 'tmax3', placeholder: 'T best - Fastest autonomous mode vehicle including penalties (Without factor).' },
         { id: 'finalPoints3', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_dc,
@@ -381,9 +390,9 @@ createCalculator('Manual Autocross',
 
 createCalculator4('DC Autocross', 
     [
-        { id: 'tteam5', placeholder: 'T min' },
-        { id: 'tmax5', placeholder: 'T max' },
-        { id: 'ttotal5', placeholder: 'T Total' },
+        { id: 'tteam5', placeholder: 'T min - fastest autonomous autocross of all teams' },
+        { id: 'tmax5', placeholder: 'T max - the time for driving the lap at 6 m/s' },
+        { id: 'ttotal5', placeholder: 'T Total - given formula, min. between first run and average run time of the team' },
         { id: 'finalPoints5', placeholder: 'Final Points (optional)' },
     ],
     formulas_autocross_dc,

@@ -42,9 +42,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -112,9 +115,12 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -188,9 +194,12 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
     // Create input fields with ids
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 

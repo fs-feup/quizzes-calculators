@@ -20,9 +20,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -132,9 +135,12 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -242,9 +248,12 @@ function createPerfectGasCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
@@ -371,9 +380,12 @@ function createCalculatorBernoulli(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'number';
         input.id = field.id;
         input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
