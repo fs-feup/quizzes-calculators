@@ -1,3 +1,78 @@
+function createCalculator4(title, inputFields, formulas, imageUrl) {
+    const calculatorDiv = document.createElement('div');
+    calculatorDiv.className = 'calculator';
+
+    // Create title element
+    const titleElement = document.createElement('h2');
+    titleElement.innerText = title;
+    calculatorDiv.appendChild(titleElement);
+
+    if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = 'Calculator Image';
+        image.className = 'calculator-image';
+        calculatorDiv.appendChild(image);
+    }
+
+    // Create input fields with ids
+    inputFields.forEach(field => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        calculatorDiv.appendChild(input);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Calculate';
+    button.onclick = () => {
+        // Get input values
+        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+
+        // Determine which value is missing
+        let missingIndex = inputValues.findIndex(value => isNaN(value));
+
+        let result;
+        if (missingIndex === 0) {
+            // Missing value for first input
+            const [, b, c, d] = inputValues; // Skip the first value
+            result = formulas[0].calculate(b, c, d);
+            console.log(result);
+        } else if (missingIndex === 1) {
+            // Missing value for second input
+            const [a, , c, d] = inputValues; // Skip the second value
+            result = formulas[1].calculate(a, c, d);
+            console.log(result);
+        } else if (missingIndex === 2) {
+            // Missing value for third input
+            const [a, b, , d] = inputValues; // Skip the third value
+            result = formulas[2].calculate(a, b, d);
+            console.log(result);
+        } else if (missingIndex === 3) {
+            // Missing value for fourth input
+            const [a, b, c] = inputValues.slice(0, 3); // Use only the first three values
+            result = formulas[3].calculate(a, b, c);
+            console.log(result);
+        } else {
+            result = 'Please leave one input empty to calculate the missing value.';
+        }
+
+        let resultParagraph = calculatorDiv.querySelector('.result');
+
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
+        }
+
+        resultParagraph.innerText = `Result: ${result}`;
+    };
+
+    calculatorDiv.appendChild(button);
+    document.getElementById('calculator-container').appendChild(calculatorDiv);
+}
+
 function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
@@ -202,3 +277,64 @@ createCalculator('Slip Angle Calculator',
     null,
     '../assets/vehicle/slip_angle.gif');
 
+    
+    const weight_transfer_x_formulas = [
+        {
+            displayName: 'Calculate F',
+            calculate: (h_m, delta, L) => (L * delta / h_m)
+        },
+        {
+            displayName: 'Calculate h_m',
+            calculate: (F, delta, L) => (L * delta / F)
+        },
+        {
+            displayName: 'Calculate L',
+            calculate: (F, h_m, delta) => (F * h_m / delta)
+        },
+        {
+            displayName: 'Calculate delta',
+            calculate: (F, h_m, L) => (F * h_m / L)
+        }
+    ];
+    
+    createCalculator4('Longitudinal Weight Transfer Calculator',
+        [
+            { id: 'Fefwdqrg', placeholder: 'Force (N)' },
+            { id: 'h_mwdqdeg', placeholder: 'Height of center of mass (m)' },
+            { id: 'Lgefv', placeholder: 'Wheelbase (m)' },
+            { id: 'deltawdvfv', placeholder: 'Longitudinal Weight Transfer (N)' }
+        ],
+        weight_transfer_x_formulas,
+        '../assets/vd/lon_weight_transfer.png'
+    );
+    
+    const weight_transfer_y_formulas = [
+        {
+            displayName: 'Calculate F',
+            calculate: (h_m, delta, T) => (T * delta / h_m)
+        },
+        {
+            displayName: 'Calculate h_m',
+            calculate: (F, delta, T) => (T * delta / F)
+        },
+        {
+            displayName: 'Calculate T',
+            calculate: (F, h_m, delta) => (F * h_m / delta)
+        },
+        {
+            displayName: 'Calculate delta',
+            calculate: (F, h_m, T) => (F * h_m / T)
+        }
+    ];
+    
+    createCalculator4('Lateral Weight Transfer Calculator',
+        [
+            { id: 'Ff', placeholder: 'Force (N)' },
+            { id: 'h_mf', placeholder: 'Height of center of mass (m)' },
+            { id: 'Tf', placeholder: 'Track Width (m)' },
+            { id: 'deltaf', placeholder: 'Lateral Weight Transfer (N)' }
+        ],
+        weight_transfer_y_formulas,
+        '../assets/vd/lat_weight_transfer.png'
+    );
+    
