@@ -27,11 +27,11 @@ const sidebarData = {
         // "Hollow Shaft",
     ],
     "Structural": [
-        'Young modulus (elasticity) formula',
-        'Young modulus (elasticity) altern.',
-        'Point load',
-        'Distributed Load',
-        'Two Point Load',
+        // 'Young modulus (elasticity) formula',
+        // 'Young modulus (elasticity) altern.',
+        // 'Point load',
+        // 'Distributed Load',
+        // 'Two Point Load',
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",
