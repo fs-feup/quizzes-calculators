@@ -263,6 +263,8 @@ function generateFormulas(Pmax, denominator, factor, exp = 2, factor_division = 
 
 const formulas_skidpad_manual = generateFormulas(Pmax_manual, 0.5625, 1.25)
 
+const formulas_skidpad_manual_non_fsg = generateFormulas(75, 0.5625, 1.25)
+
 const formulas_skidpad_dc = generateFormulas(Pmax_dc, 1.25, 1.5)
 
 const formulas_skidpad_dv = [
@@ -282,6 +284,8 @@ const formulas_skidpad_dv = [
 
 const formulas_acceleration_manual = generateFormulas(50, 0.5, 1.5, 1)
 
+const formulas_acceleration_manual_non_fsg = generateFormulas(75, 0.5, 1.5, 1)
+
 const formulas_acceleration_dc = generateFormulas(75, 1, 2, 1)
 
 const formulas_acceleration_dv = formulas_skidpad_dv
@@ -293,6 +297,16 @@ createCalculator('Manual Skidpad',
         { id: 'finalPoints', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_manual,
+    '../assets/skidpad/skidpad_score.png'
+);
+
+createCalculator('Manual Skidpad Non FSG / FSPT',
+    [
+        { id: 'tteam11', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax11', placeholder: 'T Best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'finalPoints11', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_skidpad_manual_non_fsg,
     '../assets/skidpad/skidpad_score.png'
 );
 
@@ -327,6 +341,16 @@ createCalculator('Manual Acceleration',
     '../assets/acceleration/m_acceleration.png'
 );
 
+createCalculator('Manual Acceleration Non FSG / FSPT', 
+    [
+        { id: 'tteam22', placeholder: 'T team - Team\'s best manual mode including penalties' },
+        { id: 'tmax22', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'finalPoints22', placeholder: 'Final Points (optional)' }
+    ],
+    formulas_acceleration_manual_non_fsg,
+    '../assets/acceleration/m_acceleration.png'
+);
+
 createCalculator('Driverless Acceleration',
     [
         {id: 'r_dv', placeholder: 'R DV -> Team\'s best autonomous time'},
@@ -334,7 +358,7 @@ createCalculator('Driverless Acceleration',
         {id: 'points', placeholder: 'Number of points got'}
     ],
     formulas_acceleration_dv,
-    '../assets/acceleration/dv_acceleration.png'
+    '../assets/acceleration/dc_acceleration.png'
 )
 
 createCalculator('DC Acceleration', 
@@ -344,7 +368,7 @@ createCalculator('DC Acceleration',
         { id: 'finalPoints3', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_dc,
-    '../assets/acceleration/dc_acceleration.png'
+    '../assets/acceleration/dv_acceleration.png'
 );
 
 
@@ -400,6 +424,7 @@ createCalculator4('DC Autocross',
 );
 
 const formulas_endurance = generateFormulas(250, 0.333, 1.333, 1, 0.9)
+const formulas_endurance_non_fsg = generateFormulas(325, 0.333, 1.333, 1, 0.9)
 
 
 createCalculator('Endurance', 
@@ -409,6 +434,16 @@ createCalculator('Endurance',
         { id: 'finalPoints6', placeholder: 'Final Points' }
     ],
     formulas_endurance,
+    '../assets/endurance/endurance.png'
+);
+
+createCalculator('Endurance Non FSG / FSPT', 
+    [
+        { id: 'tteam66', placeholder: 'T team - Team\'s corrected elapsed time' },
+        { id: 'tmax66', placeholder: 'T best - Team\'s corrected elapsed time (Without factor)' },
+        { id: 'finalPoints66', placeholder: 'Final Points' }
+    ],
+    formulas_endurance_non_fsg,
     '../assets/endurance/endurance.png'
 );
 
@@ -438,6 +473,35 @@ createCalculator('Efficiency',
         { id: 'score', placeholder: 'Final Score' }
     ],
     formulas_efficiency,
+    '../assets/endurance/efficiency.png'
+);
+
+const formulas_efficiency_non_fsg = [
+    {
+        displayName: 'Calculate EF team',
+        calculate: (ef_min, score) =>
+        (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 100,
+    },
+    {
+        displayName: 'Calculate EF min',
+        calculate: (tmin, tteam_total, finalPoints) => 
+            "Impossible to solve, any value of tmax would solve this equation",
+        
+    },
+    {
+        displayName: 'Calculate final score',
+        calculate: (ef_team, ef_min) => 
+            100 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min)),
+    },
+];
+
+createCalculator('Efficiency Non FSG / FSPT', 
+    [
+        { id: 'efteam99', placeholder: 'EF team - Team\'s efficiency factor' },
+        { id: 'efmin99', placeholder: 'T min - lowest efficiency factor. EF max = 1.5 EF min' },
+        { id: 'score99', placeholder: 'Final Score' }
+    ],
+    formulas_efficiency_non_fsg,
     '../assets/endurance/efficiency.png'
 );
 

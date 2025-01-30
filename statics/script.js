@@ -114,9 +114,9 @@ createCalculator('Non Finalist Business Plan Presentation Points',
 
 createCalculator('Non Finalist Business Plan Presentation Points Austria', 
     [
-        { id: 'pteam', placeholder: 'P team / your - Score awarded to the team' },
-        { id: 'pmax', placeholder: 'P min-F - Lowest score of any finalist team' },
-        { id: 'finalPoints', placeholder: 'Final Points (optional)' }
+        { id: 'pteamAustria', placeholder: 'P team / your - Score awarded to the team' },
+        { id: 'pmaxAustria', placeholder: 'P min-F - Lowest score of any finalist team' },
+        { id: 'finalPointsAustria', placeholder: 'Final Points (optional)' }
     ],
     formulas_austria,
     '../assets/bpp/bpp_score_austria.png'

@@ -282,11 +282,6 @@ const sections = [
                     calculate: (segs_in_par, seg_n_par, acc_n_par) => !segs_in_par ? undefined : acc_n_par / seg_n_par
                 },
                 {
-                    formula_id: 'acc_n_par',
-                    necessary_ids: ['acc_n_par'],
-                    calculate: (segs_in_par, acc_n_par) => acc_n_par
-                },
-                {
                     formula_id: 'acc_energy_and_seg_energy',
                     necessary_ids: ['acc_energy', 'seg_energy'],
                     calculate: (segs_in_par, acc_energy, seg_energy) => Math.floor(acc_energy * 3600 / seg_energy * 3600)

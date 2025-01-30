@@ -255,13 +255,13 @@ const curving_problem_formulas = [
 
 createCalculator2('Curving Problem',
     [
-        { id: 'm', placeholder: 'Mass (m)' },
-        { id: 'g', placeholder: 'Gravitational Acceleration (g)' },
-        { id: 'R', placeholder: 'Radius (R)' },
+        { id: 'm', placeholder: 'Mass (m) [kg]' },
+        { id: 'g', placeholder: 'Gravitational Acceleration (g) [m/s²]' },
+        { id: 'R', placeholder: 'Radius (r) [m]' },
         { id: 'mu', placeholder: 'Coefficient of Friction (μ)' },
         { id: 'Cl', placeholder: 'Lift Coefficient (Cl)' },
-        { id: 'A', placeholder: 'Cross-sectional Area (A)' },
-        { id: 'V', placeholder: 'Velocity (V)' }
+        { id: 'A', placeholder: 'Cross-sectional Area (A) [m²]' },
+        { id: 'V', placeholder: 'Velocity (V) [m/s]' }
     ],
     curving_problem_formulas,
     '../assets/vd/image.png'
@@ -269,12 +269,12 @@ createCalculator2('Curving Problem',
 
 createCalculator('Slip Angle Calculator',
     [
-        { id: 'yaw_rate', placeholder: 'Yaw Rate (rad/s)' },
-        { id: 'vx', placeholder: 'Longitudinal Velocity (m/s)' },
-        { id: 'vy', placeholder: 'Lateral Velocity (m/s)' },
-        { id: 'L', placeholder: 'Wheelbase (m)' },
-        { id: 'T', placeholder: 'Track Width (m)' },
-        { id: 'delta', placeholder: 'Steering Angle (rad)' },
+        { id: 'yaw_rate', placeholder: 'Yaw Rate [rad/s]' },
+        { id: 'vx', placeholder: 'Longitudinal Velocity [m/s]' },
+        { id: 'vy', placeholder: 'Lateral Velocity [m/s]' },
+        { id: 'L', placeholder: 'Wheelbase [m]' },
+        { id: 'T', placeholder: 'Track Width [m]' },
+        { id: 'delta', placeholder: 'Steering Angle [rad]' },
         { id: 'wf', placeholder: 'Weight Distribution Front - value between 0 and 1' }
     ],
     null,
@@ -302,10 +302,10 @@ createCalculator('Slip Angle Calculator',
     
     createCalculator4('Longitudinal Weight Transfer Calculator',
         [
-            { id: 'Fefwdqrg', placeholder: 'Force (N)' },
-            { id: 'h_mwdqdeg', placeholder: 'Height of center of mass (m)' },
-            { id: 'Lgefv', placeholder: 'Wheelbase (m)' },
-            { id: 'deltawdvfv', placeholder: 'Longitudinal Weight Transfer (N)' }
+            { id: 'Fefwdqrg', placeholder: 'Force [N]' },
+            { id: 'h_mwdqdeg', placeholder: 'Height of center of mass [m]' },
+            { id: 'Lgefv', placeholder: 'Wheelbase [m]' },
+            { id: 'deltawdvfv', placeholder: 'Longitudinal Weight Transfer [N]' }
         ],
         weight_transfer_x_formulas,
         '../assets/vd/lon_weight_transfer.png'
