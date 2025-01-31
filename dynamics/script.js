@@ -344,7 +344,7 @@ createCalculator('Manual Acceleration',
 createCalculator('Manual Acceleration Non FSG / FSPT', 
     [
         { id: 'tteam22', placeholder: 'T team - Team\'s best time including penalties' },
-        { id: 'tmax22', placeholder: 'T best - Ovreall best time including penalties (Without factor).' },
+        { id: 'tmax22', placeholder: 'T best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints22', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_manual_non_fsg,
