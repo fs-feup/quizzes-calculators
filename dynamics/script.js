@@ -292,8 +292,8 @@ const formulas_acceleration_dv = formulas_skidpad_dv
 
 createCalculator('Manual Skidpad',
     [
-        { id: 'tteam', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax', placeholder: 'T Best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax', placeholder: 'T Best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_manual,
@@ -302,8 +302,8 @@ createCalculator('Manual Skidpad',
 
 createCalculator('Manual Skidpad Non FSG / FSPT',
     [
-        { id: 'tteam11', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax11', placeholder: 'T Best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam11', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax11', placeholder: 'T Best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints11', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_manual_non_fsg,
@@ -322,8 +322,8 @@ createCalculator('Driverless Skidpad',
 
 createCalculator('DC Skidpad',
     [
-        { id: 'tteam1', placeholder: 'T team - Team\'s best autonomous mode including penalties' },
-        { id: 'tmax1', placeholder: 'T best - Fastest autonomous mode vehicle including penalties (Without factor).' },
+        { id: 'tteam1', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax1', placeholder: 'T best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints1', placeholder: 'Final Points (optional)' }
     ],
     formulas_skidpad_dc,
@@ -333,8 +333,8 @@ createCalculator('DC Skidpad',
 
 createCalculator('Manual Acceleration', 
     [
-        { id: 'tteam2', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax2', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam2', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax2', placeholder: 'T best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints2', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_manual,
@@ -343,8 +343,8 @@ createCalculator('Manual Acceleration',
 
 createCalculator('Manual Acceleration Non FSG / FSPT', 
     [
-        { id: 'tteam22', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax22', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam22', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax22', placeholder: 'T best - Ovreall best time including penalties (Without factor).' },
         { id: 'finalPoints22', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_manual_non_fsg,
@@ -363,8 +363,8 @@ createCalculator('Driverless Acceleration',
 
 createCalculator('DC Acceleration', 
     [
-        { id: 'tteam3', placeholder: 'T team - Team\'s best autonomous mode including penalties' },
-        { id: 'tmax3', placeholder: 'T best - Fastest autonomous mode vehicle including penalties (Without factor).' },
+        { id: 'tteam3', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax3', placeholder: 'T best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints3', placeholder: 'Final Points (optional)' }
     ],
     formulas_acceleration_dc,
@@ -404,8 +404,8 @@ const formulas_autocross_dc = [
 
 createCalculator('Manual Autocross', 
     [
-        { id: 'tteam4', placeholder: 'T team - Team\'s best manual mode including penalties' },
-        { id: 'tmax4', placeholder: 'T best - Fastest manual mode vehicle including penalties (Without factor).' },
+        { id: 'tteam4', placeholder: 'T team - Team\'s best time including penalties' },
+        { id: 'tmax4', placeholder: 'T best - Overall best time including penalties (Without factor).' },
         { id: 'finalPoints4', placeholder: 'Final Points (optional)' }
     ],
     formulas_autocross_manual,
@@ -414,9 +414,9 @@ createCalculator('Manual Autocross',
 
 createCalculator4('DC Autocross', 
     [
-        { id: 'tteam5', placeholder: 'T min - fastest autonomous autocross of all teams' },
+        { id: 'tteam5', placeholder: 'T min - fastest autocross time across all teams' },
         { id: 'tmax5', placeholder: 'T max - the time for driving the lap at 6 m/s' },
-        { id: 'ttotal5', placeholder: 'T Total - given formula, min. between first run and average run time of the team' },
+        { id: 'ttotal5', placeholder: 'T Total - given formula: min. between first run and average run time of the team' },
         { id: 'finalPoints5', placeholder: 'Final Points (optional)' },
     ],
     formulas_autocross_dc,
@@ -430,7 +430,7 @@ const formulas_endurance_non_fsg = generateFormulas(325, 0.333, 1.333, 1, 0.9)
 createCalculator('Endurance', 
     [
         { id: 'tteam6', placeholder: 'T team - Team\'s corrected elapsed time' },
-        { id: 'tmax6', placeholder: 'T best - Team\'s corrected elapsed time (Without factor)' },
+        { id: 'tmax6', placeholder: 'T best - Overall best corrected elapsed time (Without factor)' },
         { id: 'finalPoints6', placeholder: 'Final Points' }
     ],
     formulas_endurance,
@@ -440,7 +440,7 @@ createCalculator('Endurance',
 createCalculator('Endurance Non FSG / FSPT', 
     [
         { id: 'tteam66', placeholder: 'T team - Team\'s corrected elapsed time' },
-        { id: 'tmax66', placeholder: 'T best - Team\'s corrected elapsed time (Without factor)' },
+        { id: 'tmax66', placeholder: 'T best - Overall best corrected elapsed time (Without factor)' },
         { id: 'finalPoints66', placeholder: 'Final Points' }
     ],
     formulas_endurance_non_fsg,
