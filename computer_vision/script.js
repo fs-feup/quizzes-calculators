@@ -2,6 +2,34 @@ function degreesToRadians(degrees) {
     return degrees * (Math.PI / 180);
 }
 
+function extractEulerAngles(rotMatrix) {
+    let pitch, roll, yaw;
+
+    // Check for gimbal lock (singular case where cos(pitch) is close to zero)
+    if (Math.abs(rotMatrix[2][0]) !== 1) {
+        pitch = Math.asin(-rotMatrix[2][0]); // θ (pitch)
+        roll = Math.atan2(rotMatrix[2][1], rotMatrix[2][2]); // φ (roll)
+        yaw = Math.atan2(rotMatrix[1][0], rotMatrix[0][0]); // ψ (yaw)
+    } else {
+        // Gimbal lock case: pitch is ±90 degrees (±π/2)
+        pitch = rotMatrix[2][0] === -1 ? Math.PI / 2 : -Math.PI / 2;
+        yaw = 0; // Set yaw arbitrarily to zero
+        roll = Math.atan2(-rotMatrix[0][1], rotMatrix[1][1]); // Compute roll differently
+    }
+
+    // Convert radians to degrees
+    function radiansToDegrees(rad) {
+        return rad * (180 / Math.PI);
+    }
+
+    return {
+        roll: radiansToDegrees(roll),
+        pitch: radiansToDegrees(pitch),
+        yaw: radiansToDegrees(yaw)
+    };
+}
+
+
 function createRotationMatrix(roll, pitch, yaw) {
     roll = degreesToRadians(roll);
     pitch = degreesToRadians(pitch);
@@ -72,6 +100,10 @@ function inverseMatrix(matrix) {
     return inverse;
 }
 
+function transposeMatrix(matrix) {
+    return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+}
+
 function multiplyMatrices(a, b) {
     const result = [];
     for (let i = 0; i < a.length; i++) {
@@ -125,12 +157,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     });
 
     const objectPositionMissing = [13,14,15];
-    // const eulerAnglesMissing = [13,14,15];
     const cameraCoordinatesMissing = [0,1,2];
     const distanceMissing = [12];
-    // const focalLengthMissing = [13,14,15];
-    // const principalPointMissing = [13,14,15];
-    // const pixelCoordinatesMissing = [13,14,15];
+    const focalLengthMissing = [10, 11];
+    const principalPointMissing = [5, 6];
+    const pixelCoordinatesMissing = [3, 4];
+    // const eulerAngleMissing = [7, 8, 9];
 
     const button = document.createElement('button');
     button.innerText = 'Calculate';
@@ -143,6 +175,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         const missingIndexes = inputValues.map((value, index) => !isNaN(value) ? null : index).filter(index => index !== null);
 
         let result;
+        // console.log('Result0:', result = formulas[0].calculate(0.5, 0.16, 1.14, 872, 423, 636, 548,100,0,90,241,238,1.9,1.636, 1.405, 0.262));
+        // console.log('Result2:', result = formulas[2].calculate(0.5, 0.16, 1.14, 872, 423, 636, 548,100,0,90,241,238,1.9,1.636, 1.405, 0.262));
+        // console.log('Result3:', result = formulas[3].calculate(0.5, 0.16, 1.14, 872, 423, 636, 548,100,0,90,241,238,1.9,1.636, 1.405, 0.262));
+        // console.log('Result4:', result = formulas[4].calculate(0.5, 0.16, 1.14, 872, 423, 636, 548,100,0,90,241,238,1.9,1.636, 1.405, 0.262));
+        // console.log('Result5:', result = formulas[5].calculate(0.5, 0.16, 1.14, 872, 423, 636, 548,100,0,90,241,238,1.9,1.636, 1.405, 0.262));
 
         if (JSON.stringify(missingIndexes) === JSON.stringify(objectPositionMissing)) {
             result = formulas[0].calculate(...inputValues);
@@ -168,11 +205,35 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             inputCameraCoordinatesX.style.color = 'blue';
             inputCameraCoordinatesY.style.color = 'blue';
             inputCameraCoordinatesZ.style.color = 'blue';
+        } else if (JSON.stringify(missingIndexes) === JSON.stringify(focalLengthMissing)) {
+            result = formulas[2].calculate(...inputValues);
+            const focalLengthX = calculatorDiv.querySelector(`#focalLengthX`);
+            const focalLengthY = calculatorDiv.querySelector(`#focalLengthY`);
+            focalLengthX.value = result[0];
+            focalLengthY.value = result[1];
+            focalLengthX.style.color = 'blue';
+            focalLengthY.style.color = 'blue';
+        } else if (JSON.stringify(missingIndexes) === JSON.stringify(principalPointMissing)) {
+            result = formulas[4].calculate(...inputValues);
+            const principalPointCoordinatesCx = calculatorDiv.querySelector(`#principalPointCoordinatesCx`);
+            const principalPointCoordinatesCy = calculatorDiv.querySelector(`#principalPointCoordinatesCy`);
+            principalPointCoordinatesCx.value = result[0];
+            principalPointCoordinatesCy.value = result[1];
+            principalPointCoordinatesCx.style.color = 'blue';
+            principalPointCoordinatesCy.style.color = 'blue';
+        } else if (JSON.stringify(missingIndexes) === JSON.stringify(pixelCoordinatesMissing)) {
+            result = formulas[5].calculate(...inputValues);
+            const pixelCoordinatesU = calculatorDiv.querySelector(`#pixelCoordinatesU`);
+            const pixelCoordinatesV = calculatorDiv.querySelector(`#pixelCoordinatesV`);
+            pixelCoordinatesU.value = result[0];
+            pixelCoordinatesV.value = result[1];
+            pixelCoordinatesU.style.color = 'blue';
+            pixelCoordinatesV.style.color = 'blue';
         } else if (missingIndexes.includes(12) && !missingIndexes.includes(0)
             && !missingIndexes.includes(1) && !missingIndexes.includes(2)
             && !missingIndexes.includes(13) && !missingIndexes.includes(14) 
             && !missingIndexes.includes(15)) { // I know, shitty code, means object and camera coordinates exist and distance not
-            result = formulas[2].calculate(...inputValues);
+            result = formulas[3].calculate(...inputValues);
             result = Math.round((result + Number.EPSILON) * 1000000) / 1000000;
             const input = calculatorDiv.querySelector(`#distance`);
             input.value = result;
@@ -218,6 +279,9 @@ const formulas = [
                 let tmp = v.map(val => (val / vNorm) * distance); // Relative coordinates of the object in the camera coordinate system
                 tmp = [[tmp[0]], [tmp[1]], [tmp[2]]];
 
+                // console.log('Tmp:', tmp);
+                // console.log(multiplyMatrices(rot, tmp));
+
                 const res = multiplyMatrices(rot, tmp).map((val, index) => val[0] + trans[index]); // Relative coordinates of the object in the reference frame
                 return res;
             }
@@ -245,6 +309,29 @@ const formulas = [
             }
     },
     {
+        displayName: 'Missing Focal Length',
+        calculate: (cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ, 
+            pixelCoordinatesU, pixelCoordinatesV, principalPointCoordinatesCx, principalPointCoordinatesCy,
+            roll, pitch, yaw, focalLengthX, focalLengthY, distance, x, y, z) => {
+                const rot = transposeMatrix(createRotationMatrix(roll, pitch, yaw)); // Rotation matrix
+                const trans = [-cameraCoordinatesX, -cameraCoordinatesY, -cameraCoordinatesZ]; // Translation matrix
+                let tmp1 = [x, y, z].map((val, index) => val + trans[index]);
+                let tmp = multiplyMatrices(rot, [[tmp1[0]], [tmp1[1]], [tmp1[2]]]); // Relative coordinates of the object in the camera coordinate system
+                
+                tmp = tmp.map(val => val / distance); // Relative coordinates of the object in the reference frame
+                vNorm = 1 / tmp[2];
+                v_z = 1;
+                v_x = tmp[0] * vNorm;
+                v_y = tmp[1] * vNorm;
+                
+                // Correct focal length computation
+                const fx = (pixelCoordinatesU - principalPointCoordinatesCx) / v_x;
+                const fy = (pixelCoordinatesV - principalPointCoordinatesCy) / v_y;
+                
+                return [ fx, fy ];
+            }
+    },
+    {
         displayName: 'Missing Distance',
         calculate: (cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ, 
             pixelCoordinatesU, pixelCoordinatesV, principalPointCoordinatesCx, principalPointCoordinatesCy,
@@ -253,7 +340,51 @@ const formulas = [
                 const res = Math.sqrt((x - cameraCoordinatesX) ** 2 + (y - cameraCoordinatesY) ** 2 + (z - cameraCoordinatesZ) ** 2);
                 return res;
             }
-    }
+    },
+    {
+        displayName: 'Missing Principal Points',
+        calculate: (cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ, 
+            pixelCoordinatesU, pixelCoordinatesV, principalPointCoordinatesCx, principalPointCoordinatesCy,
+            roll, pitch, yaw, focalLengthX, focalLengthY, distance, x, y, z) => {
+                const rot = transposeMatrix(createRotationMatrix(roll, pitch, yaw)); // Rotation matrix
+                const trans = [-cameraCoordinatesX, -cameraCoordinatesY, -cameraCoordinatesZ]; // Translation matrix
+                let tmp1 = [x, y, z].map((val, index) => val + trans[index]);
+                let tmp = multiplyMatrices(rot, [[tmp1[0]], [tmp1[1]], [tmp1[2]]]); // Relative coordinates of the object in the camera coordinate system
+                
+                tmp = tmp.map(val => val / distance); // Relative coordinates of the object in the reference frame
+                vNorm = 1 / tmp[2];
+                v_z = 1;
+                v_x = tmp[0] * vNorm;
+                v_y = tmp[1] * vNorm;
+
+                const p_x = pixelCoordinatesU - focalLengthX * v_x
+                const p_y = pixelCoordinatesV - focalLengthY * v_y
+                
+                return [ p_x, p_y ];
+            }
+    },
+    {
+        displayName: 'Missing Object Center Coordinates',
+        calculate: (cameraCoordinatesX, cameraCoordinatesY, cameraCoordinatesZ, 
+            pixelCoordinatesU, pixelCoordinatesV, principalPointCoordinatesCx, principalPointCoordinatesCy,
+            roll, pitch, yaw, focalLengthX, focalLengthY, distance, x, y, z) => {
+                const rot = transposeMatrix(createRotationMatrix(roll, pitch, yaw)); // Rotation matrix
+                const trans = [-cameraCoordinatesX, -cameraCoordinatesY, -cameraCoordinatesZ]; // Translation matrix
+                let tmp1 = [x, y, z].map((val, index) => val + trans[index]);
+                let tmp = multiplyMatrices(rot, [[tmp1[0]], [tmp1[1]], [tmp1[2]]]); // Relative coordinates of the object in the camera coordinate system
+                
+                tmp = tmp.map(val => val / distance); // Relative coordinates of the object in the reference frame
+                vNorm = 1 / tmp[2];
+                v_z = 1;
+                v_x = tmp[0] * vNorm;
+                v_y = tmp[1] * vNorm;
+
+                const object_center_x = principalPointCoordinatesCx + focalLengthX * v_x
+                const object_center_y = principalPointCoordinatesCy + focalLengthY * v_y
+                
+                return [ object_center_x, object_center_y ];
+            }
+    },
 ];
 
 createCalculator('Camera Problem Calculator', 
