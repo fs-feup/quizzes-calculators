@@ -312,7 +312,7 @@ createCalculator('Manual Skidpad Non FSG / FSPT',
 
 createCalculator('Driverless Skidpad',
     [
-        {id: 'r_dv', placeholder: 'R DV -> Team\'s best autonomous time'},
+        {id: 'r_dv', placeholder: 'R DV -> Ranking of the team\'s best autonomous time'},
         {id: 'n_all', placeholder: 'n_all -> Number of teams who have at least one valid manual or autonomous run'},
         {id: 'points', placeholder: 'Final Points'}
     ],
@@ -353,9 +353,9 @@ createCalculator('Manual Acceleration Non FSG / FSPT',
 
 createCalculator('Driverless Acceleration',
     [
-        {id: 'r_dv', placeholder: 'R DV -> Team\'s best autonomous time'},
-        {id: 'n_all', placeholder: 'n_all -> Number of teams who have at least one valid manual or autonomous run'},
-        {id: 'points', placeholder: 'Number of points got'}
+        {id: 'r_dv3333', placeholder: 'R DV -> Ranking of the team\'s best autonomous time'},
+        {id: 'n_all3333', placeholder: 'n_all -> Number of teams who have at least one valid manual or autonomous run'},
+        {id: 'points3333', placeholder: 'Number of points got'}
     ],
     formulas_acceleration_dv,
     '../assets/acceleration/dc_acceleration.png'
