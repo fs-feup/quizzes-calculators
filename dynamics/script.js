@@ -524,7 +524,7 @@ const formulas_efficiency_factor = [
 createCalculator('Efficiency Factor', 
     [
         { id: 'T', placeholder: 'Uncorrected elapsed driving time' },
-        { id: 'E', placeholder: 'CV - corrected used fuel mass / EV - used energy' },
+        { id: 'E', placeholder: 'CV - corrected used fuel mass / EV - used energy (kWh)' },
         { id: 'EF', placeholder: 'Final Score' }
     ],
     formulas_efficiency_factor,
