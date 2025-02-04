@@ -391,63 +391,63 @@ const formulas_epe = [
 
 
 createCalculator4('Velocity Equation', [
-    { id: 'v', placeholder: 'v - Final Velocity' },
-    { id: 'vi', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a', placeholder: 'a - Acceleration' },
-    { id: 't', placeholder: 't - Time' },
+    { id: 'v', placeholder: 'v - Final Velocity [m/s]' },
+    { id: 'vi', placeholder: 'v0 - Initial Velocity [m/s]' },
+    { id: 'a', placeholder: 'a - Acceleration [m/s²]' },
+    { id: 't', placeholder: 't - Time [s]' },
 ],
     formulas_velocity_equation,
     '../assets/motion/velocity.png'
 );
 
 createCalculator5('Positions Equation', [
-    { id: 'x1', placeholder: 'x - Final Position' },
-    { id: 'xi1', placeholder: 'x0 - Initial Position' },
-    { id: 'vi1', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a1', placeholder: 'a - Acceleration' },
-    { id: 't1', placeholder: 't - Time' },
+    { id: 'x1', placeholder: 'x - Final Position [m]' },
+    { id: 'xi1', placeholder: 'x0 - Initial Position [m]' },
+    { id: 'vi1', placeholder: 'v0 - Initial Velocity [m/s]' },
+    { id: 'a1', placeholder: 'a - Acceleration [m/s²]' },
+    { id: 't1', placeholder: 't - Time [s]' },
 ],
     formulas_positions_equation,
     '../assets/motion/position.png'
 );
 
 createCalculator5('Velocity from Positions Equation', [
-    { id: 'v2', placeholder: 'v - Final Velocity' },
-    { id: 'vi2', placeholder: 'v0 - Initial Velocity' },
-    { id: 'a2', placeholder: 'a - Acceleration' },
-    { id: 'x2', placeholder: 'x - Final Position' },
-    { id: 'xi2', placeholder: 'x0 - Initial Position' },
+    { id: 'v2', placeholder: 'v - Final Velocity [m/s]' },
+    { id: 'vi2', placeholder: 'v0 - Initial Velocity [m/s]' },
+    { id: 'a2', placeholder: 'a - Acceleration [m/s²]' },
+    { id: 'x2', placeholder: 'x - Final Position [m]' },
+    { id: 'xi2', placeholder: 'x0 - Initial Position [m]' },
 ],
     formulas_velocity_squared,
     '../assets/motion/velocity_positions.png'
 );
 
 createCalculator4('Work and Energy Theorem', [
-    { id: 'w3', placeholder: 'W - Work' },
-    { id: 'vg3', placeholder: 'ΔVg - Gravitational Potential Energy' },
-    { id: 've3', placeholder: 'ΔVe - Elastic Potential Energy' },
-    { id: 't3', placeholder: 'ΔT - Kinetic Energy' },
+    { id: 'w3', placeholder: 'W - Work [J]' },
+    { id: 'vg3', placeholder: 'ΔVg - Gravitational Potential Energy [J]' },
+    { id: 've3', placeholder: 'ΔVe - Elastic Potential Energy [J]' },
+    { id: 't3', placeholder: 'ΔT - Kinetic Energy [J]' },
 ],
     formulas_work_energy,
     '../assets/motion/workenergytheorem.png'
 );
 
 createCalculator4('Gravitational Potential Energy', [
-    { id: 'vg4', placeholder: 'Vg - Gravitational Potential Energy' },
-    { id: 'm4', placeholder: 'm - Mass' },
-    { id: 'g4', placeholder: 'g - Gravity' },
-    { id: 'h4', placeholder: 'h - Height' },
+    { id: 'vg4', placeholder: 'Vg - Gravitational Potential Energy [J]' },
+    { id: 'm4', placeholder: 'm - Mass [kg]' },
+    { id: 'g4', placeholder: 'g - Gravity [m/s²]' },
+    { id: 'h4', placeholder: 'h - Height [m]' },
 ],
     formulas_epg,
     '../assets/motion/epg.png'
 );
 
 createCalculator5('Elastic Potential Energy', [
-    { id: 've5', placeholder: 'Ve - Elastic Potential Energy' },
-    { id: 'k5', placeholder: 'k - Spring Constant' },
-    { id: 'l5', placeholder: 'Δl - Length' },
-    { id: 'kl5', placeholder: 'kl - Angular Deformation Constant' },
-    { id: 'θ5', placeholder: 'Δθ - Angular Deformation' },
+    { id: 've5', placeholder: 'Ve - Elastic Potential Energy [J]' },
+    { id: 'k5', placeholder: 'k - Spring Constant [N/m]' },
+    { id: 'l5', placeholder: 'Δl - Length [m]' },
+    { id: 'kl5', placeholder: 'kl - Angular Deformation Constant [N·m/rad]' },
+    { id: 'θ5', placeholder: 'Δθ - Angular Deformation [rad]' },
 ],
     formulas_epe,
     '../assets/motion/epe.png'

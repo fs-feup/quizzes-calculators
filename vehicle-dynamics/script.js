@@ -191,26 +191,29 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
 
         let result;
         if (missingIndex === 0) {
-            const [, g, R, mu, Cl, A, V] = inputValues;
-            result = 'This formula cannot be used to calculate the mass.';
+            const [, g, R, mu, rho, Cl, A, V] = inputValues;
+            result = formulas[0].calculate(g, R, mu, rho, Cl, A, V);
         } else if (missingIndex === 1) {
-            const [m, , R, mu, Cl, A, V] = inputValues;
-            result = 'This formula cannot be used to calculate the gravity acceleration.';
+            const [m, , R, mu, rho, Cl, A, V] = inputValues;
+            result = formulas[1].calculate(m, R, mu, rho, Cl, A, V);
         } else if (missingIndex === 2) {
-            const [m, g, , mu, Cl, A, V] = inputValues;
-            result = formulas[0].calculate(m, g, mu, Cl, A, V);
+            const [m, g, , mu, rho, Cl, A, V] = inputValues;
+            result = formulas[2].calculate(m, g, mu, rho, Cl, A, V);
         } else if (missingIndex === 3) {
-            const [m, g, R, , Cl, A, V] = inputValues;
-            result = formulas[1].calculate(m, g, R, Cl, A, V);
+            const [m, g, R, , rho, Cl, A, V] = inputValues;
+            result = formulas[3].calculate(m, g, R, rho, Cl, A, V);
         } else if (missingIndex === 4) {
-            const [m, g, R, mu, , A, V] = inputValues;
-            result = formulas[2].calculate(m, g, R, mu, A, V);
+            const [m, g, R, mu, , Cl, A, V] = inputValues;
+            result = formulas[4].calculate(m, g, R, mu, Cl, A, V);
         } else if (missingIndex === 5) {
-            const [m, g, R, mu, Cl, , V] = inputValues;
-            result = formulas[3].calculate(m, g, R, mu, Cl, V);
+            const [m, g, R, mu, rho, , A , V] = inputValues;
+            result = formulas[5].calculate(m, g, R, mu, rho, A, V);
         } else if (missingIndex === 6) {
-            const [m, g, R, mu, Cl, A, ] = inputValues;
-            result = formulas[4].calculate(m, g, R, mu, Cl, A);
+            const [m, g, R, mu, rho, Cl, , V ] = inputValues;
+            result = formulas[6].calculate(m, g, R, mu, rho, Cl, V);
+        } else if (missingIndex === 7) {
+            const [m, g, R, mu, rho, Cl, A , ] = inputValues;
+            result = formulas[7].calculate(m, g, R, mu, rho, Cl, A);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
@@ -232,24 +235,36 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
 
 const curving_problem_formulas = [
     {
+        displayName: 'Calculate m',
+        calculate: (g, R, mu, rho, Cl, A, V) => (0.5 * rho * Cl * A * V**2) / (V ** 2 / (mu * R) - g)
+    },
+    {
+        displayName: 'Calculate g',
+        calculate: (m, R, mu, rho, Cl, A, V) => V**2 * (m / (mu * R) - 0.5 * rho * Cl * A) / m
+    },
+    {
         displayName: 'Calculate R',
-        calculate: (m, g, mu, Cl, A, V) => m / (mu * (m * g / V**2 + 0.5 * 1.204 * Cl * A))
+        calculate: (m, g, mu, rho, Cl, A, V) => m / (mu * (m * g / V**2 + 0.5 * rho * Cl * A))
     },
     {
         displayName: 'Calculate mu',
-        calculate: (m, g, R, Cl, A, V) => m / (R * (m * g / V**2 + 0.5 * 1.204 * Cl * A))
+        calculate: (m, g, R, rho, Cl, A, V) => m / (R * (m * g / V**2 + 0.5 * rho * Cl * A))
+    },
+    {
+        displayName: 'Calculate rho',
+        calculate: (m, g, R, mu, Cl, A, V) => 2 * m * (V**2 / (mu * R) - g) / (Cl * A * V**2)
     },
     {
         displayName: 'Calculate Cl',
-        calculate: (m, g, R, mu, A, V) => 2 / (1.204 * A) * (m / (R * mu) - m * g / V**2)
+        calculate: (m, g, R, mu, rho, A, V) => 2 / (rho * A) * (m / (R * mu) - m * g / V**2)
     },
     {
         displayName: 'Calculate A',
-        calculate: (m, g, R, mu, Cl, V) => 2 / (1.204 * Cl) * (m / (R * mu) - m * g / V**2)
+        calculate: (m, g, R, mu, rho, Cl, V) => 2 / (rho * Cl) * (m / (R * mu) - m * g / V**2)
     },
     {
         displayName: 'Calculate V',
-        calculate: (m, g, R, mu, Cl, A) => Math.sqrt((m * g) / ((1 / R) * (m / mu) - (0.5 * 1.204 * Cl * A)))
+        calculate: (m, g, R, mu, rho, Cl, A) => Math.sqrt((m * g) / ((1 / R) * (m / mu) - (0.5 * rho * Cl * A)))
     }
 ];
 
@@ -259,6 +274,7 @@ createCalculator2('Curving Problem',
         { id: 'g', placeholder: 'Gravitational Acceleration (g) [m/s²]' },
         { id: 'R', placeholder: 'Radius (r) [m]' },
         { id: 'mu', placeholder: 'Coefficient of Friction (μ)' },
+        { id: 'rho', placeholder: 'Density of Air (ρ) [kg/m³]' },
         { id: 'Cl', placeholder: 'Lift Coefficient (Cl)' },
         { id: 'A', placeholder: 'Cross-sectional Area (A) [m²]' },
         { id: 'V', placeholder: 'Velocity (V) [m/s]' }
@@ -332,10 +348,10 @@ createCalculator('Slip Angle Calculator',
     
     createCalculator4('Lateral Weight Transfer Calculator',
         [
-            { id: 'Ff', placeholder: 'Force (N)' },
-            { id: 'h_mf', placeholder: 'Height of center of mass (m)' },
-            { id: 'Tf', placeholder: 'Track Width (m)' },
-            { id: 'deltaf', placeholder: 'Lateral Weight Transfer (N)' }
+            { id: 'Ff', placeholder: 'Force [N]' },
+            { id: 'h_mf', placeholder: 'Height of center of mass [m]' },
+            { id: 'Tf', placeholder: 'Track Width [m]' },
+            { id: 'deltaf', placeholder: 'Lateral Weight Transfer [N]' }
         ],
         weight_transfer_y_formulas,
         '../assets/vd/lat_weight_transfer.png'

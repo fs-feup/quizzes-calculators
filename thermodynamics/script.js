@@ -89,10 +89,10 @@ const formulas = [
 
 createCalculator('Termodynamics Calculator',
     [
-        { id: 'dQ', placeholder: 'Change in thermal energy (Q)' },
-        { id: 'm', placeholder: 'Mass (m)' },
-        { id: 'c', placeholder: 'Specific Heat (c)' },
-        { id: 'dT', placeholder: 'Change in temperature (T)' }
+        { id: 'dQ', placeholder: 'Change in thermal energy (Q) [J]' },
+        { id: 'm', placeholder: 'Mass (m) [kg]' },
+        { id: 'c', placeholder: 'Specific Heat (c) [J·kg⁻¹·K⁻¹]' },
+        { id: 'dT', placeholder: 'Change in temperature (T) [K]' }
     ],
     formulas,
     '../assets/thermodynamics/termo.png'
