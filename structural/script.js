@@ -994,9 +994,9 @@ const formula_cylindrical_I_2 = [
 
 createCalculator('Young modulus (elasticity) formula',
     [
-        { id: 'young_modu1', placeholder: 'young modulus in (Pa)' },
-        { id: 'stress1', placeholder: 'stress (force per unit area)' },
-        { id: 'strain1', placeholder: 'strain (deformation)' }
+        { id: 'young_modu1', placeholder: 'Young modulus in (Pa)' },
+        { id: 'stress1', placeholder: 'Stress (Pa)' },
+        { id: 'strain1', placeholder: 'Strain (Relative Deformation)' }
     ],
     formula_young_modulus,
     '../assets/structural/young_modulus.png'
@@ -1014,10 +1014,10 @@ createCalculator('Young modulus (elasticity) alternative formula',
     '../assets/structural/young_modulus_altern.png'
 );
 
-createCalculator('Point load Reaction',
+createCalculator('Point Load Reaction',
     [
-        { id: 'reaction1345', placeholder: 'reaction' },
-        { id: 'load343', placeholder: 'load (P)' }
+        { id: 'reaction1345', placeholder: 'Reaction (R) - Newtons' },
+        { id: 'load343', placeholder: 'Load (P) - Newtons' }
     ],
     formula_point_load_reaction,
     '../assets/structural/point_load.png',
@@ -1026,9 +1026,9 @@ createCalculator('Point load Reaction',
 
 createCalculator('Point Load Moment',
     [
-        { id: 'moment54654', placeholder: 'Maximum Moment' },
-        { id: 'load54654', placeholder: 'Load (P)' },
-        { id: 'length654779', placeholder: 'Length (L)' }
+        { id: 'moment54654', placeholder: 'Maximum Moment (Newton-meter (Nm))' },
+        { id: 'load54654', placeholder: 'Load (P) - Newtons' },
+        { id: 'length654779', placeholder: 'Length (L) - Meters' }
     ],
     formula_point_load_moment,
     '../assets/structural/point_load.png',
@@ -1037,11 +1037,11 @@ createCalculator('Point Load Moment',
 
 createCalculator('Point Load Deflection',
     [
-        { id: 'deflection24536', placeholder: 'Deflection (Δ)' },
-        { id: 'load_97867', placeholder: 'Load (P)' },
-        { id: 'length_5y6u657', placeholder: 'Length (L)' },
-        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E)' },
-        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I)' }
+        { id: 'deflection24536', placeholder: 'Deflection (Δ) (m)' },
+        { id: 'load_97867', placeholder: 'Load (P) (N)' },
+        { id: 'length_5y6u657', placeholder: 'Length (L) (m)' },
+        { id: 'youngModulus_433598', placeholder: 'Young Modulus (E) (Pa)' },
+        { id: 'momentOfInertia_328jfn', placeholder: 'Moment of Inertia (I) (M^4)' }
     ],
     formula_point_load_deflection,
     '../assets/structural/point_load.png',
@@ -1050,9 +1050,9 @@ createCalculator('Point Load Deflection',
 
 createCalculator('Distributed Load Reaction',
     [
-        { id: 'reaction134545', placeholder: 'reaction' },
-        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w)' },
-        { id: 'length_456b4h', placeholder: 'Length (L)' }
+        { id: 'reaction134545', placeholder: 'Reaction (N)' },
+        { id: 'uniformLoad_346546', placeholder: 'Uniform Load (w) (N/m)' },
+        { id: 'length_456b4h', placeholder: 'Length (L) (m)' }
     ],
     formula_udl_reaction,
     '../assets/structural/distributed_load.png',
@@ -1061,9 +1061,9 @@ createCalculator('Distributed Load Reaction',
 
 createCalculator('Distributed Load Moment',
     [
-        { id: 'moment_54654', placeholder: 'Maximum Moment' },
-        { id: 'uniformLoad', placeholder: 'Uniform Load (w)' },
-        { id: 'length', placeholder: 'Length (L)' }
+        { id: 'moment_54654', placeholder: 'Maximum Moment (Nm)' },
+        { id: 'uniformLoad', placeholder: 'Uniform Load (w) (N/m)' },
+        { id: 'length', placeholder: 'Length (L) (m)' }
     ],
     formula_udl_moment,
     '../assets/structural/distributed_load.png',
@@ -1072,11 +1072,11 @@ createCalculator('Distributed Load Moment',
 
 createCalculator('Distributed Load Deflection',
     [
-        { id: 'deflection2', placeholder: 'Deflection (Δ)' },
-        { id: 'load2', placeholder: 'Load (P)' },
-        { id: 'length2', placeholder: 'Length (L)' },
-        { id: 'young_Modulus2', placeholder: 'Young Modulus (E)' },
-        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I)' }
+        { id: 'deflection2', placeholder: 'Deflection (Δ) (m)' },
+        { id: 'load2', placeholder: 'Uniform Load (w) (N/m)' },
+        { id: 'length2', placeholder: 'Length (L) (m)' },
+        { id: 'young_Modulus2', placeholder: 'Young Modulus (E) (Pa)' },
+        { id: 'momentOfInertia2', placeholder: 'Moment of Inertia (I) (m^4)' }
     ],
     formula_udl_deflection,
     '../assets/structural/distributed_load.png',
@@ -1198,12 +1198,12 @@ const formula_beam_deflection1 = [
 
 createCalculator2('Two Point Load Deflection',
     [
-        { id: 'delta_max', placeholder: 'Maximum Deflection (delta_max) [m]' },
-        { id: 'P', placeholder: 'Applied Point Load on the Beam(P) [N]' },
-        { id: 'a', placeholder: 'Distance from point load to nearest support (a) [m]' },
-        { id: 'L', placeholder: 'Length of beam (L) [m]' },
-        { id: 'E', placeholder: 'Modulus of Elasticity (E) [N/m^2]' },
-        { id: 'I', placeholder: 'Moment of Inertia (I) [kg.m^2]' }
+        { id: 'delta_max', placeholder: 'Maximum Deflection (Δ) (m)' },
+        { id: 'P', placeholder: 'Applied Point Load on the Beam(P) (N)' },
+        { id: 'a', placeholder: 'Distance from point load to nearest support (a) (m)' },
+        { id: 'L', placeholder: 'Length of beam (L) (m)' },
+        { id: 'E', placeholder: 'Modulus of Elasticity (E) (Pa)' },
+        { id: 'I', placeholder: 'Moment of Inertia (I) (m^4)' }
     ],
     formula_beam_deflection1,
     '../assets/structural/beam_deflection.png'
@@ -1330,13 +1330,13 @@ const formula_beam_deflection3 = [
 
 createCalculator3('One Point Load x distance Deflection',
     [
-        { id: 'delta_max2', placeholder: 'Maximum Deflection (delta_max) [m]' },
-        { id: 'P2', placeholder: 'Applied Point Load on the Beam(P) [N]' },
-        { id: 'a2', placeholder: 'Distance from point load to support A (a) [m]' },
-        { id: 'b2', placeholder: 'Distance from point load to support B (b) [m]' },
-        { id: 'L2', placeholder: 'Length of beam (L) [m]' },
-        { id: 'E2', placeholder: 'Modulus of Elasticity (E) [N/m^2]' },
-        { id: 'I2', placeholder: 'Moment of Inertia (I) [kg.m^2]' }
+        { id: 'delta_max2', placeholder: 'Maximum Deflection (delta_max) (m)' },
+        { id: 'P2', placeholder: 'Applied Point Load on the Beam(P) (N)' },
+        { id: 'a2', placeholder: 'Distance from point load to suport A (a) (m)' },
+        { id: 'b2', placeholder: 'Distance from point load to suport B (b) (m)' },
+        { id: 'L2', placeholder: 'Length of beam (L) (m)' },
+        { id: 'E2', placeholder: 'Modulus of Elasticity (E) (Pa)' },
+        { id: 'I2', placeholder: 'Moment of Inertia (I) (m^4)' }
     ],
     formula_beam_deflection3,
     '../assets/structural/beam_deflections.png'
@@ -1432,9 +1432,9 @@ const formula_beam_deflection4 = [
 
 createCalculator4('Coordinate One Point Load x distance Deflection',
     [
-        { id: 'x4', placeholder: 'Coordinate of Maximum Deflection (x) [m]' },
-        { id: 'a4', placeholder: 'Distance from support A to point load (a) [m]' },
-        { id: 'b4', placeholder: 'Distance from support B to point load (b) [m]' }
+        { id: 'x4', placeholder: 'Coordinate of Maximum Deflection (x) (m)' },
+        { id: 'a4', placeholder: 'Distance from support A to point load (a) (m)' },
+        { id: 'b4', placeholder: 'Distance from support B to point load (b) (m)' }
     ],
     formula_beam_deflection4,
     '../assets/structural/beam_deflections.png'
@@ -1548,11 +1548,11 @@ const formula_beam_deflection5 = [
 
 createCalculator5('Maximum Moment One Point Load x distance',
     [
-        { id: 'm_max5', placeholder: 'Maximum Deflection (Mmax) [m]' },
-        { id: 'P5', placeholder: 'Applied Point Load on the Beam(P) [N]' },
-        { id: 'a5', placeholder: 'Distance from point load to support A (a) [m]' },
-        { id: 'b5', placeholder: 'Distance from point load to support B (b) [m]' },
-        { id: 'L5', placeholder: 'Length of beam (L) [m]' }
+        { id: 'm_max5', placeholder: 'Maximum Deflection (Mmax) (m)' },
+        { id: 'P5', placeholder: 'Applied Point Load on the Beam (P) (N)' },
+        { id: 'a5', placeholder: 'Distance from point load to support A (a) (m)' },
+        { id: 'b5', placeholder: 'Distance from point load to support B (b) (m)' },
+        { id: 'L5', placeholder: 'Length of beam (L) (m)' }
     ],
     formula_beam_deflection5,
     '../assets/structural/beam_max_moment.png'
@@ -1655,23 +1655,23 @@ const formula_beam_deflection6 = [
     }
 ];
 
-createCalculator6('One Point Load x distance Reaction Force at Suppport A',
+createCalculator6('One Point Load x distance Reaction Force at Support A',
     [
-        { id: 'R6', placeholder: 'Reaction at support A [N]' },
-        { id: 'P6', placeholder: 'Applied Point Load on the Beam(P) [N]' },
-        { id: 'a6', placeholder: 'Distance from point load to support B (b) [m]' },
-        { id: 'L6', placeholder: 'Length of beam (L) [m]' }
+        { id: 'R6', placeholder: 'Reaction at support A (N)' },
+        { id: 'P6', placeholder: 'Applied Point Load on the Beam(P) (N)' },
+        { id: 'a6', placeholder: 'Distance from point load to support B (b) (m)' },
+        { id: 'L6', placeholder: 'Length of beam (L) (m)' }
     ],
     formula_beam_deflection6,
     '../assets/structural/beam_reactions.png'
 );
 
-createCalculator6('One Point Load x distance Reaction Force at Suppport B',
+createCalculator6('One Point Load x distance Reaction Force at Support B',
     [
-        { id: 'R7', placeholder: 'Reaction at support B [N]' },
-        { id: 'P7', placeholder: 'Applied Point Load on the Beam(P) [N]' },
-        { id: 'b7', placeholder: 'Distance from point load to support A (a) [m]' },
-        { id: 'L7', placeholder: 'Length of beam (L) [m]' }
+        { id: 'R7', placeholder: 'Reaction at support B (N)' },
+        { id: 'P7', placeholder: 'Applied Point Load on the Beam(P) (N)' },
+        { id: 'b7', placeholder: 'Distance from point load to support A (a) (m)' },
+        { id: 'L7', placeholder: 'Length of beam (L) (m)' }
     ],
     formula_beam_deflection6,
     '../assets/structural/beam_reactions.png'
