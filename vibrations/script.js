@@ -94,11 +94,11 @@ const formulas_spring_rate = [
 
 createCalculator('Spring rate', 
     [
-        { id: 'k0', placeholder: 'Spring rate (k)' },
-        { id: 'g0', placeholder: 'Shear modulus of elasticity of the spring material (G)' },
-        { id: 'mean0', placeholder: 'Mean diameter of the springs coils (D)' },
+        { id: 'k0', placeholder: 'Spring rate (k, in N/m)' },
+        { id: 'g0', placeholder: 'Shear modulus of elasticity of the spring material (G, in Pa)' },
+        { id: 'mean0', placeholder: 'Mean diameter of the springs coils (D, in m)' },
         { id: 'n0', placeholder: 'Number of active coils (N)' },
-        { id: 'd0', placeholder: 'Diameter of spring wire (d)' }
+        { id: 'd0', placeholder: 'Diameter of spring wire (d, in m)' }
     ],
     formulas_spring_rate,
     '../assets/vb/spring_rate.png'
@@ -126,9 +126,9 @@ const formulas_natural_f = [
 
 createCalculator('Natural angular frequency' , 
     [
-        { id: 'w1', placeholder: 'Natural angular frequency in radians (w)' },
-        { id: 'k1', placeholder: 'Spring constant in N/m (k)' },
-        { id: 'm1', placeholder: 'mass in kg (m)' }
+        { id: 'w1', placeholder: 'Natural angular frequency (w, in radians)' },
+        { id: 'k1', placeholder: 'Spring constant (k, in N/m)' },
+        { id: 'm1', placeholder: 'mass (m, in kg)' }
     ],
     formulas_natural_f,
     '../assets/vb/natural_f.png'
@@ -156,9 +156,9 @@ const formulas_damping_r = [
 createCalculator('Damping ratio', 
     [
         { id: 'zeta2', placeholder: 'Damping ratio (zeta)' },
-        { id: 'c2', placeholder: 'Damping coefficient (c)' },
-        { id: 'm2', placeholder: 'mass in kg (m)' },
-        { id: 'k2', placeholder: 'Spring constant (k)' }
+        { id: 'c2', placeholder: 'Damping coefficient (c, in N*s/m)' },
+        { id: 'm2', placeholder: 'mass (m, in kg)' },
+        { id: 'k2', placeholder: 'Spring constant (k, in N/m)' }
     ],
     formulas_damping_r,
     '../assets/vb/damping_r.png'
