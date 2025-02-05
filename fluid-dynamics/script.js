@@ -222,7 +222,7 @@ createReynoldsCalculator('Reynolds Number Calculator',
         { id: 'density', placeholder: 'Density (p, in kg/m³)' },
         { id: 'length', placeholder: 'Characteristic Length (l, in m)' },
         { id: 'fluidVelocity', placeholder: 'Velocity (v, in m/s)' },
-        { id: 'viscosity', placeholder: 'Dynamic Viscosity (u, in Pa*s)' }
+        { id: 'viscosity', placeholder: 'Dynamic Viscosity (μ, in Pa*s)' }
     ],
     reynoldsFormulas,
     '../assets/fluid-dynamics/reynolds_number.png'
