@@ -73,30 +73,30 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 
 const formulas = [
     {
-        displayName: 'Calculate P team from P max',
+        displayName: 'Calculate P team from P max and Final Points',
         calculate: (pmax, final) => final * pmax / 70
     },
     {
-        displayName: 'Calculate P max from P team',
+        displayName: 'Calculate P max from P team and Final Points',
         calculate: (pteam, final) => (70 * pteam) / final
     },
     {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
+        displayName: 'Calculate BPP score from P team and P max',
         calculate: (pteam, pmax) => (70 * (pteam / pmax))
     }
 ];
 
 const formulas_austria = [
     {
-        displayName: 'Calculate P team from P max',
+        displayName: 'Calculate P team from P max and Final Points',
         calculate: (pmax, final) => final * pmax / 71
     },
     {
-        displayName: 'Calculate P max from P team',
+        displayName: 'Calculate P max from P team and Final Points',
         calculate: (pteam, final) => (71 * pteam) / final
     },
     {
-        displayName: 'Calculate a third value, e.g., Final Points from P team and P max',
+        displayName: 'Calculate Final Points from P team and P max',
         calculate: (pteam, pmax) => (71 * (pteam / pmax))
     }
 ];
@@ -106,7 +106,7 @@ createCalculator('Non Finalist Business Plan Presentation Points',
     [
         { id: 'pteam', placeholder: 'P team - Score awarded to the team' },
         { id: 'pmax', placeholder: 'P max - Highest score of any non-finalist team' },
-        { id: 'finalPoints', placeholder: 'Final Points (optional)' }
+        { id: 'finalPoints', placeholder: 'BPP Score' }
     ],
     formulas,
     '../assets/bpp/bpp_score.png'
@@ -116,7 +116,7 @@ createCalculator('Non Finalist Business Plan Presentation Points Austria',
     [
         { id: 'pteamAustria', placeholder: 'P team / your - Score awarded to the team' },
         { id: 'pmaxAustria', placeholder: 'P min-F - Lowest score of any finalist team' },
-        { id: 'finalPointsAustria', placeholder: 'Final Points (optional)' }
+        { id: 'finalPointsAustria', placeholder: 'BPP Score' }
     ],
     formulas_austria,
     '../assets/bpp/bpp_score_austria.png'
