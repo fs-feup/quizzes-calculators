@@ -240,23 +240,24 @@ function generateFormulas(Pmax, denominator, factor, exp = 2, factor_division = 
     return [
         {
             displayName: 'Calculate P team from P max',
-            calculate: (tmax, final) => tmax * factor /
-                Math.pow(
-                    (denominator * (final - (1 - factor_division) * Pmax)) / (factor_division * Pmax) + 1,
-                    1 / exp
-                )
+            calculate: (tmax, final) => {
+                if(final > Pmax) return "Final points are higher than the maximum allowed for the event"
+                return tmax * factor / Math.pow((denominator * (final - (1 - factor_division) * Pmax)) / (factor_division * Pmax) + 1, 1 / exp);
+            }
         },
         {
             displayName: 'Calculate P max from P team',
-            calculate: (tteam, final) => (
-                ((denominator * ((final - (1 - factor_division) * Pmax) / (factor_division * Pmax)) + 1) / factor**exp) *
-                tteam**exp
-            ) ** (1 / exp)
+            calculate: (tteam, final) => {
+                if(final > Pmax) return "Final points are higher than the maximum allowed for the event"
+                return (((denominator * ((final - (1 - factor_division) * Pmax) / (factor_division * Pmax)) + 1) / factor**exp) *tteam**exp) ** (1 / exp)
+        }
         },
         {
             displayName: 'Calculate Final Points from P team and P max',
-            calculate: (tteam, tmax) => 
-                Math.max(factor_division * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + (1 - factor_division) * Pmax, 0)
+            calculate: (tteam, tmax) => {
+                if(tteam < tmax) return "Team's best time is better than overall best time"
+                return Math.max(factor_division * Pmax * ((tmax * factor / tteam)**exp - 1) / denominator + (1 - factor_division) * Pmax, 0);
+            }
         }
     ];
 }
@@ -278,7 +279,10 @@ const formulas_skidpad_dv = [
     },
     {
         displayName: 'Calculate Points with N_all and R_dv',
-        calculate: (rDV, nAll) => 75 * (nAll + 1 - rDV) / nAll
+        calculate: (rDV, nAll) => {
+            if(rDV > nAll) return "Team ranking is higher than number of finishers"
+            return 75 * (nAll + 1 - rDV) / nAll;
+        }
     }
 ]
 
@@ -382,27 +386,37 @@ const formulas_autocross_manual = generateFormulas(100, 0.25, 1.25, 1)
 const formulas_autocross_dc = [
     {
         displayName: 'Calculate t min',
-        calculate: (tmax, tteam_total, finalPoints) => 
-            - ((tmax - tteam_total - tmax * ((finalPoints-10)/90))/((finalPoints-10)/90)),
+        calculate: (tmax, tteam_total, finalPoints) => {
+        if(finalPoints > 100) return "Final points are higher than the maximum allowed for the event"    
+        return - ((tmax - tteam_total - tmax * ((finalPoints-10)/90))/((finalPoints-10)/90));
+        }
     },
     {
         displayName: 'Calculate t max',
         calculate: (tmin, tteam_total, finalPoints) => {
-            if (tmin === finalPoints) {
-                return "Impossible to solve tmin == tmax";
+            if(finalPoints > 100) return "Final points are higher than the maximum allowed for the event"    
+            if(tmin > tteam_total) return "Team total is faster than the fastest time (tmin)"
+            if (finalPoints === 100) {
+                return "Impossible to solve the formula (Final Points = 100 implies divison by 0)";
             }
             return (tteam_total - tmin * ((finalPoints - 10) / 90)) / ((90 - finalPoints + 10) / 90);
         }
     },
     {
         displayName: 'Calculate t total',
-        calculate: (tmin, tmax, finalPoints) => 
-            tmax - ((finalPoints - 10) * (tmax - tmin) / 90),
+        calculate: (tmin, tmax, finalPoints) => {
+            if(finalPoints > 100) return "Final points are higher than the maximum allowed for the event" 
+            if(tmin > tteam_total) return "Team total is faster than the fastest time (tmin)";
+            return tmax - ((finalPoints - 10) * (tmax - tmin) / 90);
+        }
     },
     {
         displayName: 'Calculate Final Points',
-        calculate: (tmin, tmax, tteam_total) => 
-            Math.max(90 * (tmax - tteam_total) / (tmax - tmin) + 10, 0),
+        calculate: (tmin, tmax, tteam_total) => {
+            if(tmin == tmax) return "Impossible to solve. Tmin == Tmax";
+            if(tmin > tteam_total) return "Team total is faster than the fastest time (tmin)"
+            return Math.max(90 * (tmax - tteam_total) / (tmax - tmin) + 10, 0);
+        }
     }
 ];
 
@@ -456,8 +470,10 @@ createCalculator('Endurance Non FSG / FSPT',
 const formulas_efficiency = [
     {
         displayName: 'Calculate EF team',
-        calculate: (ef_min, score) =>
-        (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 75,
+        calculate: (ef_min, score) => {
+        if(score > 75) return "Final points are higher than the maximum allowed for the event"    
+        return (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 75;
+        }
     },
     {
         displayName: 'Calculate EF min',
@@ -467,8 +483,10 @@ const formulas_efficiency = [
     },
     {
         displayName: 'Calculate final score',
-        calculate: (ef_team, ef_min) => 
-            75 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min)),
+        calculate: (ef_team, ef_min) => {
+            if(ef_team < ef_min) return "Team's efficiency factor is lower than the lowest efficiency factor";
+            return 75 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min));
+        }
     },
 ];
 
@@ -485,8 +503,10 @@ createCalculator('Efficiency',
 const formulas_efficiency_non_fsg = [
     {
         displayName: 'Calculate EF team',
-        calculate: (ef_min, score) =>
-        (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 100,
+        calculate: (ef_min, score) => {
+        if(score > 75) return "Final points are higher than the maximum allowed for the event" 
+        return (1.5 * ef_min) - (score * (1.5 * ef_min - ef_min)) / 100;
+        }
     },
     {
         displayName: 'Calculate EF min',
@@ -544,16 +564,25 @@ createCalculator('Efficiency Factor',
 const formulas_trackdrive = [
     {
         displayName: 'Calculate T team',
-        calculate: (t_best, score) => (2 * t_best) / (1 + (score / 150)),
+        calculate: (t_best, score) => {
+        if(score > 200) return "Final points are higher than the maximum allowed for the event" 
+        return (2 * t_best) / (1 + (score / 150));
+        }
     },
     {
         displayName: 'Calculate T best',
-        calculate: (t_team, score) => (t_team * (1 + (score /150))) / 2
+        calculate: (t_team, score) => {
+        if(score > 200) return "Final points are higher than the maximum allowed for the event" 
+        return (t_team * (1 + (score /150))) / 2;
+        }
         
     },
     {
         displayName: 'Calculate final score',
-        calculate: (t_team, t_best) => 150 * ((t_best * 2) / t_team - 1) ,
+        calculate: (t_team, t_best) => {
+            if(t_team  < t_best) return "Team's best time is better than overall best time";
+            return 150 * ((t_best * 2) / t_team - 1);
+        }
     },
 ];
 
