@@ -7,13 +7,13 @@ const sidebarData = {
         "Efficiency"
     ],
     "Statics": [
-        "Non Finalist BPP Points",
-        "Non Finalist BPP Points Austria"
+        "Non Finalist BPP Points"
+        //"Non Finalist BPP Points Austria"
     ],
     "Computer Vision": [
         "Camera Problem Calculator",
     ],
-    "Moments of Inertia": [
+    //"Moments of Inertia": [
         // "Rectangle",
         // "Triangle",
         // "Rectangle Triangle",
@@ -25,7 +25,7 @@ const sidebarData = {
         // "Parabola",
         // "Half Parabola",
         // "Hollow Shaft",
-    ],
+    //],
     "Structural": [
         // 'Young modulus (elasticity) formula',
         // 'Young modulus (elasticity) altern.',

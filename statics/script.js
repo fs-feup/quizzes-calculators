@@ -106,18 +106,20 @@ createCalculator('Non Finalist Business Plan Presentation Points',
     [
         { id: 'pteam', placeholder: 'P team - Score awarded to the team' },
         { id: 'pmax', placeholder: 'P max - Highest score of any non-finalist team' },
-        { id: 'finalPoints', placeholder: 'Final Points (optional)' }
+        { id: 'finalPoints', placeholder: 'Final Score' }
     ],
     formulas,
     '../assets/bpp/bpp_score.png'
 );
 
+/*
 createCalculator('Non Finalist Business Plan Presentation Points Austria', 
     [
         { id: 'pteamAustria', placeholder: 'P team / your - Score awarded to the team' },
         { id: 'pmaxAustria', placeholder: 'P min-F - Lowest score of any finalist team' },
-        { id: 'finalPointsAustria', placeholder: 'Final Points (optional)' }
+        { id: 'finalPointsAustria', placeholder: 'Final Score' }
     ],
     formulas_austria,
     '../assets/bpp/bpp_score_austria.png'
 );
+*/
