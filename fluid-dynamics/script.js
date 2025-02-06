@@ -347,11 +347,11 @@ const perfectGasFormulas = [
 
 createPerfectGasCalculator('Perfect Gas Law Calculator',
     [
-        { id: 'P1', placeholder: 'Pressure 1 (P1, in kg/m³)' },
+        { id: 'P1', placeholder: 'Pressure 1 (P1, in Pa)' },
         { id: 'V1', placeholder: 'Volume 1 (V1, in m³)' },
         { id: 'n1', placeholder: 'Moles 1 (n1)' },
         { id: 'T1', placeholder: 'Temperature 1 (T1, in K)' },
-        { id: 'P2', placeholder: 'Pressure 2 (P2, in kg/m³)' },
+        { id: 'P2', placeholder: 'Pressure 2 (P2, in Pa)' },
         { id: 'V2', placeholder: 'Volume 2 (V2, in m³)' },
         { id: 'n2', placeholder: 'Moles 2 (n2)' },
         { id: 'T2', placeholder: 'Temperature 2 (T2, in K)' }
