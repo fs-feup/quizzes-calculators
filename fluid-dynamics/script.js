@@ -104,11 +104,11 @@ const formulas = [
 
 createCalculator('Drag and Lift Calculator',
     [
-        { id: 'dCoeff', placeholder: 'Drag/Lift Coefficient' },
-        { id: 'airDensity', placeholder: 'Air Density' },
-        { id: 'velocity', placeholder: 'Velocity' },
-        { id: 'area', placeholder: 'Effective Cross-sectional Area' },
-        { id: 'drag', placeholder: 'Drag/Lift Force' }
+        { id: 'dCoeff', placeholder: 'Drag/Lift Coefficient (Cd or Cl)' },
+        { id: 'airDensity', placeholder: 'Air Density (p, in kg/m³)' },
+        { id: 'velocity', placeholder: 'Velocity (v, in m/s)' },
+        { id: 'area', placeholder: 'Effective Cross-sectional Area (A, in m²)' },
+        { id: 'drag', placeholder: 'Drag/Lift Force (Fd or Fl, in N)' }
 
     ],
     formulas,
@@ -219,10 +219,10 @@ const reynoldsFormulas = [
 createReynoldsCalculator('Reynolds Number Calculator',
     [
         { id: 'reynolds', placeholder: 'Reynolds Number (Re)' },
-        { id: 'density', placeholder: 'Density (rho)' },
-        { id: 'length', placeholder: 'Characteristic Length (l)' },
-        { id: 'fluidVelocity', placeholder: 'Velocity (v)' },
-        { id: 'viscosity', placeholder: 'Dynamic Viscosity (u)' }
+        { id: 'density', placeholder: 'Density (p, in kg/m³)' },
+        { id: 'length', placeholder: 'Characteristic Length (l, in m)' },
+        { id: 'fluidVelocity', placeholder: 'Velocity (v, in m/s)' },
+        { id: 'viscosity', placeholder: 'Dynamic Viscosity (μ, in Pa*s)' }
     ],
     reynoldsFormulas,
     '../assets/fluid-dynamics/reynolds_number.png'
@@ -347,14 +347,14 @@ const perfectGasFormulas = [
 
 createPerfectGasCalculator('Perfect Gas Law Calculator',
     [
-        { id: 'P1', placeholder: 'Pressure 1 (P1)' },
-        { id: 'V1', placeholder: 'Volume 1 (V1)' },
+        { id: 'P1', placeholder: 'Pressure 1 (P1, in kg/m³)' },
+        { id: 'V1', placeholder: 'Volume 1 (V1, in m³)' },
         { id: 'n1', placeholder: 'Moles 1 (n1)' },
-        { id: 'T1', placeholder: 'Temperature 1 (T1)' },
-        { id: 'P2', placeholder: 'Pressure 2 (P2)' },
-        { id: 'V2', placeholder: 'Volume 2 (V2)' },
+        { id: 'T1', placeholder: 'Temperature 1 (T1, in K)' },
+        { id: 'P2', placeholder: 'Pressure 2 (P2, in kg/m³)' },
+        { id: 'V2', placeholder: 'Volume 2 (V2, in m³)' },
         { id: 'n2', placeholder: 'Moles 2 (n2)' },
-        { id: 'T2', placeholder: 'Temperature 2 (T2)' }
+        { id: 'T2', placeholder: 'Temperature 2 (T2, in K)' }
     ],
     perfectGasFormulas,
     '../assets/fluid-dynamics/perfect_gas.png'
@@ -465,12 +465,12 @@ const bernoulliFormulas = [
 
 createCalculatorBernoulli('Bernoulli\'s Law Calculator',
     [
-        { id: 'P1_bernoulli', placeholder: 'Pressure 1 (P1)' },
-        { id: 'rho1_bernoulli', placeholder: 'Density 1 (rho1)' },
-        { id: 'v1_bernoulli', placeholder: 'Velocity 1 (v1)' },
-        { id: 'P2_bernoulli', placeholder: 'Pressure 2 (P2)' },
-        { id: 'rho2_bernoulli', placeholder: 'Density 2 (rho2)' },
-        { id: 'v2_bernoulli', placeholder: 'Velocity 2 (v2)' }
+        { id: 'P1_bernoulli', placeholder: 'Pressure 1 (Ps1, in Pa)' },
+        { id: 'rho1_bernoulli', placeholder: 'Density 1 (p1, in kg/m³)' },
+        { id: 'v1_bernoulli', placeholder: 'Velocity 1 (v1, in m/s)' },
+        { id: 'P2_bernoulli', placeholder: 'Pressure 2 (Ps2, in Pa)' },
+        { id: 'rho2_bernoulli', placeholder: 'Density 2 (p2, in kg/m³)' },
+        { id: 'v2_bernoulli', placeholder: 'Velocity 2 (v2, in m/s)' }
     ],
     bernoulliFormulas,
     '../assets/fluid-dynamics/bernoulli.png'
