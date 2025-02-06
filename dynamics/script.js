@@ -384,8 +384,8 @@ const formulas_autocross_dc = [
     {
         displayName: 'Calculate t max',
         calculate: (tmin, tteam_total, finalPoints) => {
-            if (tmin === finalPoints) {
-                return "Impossible to solve tmin == tmax";
+            if (finalPoints === 100) {
+                return "Impossible to solve the formula (Final Points = 100 implies divison by 0)";
             }
             return (tteam_total - tmin * ((finalPoints - 10) / 90)) / ((90 - finalPoints + 10) / 90);
         }
@@ -397,8 +397,12 @@ const formulas_autocross_dc = [
     },
     {
         displayName: 'Calculate Final Points',
-        calculate: (tmin, tmax, tteam_total) => 
-            Math.max(90 * (tmax - tteam_total) / (tmax - tmin) + 10, 0),
+        calculate: (tmin, tmax, tteam_total) => {
+            if(tmin == tmax) {
+                return "Impossible to solve. Tmin == Tmax";
+            }
+            return Math.max(90 * (tmax - tteam_total) / (tmax - tmin) + 10, 0);
+        }
     }
 ];
 
@@ -416,8 +420,8 @@ createCalculator4('DC Autocross',
     [
         { id: 'tteam5', placeholder: 'T min - fastest autocross time across all teams' },
         { id: 'tmax5', placeholder: 'T max - the time for driving the lap at 6 m/s' },
-        { id: 'ttotal5', placeholder: 'T Total - given formula: min. between first run and average run time of the team' },
-        { id: 'finalPoints5', placeholder: 'Final Points (optional)' },
+        { id: 'ttotal5', placeholder: 'T Total - minimum between first run time and average run time of the team' },
+        { id: 'finalPoints5', placeholder: 'Final Points' },
     ],
     formulas_autocross_dc,
     '../assets/autocross/dc_autocross.png'
@@ -469,7 +473,7 @@ const formulas_efficiency = [
 createCalculator('Efficiency', 
     [
         { id: 'efteam', placeholder: 'EF team - Team\'s efficiency factor' },
-        { id: 'efmin', placeholder: 'T min - lowest efficiency factor. EF max = 1.5 EF min' },
+        { id: 'efmin', placeholder: 'EF min - lowest efficiency factor' },
         { id: 'score', placeholder: 'Final Score' }
     ],
     formulas_efficiency,
@@ -491,14 +495,14 @@ const formulas_efficiency_non_fsg = [
     {
         displayName: 'Calculate final score',
         calculate: (ef_team, ef_min) => 
-            100 * ((1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min)),
+            100 * ((1.5 * ef_min - ef_team) / (1(1.5 * ef_min - ef_team) / (1.5 * ef_min - ef_min))),
     },
 ];
 
 createCalculator('Efficiency Non FSG / FSPT', 
     [
         { id: 'efteam99', placeholder: 'EF team - Team\'s efficiency factor' },
-        { id: 'efmin99', placeholder: 'T min - lowest efficiency factor. EF max = 1.5 EF min' },
+        { id: 'efmin99', placeholder: 'EF min - lowest efficiency factor'},
         { id: 'score99', placeholder: 'Final Score' }
     ],
     formulas_efficiency_non_fsg,
