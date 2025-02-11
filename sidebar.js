@@ -7,31 +7,31 @@ const sidebarData = {
         "Efficiency"
     ],
     "Statics": [
-        "Non Finalist BPP Points"
-        //"Non Finalist BPP Points Austria"
+        "Non Finalist BPP Points",
+        "Non Finalist BPP Points Austria"
     ],
     "Computer Vision": [
         "Camera Problem Calculator",
     ],
-    //"Moments of Inertia": [
-        // "Rectangle",
-        // "Triangle",
-        // "Rectangle Triangle",
-        // "Circle",
-        // "Half Circle",
-        // "Quarter Circle",
-        // "Half Elipse",
-        // "Quarter Ellipse",
-        // "Parabola",
-        // "Half Parabola",
-        // "Hollow Shaft",
-    //],
+    "Moments of Inertia": [
+         "Rectangle",
+         "Triangle",
+         "Rectangle Triangle",
+         "Circle",
+         "Half Circle",
+         "Quarter Circle",
+         "Half Elipse",
+         "Quarter Ellipse",
+         "Parabola",
+         "Half Parabola",
+         "Hollow Shaft",
+    ],
     "Structural": [
-        // 'Young modulus (elasticity) formula',
-        // 'Young modulus (elasticity) altern.',
-        // 'Point load',
-        // 'Distributed Load',
-        // 'Two Point Load',
+        'Young modulus (elasticity) formula',
+        'Young modulus (elasticity) altern.',
+        'Point load',
+        'Distributed Load',
+        'Two Point Load',
     ],
     "Fluid and Aero Dynamics": [
         "Drag and Lift Calculator",

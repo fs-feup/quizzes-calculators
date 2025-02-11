@@ -1,10 +1,6 @@
 function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
-
-    // Create image element if imageUrl is provided
-
-    // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
     calculatorDiv.appendChild(titleElement);
@@ -112,7 +108,7 @@ createCalculator('Non Finalist Business Plan Presentation Points',
     '../assets/bpp/bpp_score.png'
 );
 
-/*
+
 createCalculator('Non Finalist Business Plan Presentation Points Austria', 
     [
         { id: 'pteamAustria', placeholder: 'P team / your - Score awarded to the team' },
@@ -122,4 +118,3 @@ createCalculator('Non Finalist Business Plan Presentation Points Austria',
     formulas_austria,
     '../assets/bpp/bpp_score_austria.png'
 );
-*/

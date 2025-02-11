@@ -300,7 +300,7 @@ createCalculator('Manual Skidpad',
     '../assets/skidpad/skidpad_score.png'
 );
 
-/*
+
 createCalculator('Manual Skidpad Non FSG / FSPT',
     [
         { id: 'tteam11', placeholder: 'T team - Team\'s best time including penalties' },
@@ -310,7 +310,7 @@ createCalculator('Manual Skidpad Non FSG / FSPT',
     formulas_skidpad_manual_non_fsg,
     '../assets/skidpad/skidpad_score.png'
 );
-*/
+
 
 createCalculator('Driverless Skidpad',
     [
@@ -343,7 +343,7 @@ createCalculator('Manual Acceleration',
     '../assets/acceleration/m_acceleration.png'
 );
 
-/*
+
 createCalculator('Manual Acceleration Non FSG / FSPT', 
     [
         { id: 'tteam22', placeholder: 'T team - Team\'s best time including penalties' },
@@ -353,7 +353,6 @@ createCalculator('Manual Acceleration Non FSG / FSPT',
     formulas_acceleration_manual_non_fsg,
     '../assets/acceleration/m_acceleration.png'
 );
-*/
 
 createCalculator('Driverless Acceleration',
     [
@@ -441,7 +440,7 @@ createCalculator('Endurance',
     '../assets/endurance/endurance.png'
 );
 
-/*
+
 createCalculator('Endurance Non FSG / FSPT', 
     [
         { id: 'tteam66', placeholder: 'T team - Team\'s corrected elapsed time' },
@@ -451,7 +450,7 @@ createCalculator('Endurance Non FSG / FSPT',
     formulas_endurance_non_fsg,
     '../assets/endurance/endurance.png'
 );
-*/
+
 
 const formulas_efficiency = [
     {
@@ -501,7 +500,7 @@ const formulas_efficiency_non_fsg = [
     },
 ];
 
-/*
+
 createCalculator('Efficiency Non FSG / FSPT', 
     [
         { id: 'efteam99', placeholder: 'EF team - Team\'s efficiency factor' },
@@ -511,7 +510,7 @@ createCalculator('Efficiency Non FSG / FSPT',
     formulas_efficiency_non_fsg,
     '../assets/endurance/efficiency.png'
 );
-*/
+
 
 const formulas_efficiency_factor = [
     {
