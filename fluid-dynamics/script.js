@@ -22,7 +22,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -64,6 +64,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             result = formulas[4].calculate(dCoeff, airDensity, velocity, area);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -140,7 +143,7 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -182,6 +185,9 @@ function createReynoldsCalculator(title, inputFields, formulas, imageUrl) {
             result = reynoldsFormulas[4].calculate(reynolds, density, length, velocity);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -256,7 +262,7 @@ function createPerfectGasCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -302,6 +308,9 @@ function createPerfectGasCalculator(title, inputFields, formulas, imageUrl) {
             result = perfectGasFormulas[7].calculate(P1, V1, n1, T1, P2, V2, n2);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -391,7 +400,7 @@ function createCalculatorBernoulli(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -431,6 +440,9 @@ function createCalculatorBernoulli(title, inputFields, formulas, imageUrl) {
             result = bernoulliFormulas[5].calculate(P1, rho1, v1, P2, rho2);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');

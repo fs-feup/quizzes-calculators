@@ -20,7 +20,7 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -63,6 +63,9 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
+        }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
 
@@ -101,7 +104,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -179,7 +182,7 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -225,6 +228,9 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
             result = formulas[7].calculate(m, g, R, mu, rho, Cl, A);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');

@@ -28,7 +28,7 @@ function createCalculator(title, inputFields, formulas, imageUrl, imageUrl2) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -54,6 +54,9 @@ function createCalculator(title, inputFields, formulas, imageUrl, imageUrl2) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -1108,7 +1111,7 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -1162,6 +1165,9 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -1238,7 +1244,7 @@ function createCalculator3(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -1297,6 +1303,9 @@ function createCalculator3(title, inputFields, formulas, imageUrl) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -1373,7 +1382,7 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -1410,6 +1419,9 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -1474,7 +1486,7 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -1521,6 +1533,10 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
@@ -1595,7 +1611,7 @@ function createCalculator6(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -1637,6 +1653,10 @@ function createCalculator6(title, inputFields, formulas, imageUrl) {
             console.log(result)
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
         let resultParagraph = calculatorDiv.querySelector('.result');

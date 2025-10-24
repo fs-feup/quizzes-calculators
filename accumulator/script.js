@@ -35,7 +35,7 @@ function createSection(subTitleName, fields, motherDiv, advancedMode = false) {
         current_problem_vars = field.current_problem;
         
         const input = document.createElement('input');
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         

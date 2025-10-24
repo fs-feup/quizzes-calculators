@@ -20,7 +20,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -40,7 +40,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
 
         let result;
-        if (missingIndex === 0) {
+        if(inputValues.findIndex((value, idx) => isNaN(value) && idx !== missingIndex) !== -1) {
+            result = 'Invalid input values. Please check your entries.';
+        } else if (missingIndex === 0) {
             // Missing value for first input
             const [, pmax, final] = inputValues; // Skip the first value
             result = formulas[0].calculate(pmax, final);
@@ -58,6 +60,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
+        // if(isNaN(result) && missingIndex >=0){
+        //     result = 'Invalid input values. Please check your entries.';
+        // }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
 
@@ -96,7 +101,7 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -116,7 +121,9 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
 
         let result;
-        if (missingIndex === 0) {
+        if(inputValues.findIndex((value, idx) => isNaN(value) && idx !== missingIndex) !== -1) {
+            result = 'Invalid input values. Please check your entries.';
+        } else if (missingIndex === 0) {
             // Missing value for first input
             const [, b, c, d] = inputValues; // Skip the first value
             result = formulas[0].calculate(b, c, d);
@@ -139,6 +146,9 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
+        // if(isNaN(result) && missingIndex >=0){
+        //     result = 'Invalid input values. Please check your entries.';
+        // }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
 
@@ -178,7 +188,7 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -198,7 +208,9 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
         let missingIndex = inputValues.findIndex(value => isNaN(value));
 
         let result;
-        if (missingIndex === 0) {
+        if(inputValues.findIndex((value, idx) => isNaN(value) && idx !== missingIndex) !== -1) {
+            result = 'Invalid input values. Please check your entries.';
+        } else if (missingIndex === 0) {
             // Missing value for first input
             const [, b, c, d, e] = inputValues; // Skip the first value
             result = formulas[0].calculate(b, c, d, e);
@@ -226,6 +238,9 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
         }
+        // if(isNaN(result) && missingIndex >=0){
+        //     result = 'Invalid input values. Please check your entries.';
+        // }
 
         let resultParagraph = calculatorDiv.querySelector('.result');
 
