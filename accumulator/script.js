@@ -193,7 +193,8 @@ function createCalculator(title, sections, divId) {
             // Get input values
             for (const field of allFields) {
                 const input = calculatorDiv.querySelector(`#${field.id}`);
-                field.inputValue = parseFloat(input.value);
+                value = input.value.replace(',', '.');
+                field.inputValue = parseFloat(value);
             }
             
             // Divide the fields into null and non null fields

@@ -168,8 +168,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
 
-        // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        // Get input values normalized
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
         
         // Give me an array of indexes of the missing values
         const missingIndexes = inputValues.map((value, index) => !isNaN(value) ? null : index).filter(index => index !== null);

@@ -39,7 +39,10 @@ function createCalculator(title, inputFields, formulas, imageUrl, imageUrl2) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -1116,7 +1119,10 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -1243,7 +1249,10 @@ function createCalculator3(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -1375,7 +1384,10 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -1473,7 +1485,10 @@ function createCalculator5(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -1591,7 +1606,10 @@ function createCalculator6(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
 
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
