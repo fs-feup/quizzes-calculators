@@ -57,7 +57,11 @@ const sidebarData = {
     "Vehicle Dynamics": [
         "Curving Problem",
         "Slip Angle Calculator"
+    ],
+    "Maths": [
+        "Area between Two Curves"
     ]
+
 };
 
 const pageMap = {
@@ -72,6 +76,7 @@ const pageMap = {
     "Thermodynamics": "thermodynamics/thermodynamics.html",
     "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html",
+    "Maths": "maths/maths.html"
 };
 
 const pageMap1 = {
@@ -86,6 +91,7 @@ const pageMap1 = {
     "Thermodynamics": "../thermodynamics/thermodynamics.html",
     "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "../computer_vision/computer_vision.html",
+    "Maths": "../maths/maths.html"
 };
 
 // Get the current path
