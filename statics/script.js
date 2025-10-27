@@ -1,6 +1,13 @@
 function createCalculator(title, inputFields, formulas, imageUrl) {
+    const id = title
+        .toLowerCase()
+        .replace(/ /g, '-')      
+        .replace(/[^a-z0-9\-]/g, '');
+
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+    calculatorDiv.id = id;
+    
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
     calculatorDiv.appendChild(titleElement);

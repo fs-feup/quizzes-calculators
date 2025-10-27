@@ -2,6 +2,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
+
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
@@ -74,6 +79,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
 function createCalculator4(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
 
     // Create title element
     const titleElement = document.createElement('h2');
@@ -153,6 +163,11 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
 function createCalculator5(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
 
     // Create title element
     const titleElement = document.createElement('h2');

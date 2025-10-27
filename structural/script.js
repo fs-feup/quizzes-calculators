@@ -2,6 +2,11 @@ function createCalculator(title, inputFields, formulas, imageUrl, imageUrl2) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
+
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
@@ -1087,6 +1092,11 @@ function createCalculator2(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
+
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
@@ -1213,6 +1223,11 @@ createCalculator2('Two Point Load Deflection',
 function createCalculator3(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
 
     // Create title element
     const titleElement = document.createElement('h2');
@@ -1346,6 +1361,11 @@ function createCalculator4(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
+
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
@@ -1443,6 +1463,11 @@ createCalculator4('Coordinate One Point Load x distance Deflection',
 function createCalculator5(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
 
     // Create title element
     const titleElement = document.createElement('h2');
@@ -1561,6 +1586,11 @@ createCalculator5('Maximum Moment One Point Load x distance',
 function createCalculator6(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    const id = title.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^a-z0-9\-]/g, '');
+    calculatorDiv.id = id;
 
     // Create title element
     const titleElement = document.createElement('h2');
