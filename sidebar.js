@@ -123,6 +123,12 @@ const sidebarData = {
         "Slip Angle Calculator",
         "Longitudinal Weight Transfer Calculator",
         "Lateral Weight Transfer Calculator"
+    ],
+    "External Calculators": [
+        "Calculation of planetary gear ratios",
+        "Circuit simulation",
+        "Transfer function from circuit",
+        "Beam Calculator"
     ]
 };
 
@@ -154,6 +160,14 @@ const pageMap1 = {
     "Computer Vision": "../computer_vision/computer_vision.html",
 };
 
+const externalLinksMap = {
+    "Calculation of planetary gear ratios": "https://www.thecatalystis.com/gears/",
+    "Circuit simulation": "https://www.falstad.com/circuit/",
+    "Transfer function from circuit": "https://www.will-kelsey.com/circuitSolver/",
+    "Beam Calculator": "https://skyciv.com/free-beam-calculator/"
+};
+
+
 // Get the current path
 const currentPath = window.location.pathname;
 
@@ -177,10 +191,11 @@ for (const category in sidebarData) {
     const categoryTitle = document.createElement('h2');
     categoryTitle.innerText = category;
 
-    // Use the selected page map
-    categoryTitle.addEventListener('click', () => {
-        window.location.href = selectedPageMap[category];
-    });
+    if (category !== "External Calculators") {
+        categoryTitle.addEventListener('click', () => {
+            window.location.href = selectedPageMap[category];
+        });
+    }
 
     categoryDiv.appendChild(categoryTitle);
 
@@ -189,22 +204,31 @@ for (const category in sidebarData) {
         const listItem = document.createElement('li');
         listItem.innerText = calculator;
 
-        const id = calculator
-            .toLowerCase()
-            .replace(/ /g, '-')      
-            .replace(/[^a-z0-9\-]/g, ''); 
+        if (category === "External Calculators") {
+            listItem.addEventListener('click', () => {
+                const link = externalLinksMap[calculator];
+                if (link) {
+                    window.open(link, '_blank');
+                } 
+            });
+        } else {
+            const id = calculator
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^a-z0-9\-]/g, '');
 
-        listItem.addEventListener('click', () => {
-            const targetPage = selectedPageMap[category];
-            if (targetPage) {
-                window.location.href = `${targetPage}#${id}`;
-            }
-        });
+            listItem.addEventListener('click', () => {
+                const targetPage = selectedPageMap[category];
+                if (targetPage) {
+                    window.location.href = `${targetPage}#${id}`;
+                }
+            });
+        }
 
         calculatorsList.appendChild(listItem);
     });
 
-
     categoryDiv.appendChild(calculatorsList);
     sidebar.appendChild(categoryDiv);
 }
+
