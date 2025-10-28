@@ -540,7 +540,7 @@ createCalculator('Manual Skidpad',
     { id: 'finalPoints', placeholder: 'Final Score' }
   ],
   formulas_skidpad_manual,
-  '../assets/skidpad/skidpad_score.png'
+  '../assets/dynamics/manual_score.png'
 );
 
 createCalculator('Manual Skidpad Non FSG / FSPT',
@@ -550,7 +550,7 @@ createCalculator('Manual Skidpad Non FSG / FSPT',
     { id: 'finalPoints11', placeholder: 'Final Score' }
   ],
   formulas_skidpad_manual_non_fsg,
-  '../assets/skidpad/skidpad_score.png',
+  '../assets/dynamics/manual_score.png',
   'non-fsg'
 );
 
@@ -561,7 +561,7 @@ createCalculator('Driverless Skidpad',
     { id: 'points', placeholder: 'Final Score' }
   ],
   formulas_skidpad_dv,
-  '../assets/skidpad/DV_Skidpad.png'
+  '../assets/dynamics/dv_score.png'
 );
 
 createCalculator('DC Skidpad',
@@ -571,7 +571,7 @@ createCalculator('DC Skidpad',
     { id: 'finalPoints1', placeholder: 'Final Score' }
   ],
   formulas_skidpad_dc,
-  '../assets/skidpad/skidpad_dc.png'
+  '../assets/dynamics/manual_score.png'
 );
 
 createCalculator('Manual Acceleration',
@@ -581,7 +581,7 @@ createCalculator('Manual Acceleration',
     { id: 'finalPoints2', placeholder: 'Final Score' }
   ],
   formulas_acceleration_manual,
-  '../assets/acceleration/m_acceleration.png'
+  '../assets/dynamics/manual_score.png'
 );
 
 createCalculator('Manual Acceleration Non FSG / FSPT',
@@ -591,7 +591,7 @@ createCalculator('Manual Acceleration Non FSG / FSPT',
     { id: 'finalPoints22', placeholder: 'Final Score' }
   ],
   formulas_acceleration_manual_non_fsg,
-  '../assets/acceleration/m_acceleration.png',
+  '../assets/dynamics/manual_score.png',
   'non-fsg'
 );
 
@@ -602,7 +602,7 @@ createCalculator('Driverless Acceleration',
     { id: 'points3333', placeholder: 'Final Score' }
   ],
   formulas_acceleration_dv,
-  '../assets/acceleration/dc_acceleration.png'
+  '../assets/dynamics/dv_score.png'
 );
 
 createCalculator('DC Acceleration',
@@ -612,7 +612,7 @@ createCalculator('DC Acceleration',
     { id: 'finalPoints3', placeholder: 'Final Score' }
   ],
   formulas_acceleration_dc,
-  '../assets/acceleration/dv_acceleration.png'
+  '../assets/dynamics/manual_score.png'
 );
 
 // ---------- Autocross ----------
@@ -623,7 +623,7 @@ createCalculator('Manual Autocross',
     { id: 'finalPoints4', placeholder: 'Final Score' }
   ],
   formulas_autocross_manual,
-  '../assets/autocross/m_autocross.png',
+  '../assets/dynamics/manual_score.png',
   'shared'
 );
 
@@ -635,7 +635,7 @@ createCalculator4('DC Autocross',
     { id: 'finalPoints5', placeholder: 'Final Score' }
   ],
   formulas_autocross_dc,
-  '../assets/autocross/dc_autocross.png'
+  '../assets/dynamics/autocross_score.png'
 );
 
 // ---------- Endurance ----------
@@ -646,7 +646,7 @@ createCalculator('Endurance',
     { id: 'finalPoints6', placeholder: 'Final Score' }
   ],
   formulas_endurance,
-  '../assets/endurance/endurance.png'
+  '../assets/dynamics/manual_score.png'
 );
 
 createCalculator('Endurance Non FSG / FSPT',
@@ -656,7 +656,7 @@ createCalculator('Endurance Non FSG / FSPT',
     { id: 'finalPoints66', placeholder: 'Final Score' }
   ],
   formulas_endurance_non_fsg,
-  '../assets/endurance/endurance.png',
+  '../assets/dynamics/manual_score.png',
   'non-fsg'
 );
 
@@ -668,7 +668,7 @@ createCalculator('Efficiency',
     { id: 'score',  placeholder: 'Final Score' }
   ],
   formulas_efficiency,
-  '../assets/endurance/efficiency.png'
+  '../assets/dynamics/efficiency_score.png'
 );
 
 createCalculator('Efficiency Non FSG / FSPT',
@@ -678,7 +678,7 @@ createCalculator('Efficiency Non FSG / FSPT',
     { id: 'score99',  placeholder: 'Final Score' }
   ],
   formulas_efficiency_non_fsg,
-  '../assets/endurance/efficiency.png',
+  '../assets/dynamics/efficiency_score.png',
   'non-fsg'
 );
 
@@ -689,7 +689,7 @@ createCalculator('Efficiency Factor',
     { id: 'EF', placeholder: 'Final Score' }
   ],
   formulas_efficiency_factor,
-  '../assets/endurance/efficiency_factor.png',
+  '../assets/dynamics/efficiency_factor.png',
   'shared'
 );
 
@@ -702,7 +702,7 @@ createCalculator4('DC Trackdrive',
     { id: 'score_dc',  placeholder: 'Final Score (includes laps bonus)' }
   ],
   formulas_trackdrive_dc,
-  '../assets/trackdrive/trackdrive.png'
+  '../assets/dynamics/trackdrive_score.png'
 );
 
 // =======================================================

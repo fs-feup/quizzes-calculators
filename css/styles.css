@@ -56,6 +56,16 @@ h1 {
     margin-bottom: 5px;
 }
 
+.category ul li a {
+    color: #1e88e5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category ul li a:hover {
+    text-decoration: underline;
+}
+
 .category h2:hover {
     text-decoration: underline;
 }
