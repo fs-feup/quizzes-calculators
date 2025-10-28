@@ -1,6 +1,7 @@
-function createCalculator(title, inputFields, formulas, imageUrl) {
+function createCalculator(title, inputFields, formulas, imageUrl, category = 'fsg') {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+    calculatorDiv.dataset.category = category; // tag for filtering
 
     // Create title element
     const titleElement = document.createElement('h2');
@@ -71,9 +72,10 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     document.getElementById('calculator-container').appendChild(calculatorDiv);
 }
 
-function createCalculator4(title, inputFields, formulas, imageUrl) {
+function createCalculator4(title, inputFields, formulas, imageUrl, category = 'fsg') {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+    calculatorDiv.dataset.category = category; // tag for filtering
 
     // Create title element
     const titleElement = document.createElement('h2');
@@ -548,7 +550,8 @@ createCalculator('Manual Skidpad Non FSG / FSPT',
     { id: 'finalPoints11', placeholder: 'Final Score' }
   ],
   formulas_skidpad_manual_non_fsg,
-  '../assets/skidpad/skidpad_score.png'
+  '../assets/skidpad/skidpad_score.png',
+  'non-fsg'
 );
 
 createCalculator('Driverless Skidpad',
@@ -588,7 +591,8 @@ createCalculator('Manual Acceleration Non FSG / FSPT',
     { id: 'finalPoints22', placeholder: 'Final Score' }
   ],
   formulas_acceleration_manual_non_fsg,
-  '../assets/acceleration/m_acceleration.png'
+  '../assets/acceleration/m_acceleration.png',
+  'non-fsg'
 );
 
 createCalculator('Driverless Acceleration',
@@ -619,7 +623,8 @@ createCalculator('Manual Autocross',
     { id: 'finalPoints4', placeholder: 'Final Score' }
   ],
   formulas_autocross_manual,
-  '../assets/autocross/m_autocross.png'
+  '../assets/autocross/m_autocross.png',
+  'shared'
 );
 
 createCalculator4('DC Autocross',
@@ -651,7 +656,8 @@ createCalculator('Endurance Non FSG / FSPT',
     { id: 'finalPoints66', placeholder: 'Final Score' }
   ],
   formulas_endurance_non_fsg,
-  '../assets/endurance/endurance.png'
+  '../assets/endurance/endurance.png',
+  'non-fsg'
 );
 
 // ---------- Efficiency ----------
@@ -672,7 +678,8 @@ createCalculator('Efficiency Non FSG / FSPT',
     { id: 'score99',  placeholder: 'Final Score' }
   ],
   formulas_efficiency_non_fsg,
-  '../assets/endurance/efficiency.png'
+  '../assets/endurance/efficiency.png',
+  'non-fsg'
 );
 
 createCalculator('Efficiency Factor',
@@ -682,7 +689,8 @@ createCalculator('Efficiency Factor',
     { id: 'EF', placeholder: 'Final Score' }
   ],
   formulas_efficiency_factor,
-  '../assets/endurance/efficiency_factor.png'
+  '../assets/endurance/efficiency_factor.png',
+  'shared'
 );
 
 // ---------- NEW: DC Trackdrive with laps bonus ----------
@@ -697,3 +705,42 @@ createCalculator4('DC Trackdrive',
   '../assets/trackdrive/trackdrive.png'
 );
 
+// =======================================================
+// Toggle visibility between FSG (Normal/Driverless/DC) and Non-FSG
+// =======================================================
+const nonFsgToggleEl = document.getElementById('nonFsgToggle');
+const fsgTextEl = document.querySelector('.switch-text.fsg');
+const nonfsgTextEl = document.querySelector('.switch-text.nonfsg');
+
+function applyScoringVisibility() {
+  const showNonFsg = !!(nonFsgToggleEl && nonFsgToggleEl.checked);
+  const cards = document.querySelectorAll('#calculator-container .calculator');
+  cards.forEach(card => {
+    const category = card.dataset.category || 'other';
+    if (showNonFsg) {
+      // Show Non-FSG and shared calculators
+      card.style.display = (category === 'non-fsg' || category === 'shared') ? '' : 'none';
+    } else {
+      // Show all except Non-FSG calculators
+      card.style.display = category === 'non-fsg' ? 'none' : '';
+    }
+  });
+
+  // Update labels highlight
+  if (fsgTextEl && nonfsgTextEl) {
+    if (showNonFsg) {
+      fsgTextEl.classList.remove('active');
+      nonfsgTextEl.classList.add('active');
+    } else {
+      nonfsgTextEl.classList.remove('active');
+      fsgTextEl.classList.add('active');
+    }
+  }
+}
+
+if (nonFsgToggleEl) {
+  nonFsgToggleEl.addEventListener('change', applyScoringVisibility);
+}
+
+// Default view: Non-FSG hidden
+applyScoringVisibility();

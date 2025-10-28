@@ -5,6 +5,10 @@ body {
     padding: 20px;
 }
 
+/* Keep vertical scrollbar width stable to avoid layout shift on toggle */
+html { scrollbar-gutter: stable both-edges; }
+body { overflow-y: scroll; }
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -16,6 +20,12 @@ h1 {
     /* max-width: 1200px; */
     justify-content: center;
     align-items: flex-start;
+}
+
+.content-area {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar {
@@ -118,4 +128,86 @@ p {
     height: auto;      /* Maintains the aspect ratio */
     max-height: 150px; /* Set an upper limit for height */
   }
+
+/* ----------- Toggle (FSG ↔ Non FSG) ----------- */
+.controls-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 16px;
+}
+
+.switch-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e9e9e9;
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.switch-text {
+    font-weight: 600;
+    color: #7a7a7a;
+    letter-spacing: 0.2px;
+    transition: color 0.2s ease;
+}
+.switch-text.active {
+    color: #1e88e5;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: linear-gradient(180deg, #ececec, #dedede);
+    transition: background 0.25s ease;
+    border-radius: 999px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.switch input:checked + .slider {
+    background: linear-gradient(180deg, #4da3ff, #1e88e5);
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+@media (max-width: 900px) {
+    #calculator-container {
+        flex-direction: column;
+    }
+    .calculator {
+        flex: 1 1 100%;
+    }
+}
   
