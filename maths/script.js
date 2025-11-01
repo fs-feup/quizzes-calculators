@@ -1,6 +1,8 @@
-function createMidpointAreaCalculator(title, imageUrl) {
+function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
+
+    // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
     calculatorDiv.appendChild(titleElement);
@@ -13,82 +15,61 @@ function createMidpointAreaCalculator(title, imageUrl) {
         calculatorDiv.appendChild(image);
     }
 
-    const inputs = [
-        { id: 'fx', placeholder: 'f(x) = polynomial or standard function' },
-        { id: 'distance', placeholder: 'd = distance between points' }
-    ];
-
-    inputs.forEach(field => {
-        const label = document.createElement('div');
-        label.innerText = field.placeholder;
+    // Create input fields
+    inputFields.forEach(field => {
         const input = document.createElement('input');
+        const text = document.createElement('div');
+        text.innerText = field.placeholder;
         input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
-        calculatorDiv.appendChild(label);
+        calculatorDiv.appendChild(text);
         calculatorDiv.appendChild(input);
     });
 
     const button = document.createElement('button');
     button.innerText = 'Calculate Area';
     button.onclick = () => {
-        try {
-            const fxInput = document.getElementById('fx').value.trim();
-            const d = parseFloat(document.getElementById('distance').value);
+        const input = document.getElementById(inputFields[0].id);
+        value = input.value.replace(',', '.');
+        const d = parseFloat(value);
 
-            if (!fxInput || isNaN(d)) {
-                alert('Enter a valid function and numeric distance.');
-                return;
-            }
-
-            const fx = fxInput.replace(/\s+/g, ''); // remove spaces
-            let area;
-            let error = null;
-
-            // Regex to detect a parabola: ax**2 + bx + c, where a != 0
-            const parabolaRegex = /^([-+]?\d*\.?\d*)x\*\*2([+-]\d*\.?\d*)?x?([+-]\d*\.?\d*)?$/;
-
-            if (parabolaRegex.test(fx)) {
-                // extract coefficient a
-                const aMatch = fx.match(/^([-+]?\d*\.?\d*)x\*\*2/);
-                let a = parseFloat(aMatch[1]);
-                if (isNaN(a)) a = 1; // x**2 case
-                area = (Math.PI / 8) * (d * d) * Math.abs(a); // scale with a
-            } else if (fx === 'sin(x)' || fx === 'cos(x)') {
-                area = 0.5 * d * d; // approximate, over [-π/2, π/2]
-            } else {
-                error = 'Function not supported. Only parabolas, sin(x) or cos(x) are allowed.';
-            }
-
-            // Display result
-            let resultParagraph = calculatorDiv.querySelector('.result');
-            if (!resultParagraph) {
-                resultParagraph = document.createElement('p');
-                resultParagraph.className = 'result';
-                calculatorDiv.appendChild(resultParagraph);
-            }
-
-            if (error) {
-                resultParagraph.innerText = error;
-                resultParagraph.style.color = 'red';
-            } else {
-                resultParagraph.innerText = `Approx. area between curves: ${area.toFixed(8)}`;
-                resultParagraph.style.color = 'black';
-            }
-
-
-        } catch (err) {
-            alert('Error calculating area.');
-            console.error(err);
+        let resultParagraph = calculatorDiv.querySelector('.result');
+        if (!resultParagraph) {
+            resultParagraph = document.createElement('p');
+            resultParagraph.className = 'result';
+            calculatorDiv.appendChild(resultParagraph);
         }
+
+        if (isNaN(d)) {
+            resultParagraph.innerText = 'Enter a valid numeric distance.';
+            resultParagraph.style.color = 'red';
+            return;
+        }
+
+        // Only x**2 function
+        const area = formulas[0].calculate(d);
+        resultParagraph.innerText = `Result: ${area.toFixed(8)}`;
+        resultParagraph.style.color = 'black';
     };
 
     calculatorDiv.appendChild(button);
     document.getElementById('calculator-container').appendChild(calculatorDiv);
 }
 
-// Create the calculator
-createMidpointAreaCalculator(
-    'Midpoint Curve & Area Calculator',
+// Formula for area under x² using midpoint approximation
+const formulas = [
+    {
+        displayName: 'Calculate area under x²',
+        calculate: (d) => (Math.PI / 8) * d * d
+    }
+];
+
+createCalculator(
+    'Midpoint Area Calculator for x²',
+    [
+        { id: 'distance', placeholder: 'Distance between points (d)' }
+    ],
+    formulas,
     '../assets/math/midpoint_area.png'
 );
