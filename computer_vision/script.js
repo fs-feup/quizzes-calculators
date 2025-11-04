@@ -147,7 +147,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     // Create input fields
     inputFields.forEach(field => {
         const input = document.createElement('input');
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         const text = document.createElement('div');
@@ -168,8 +168,11 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
 
-        // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        // Get input values normalized
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
         
         // Give me an array of indexes of the missing values
         const missingIndexes = inputValues.map((value, index) => !isNaN(value) ? null : index).filter(index => index !== null);
@@ -240,6 +243,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             input.style.color = 'blue';
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
 
 
