@@ -68,7 +68,7 @@ const pageMap = {
     "Dynamics": "dynamics/dynamics.html",
     "Statics": "statics/statics.html",
     "Structural": "structural/structural.html",
-    "Moments of Inertia": "../moment_of_inertia/moment_of_inertia.html",
+    "Moments of Inertia": "moment_of_inertia/moment_of_inertia.html",
     "Fluid and Aero Dynamics": "fluid-dynamics/fluid-dynamics.html",
     "Vibrations": "vibrations/vibrations.html",
     "General Mechanics": "general_mechanics/mechanics.html",
@@ -79,29 +79,37 @@ const pageMap = {
     "Maths": "maths/maths.html"
 };
 
-const pageMap1 = {
-    "Dynamics": "../dynamics/dynamics.html",
-    "Statics": "../statics/statics.html",
-    "Structural": "../structural/structural.html",
-    "Moments of Inertia": "../moment_of_inertia/moment_of_inertia.html",
-    "Fluid and Aero Dynamics": "../fluid-dynamics/fluid-dynamics.html",
-    "Vibrations": "../vibrations/vibrations.html",
-    "General Mechanics": "../general_mechanics/mechanics.html",
-    "Accumulator Segments": "../accumulator/accumulator.html",
-    "Thermodynamics": "../thermodynamics/thermodynamics.html",
-    "Vehicle Dynamics": "../vehicle-dynamics/vehicle-dynamics.html",
-    "Computer Vision": "../computer_vision/computer_vision.html",
-    "Maths": "../maths/maths.html"
-};
 
-// Get the current path
-const currentPath = window.location.pathname;
+// Resolve a path to an absolute URL based on this script's location
+function makeAbsolute(path) {
+    try {
+        const scripts = document.getElementsByTagName('script');
+        const me = Array.from(scripts).find(s => (s.src || '').includes('sidebar.js'));
+        const base = me?.src || window.location.href;
+        return new URL(path, base).href;
+    } catch (_) {
+        return path; // fallback
+    }
+}
 
-// Check if the current path indicates the root or the quizzes-calculators directory
-const isRootPath = currentPath === "/index.html" || currentPath === "/index" || currentPath.endsWith("/quizzes-calculators/") || currentPath.endsWith("/");
+// Build an absolute map so links work from any page depth
+const selectedPageMap = Object.fromEntries(
+    Object.entries(pageMap).map(([k, v]) => [k, makeAbsolute(v)])
+);
 
-// Select the appropriate page map
-const selectedPageMap = isRootPath ? pageMap : pageMap1;
+// Helper to build a direct link to a calculator by name using a query param
+function linkFor(category, calculatorName) {
+  const base = selectedPageMap[category];
+  if (!base) return '#';
+  try {
+    const url = new URL(base);
+    url.searchParams.set('q', calculatorName);
+    return url.href;
+  } catch (_) {
+    const q = encodeURIComponent(calculatorName);
+    return `${base}?q=${q}`;
+  }
+}
 
 
 // Populate the sidebar
@@ -113,9 +121,10 @@ for (const category in sidebarData) {
     const categoryTitle = document.createElement('h2');
     categoryTitle.innerText = category;
 
-    // Use the selected page map
+    // Use the selected page map (absolute URLs)
     categoryTitle.addEventListener('click', () => {
-        window.location.href = selectedPageMap[category];
+        const dest = selectedPageMap[category];
+        if (dest) window.location.href = dest;
     });
 
     categoryDiv.appendChild(categoryTitle);
@@ -123,10 +132,39 @@ for (const category in sidebarData) {
     const calculatorsList = document.createElement('ul');
     sidebarData[category].forEach(calculator => {
         const listItem = document.createElement('li');
-        listItem.innerText = calculator;
+        const a = document.createElement('a');
+        a.href = linkFor(category, calculator);
+        a.textContent = calculator;
+        a.title = `Open ${calculator}`;
+        listItem.appendChild(a);
         calculatorsList.appendChild(listItem);
     });
 
     categoryDiv.appendChild(calculatorsList);
     sidebar.appendChild(categoryDiv);
 }
+
+// If on a calculators page and a query parameter ?q= is present,
+// scroll to the first calculator title that matches it.
+(function scrollToQueryMatch() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (!q) return;
+    const headers = Array.from(document.querySelectorAll('#calculator-container .calculator h2'));
+    const qLower = q.toLowerCase();
+    const tokens = qLower.split(/[^a-z0-9]+/).filter(t => t.length >= 3);
+    let target = headers.find(h2 => h2.textContent.toLowerCase().includes(qLower));
+    if (!target && tokens.length) {
+      target = headers.find(h2 => {
+        const text = h2.textContent.toLowerCase();
+        return tokens.some(tok => text.includes(tok));
+      });
+    }
+    if (target && target.parentElement) {
+      target.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  } catch (_) {
+    // no-op if URLSearchParams unsupported
+  }
+})();

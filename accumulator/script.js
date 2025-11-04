@@ -35,7 +35,7 @@ function createSection(subTitleName, fields, motherDiv, advancedMode = false) {
         current_problem_vars = field.current_problem;
         
         const input = document.createElement('input');
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         
@@ -193,7 +193,8 @@ function createCalculator(title, sections, divId) {
             // Get input values
             for (const field of allFields) {
                 const input = calculatorDiv.querySelector(`#${field.id}`);
-                field.inputValue = parseFloat(input.value);
+                value = input.value.replace(',', '.');
+                field.inputValue = parseFloat(value);
             }
             
             // Divide the fields into null and non null fields

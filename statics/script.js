@@ -18,7 +18,7 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
         const input = document.createElement('input');
         const text = document.createElement('div');
         text.innerText = field.placeholder;
-        input.type = 'number';
+        input.type = 'text';
         input.id = field.id;
         input.placeholder = field.placeholder;
         calculatorDiv.appendChild(text);
@@ -29,7 +29,10 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     button.innerText = 'Calculate';
     button.onclick = () => {
         // Get input values
-        const inputValues = inputFields.map(field => parseFloat(document.getElementById(field.id).value));
+        const inputValues = inputFields.map(field => {
+            const value = document.getElementById(field.id).value.replace(',', '.');
+            return parseFloat(value);
+        });
         
         // Determine which value is missing
         let missingIndex = inputValues.findIndex(value => isNaN(value));
@@ -49,6 +52,9 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
             result = formulas[2].calculate(pteam, pmax);
         } else {
             result = 'Please leave one input empty to calculate the missing value.';
+        }
+        if(isNaN(result) && missingIndex >=0){
+            result = 'Invalid input values. Please check your entries.';
         }
         
         let resultParagraph = calculatorDiv.querySelector('.result');

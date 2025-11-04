@@ -37,16 +37,24 @@ h1 {
 }
 
 .sidebar {
-    width: 250px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
+    /* Turn the sidebar into a responsive grid of sections/cards */
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin-right: 0;
 }
 
 .category {
-    margin-bottom: 20px;
+    margin: 0;
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .category h2 {
@@ -62,6 +70,16 @@ h1 {
 
 .category ul li {
     margin-bottom: 5px;
+}
+
+.category ul li a {
+    color: #007BFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category ul li a:hover {
+    text-decoration: underline;
 }
 
 .category h2:hover {
