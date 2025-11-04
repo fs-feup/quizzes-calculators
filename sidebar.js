@@ -57,6 +57,12 @@ const sidebarData = {
     "Vehicle Dynamics": [
         "Curving Problem",
         "Slip Angle Calculator"
+    ],
+    "External Calculators": [
+        "Calculation of planetary gear ratios",
+        "Circuit simulation",
+        "Transfer function from circuit",
+        "Beam Calculator"
     ]
 };
 
@@ -72,6 +78,13 @@ const pageMap = {
     "Thermodynamics": "thermodynamics/thermodynamics.html",
     "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html",
+};
+
+const externalLinksMap = {
+    "Calculation of planetary gear ratios": "https://www.thecatalystis.com/gears/",
+    "Circuit simulation": "https://www.falstad.com/circuit/",
+    "Transfer function from circuit": "https://www.will-kelsey.com/circuitSolver/",
+    "Beam Calculator": "https://skyciv.com/free-beam-calculator/"
 };
 
 // Resolve a path to an absolute URL based on this script's location
@@ -116,10 +129,12 @@ for (const category in sidebarData) {
     categoryTitle.innerText = category;
 
     // Use the selected page map (absolute URLs)
-    categoryTitle.addEventListener('click', () => {
-        const dest = selectedPageMap[category];
-        if (dest) window.location.href = dest;
-    });
+    if(category !== "External Calculators"){
+        categoryTitle.addEventListener('click', () => {
+            const dest = selectedPageMap[category];
+            if (dest) window.location.href = dest;
+        });
+    }
 
     categoryDiv.appendChild(categoryTitle);
 
@@ -127,7 +142,11 @@ for (const category in sidebarData) {
     sidebarData[category].forEach(calculator => {
         const listItem = document.createElement('li');
         const a = document.createElement('a');
-        a.href = linkFor(category, calculator);
+        if (category === "External Calculators") {
+            a.href = externalLinksMap[calculator] || '#';
+        } else {
+            a.href = linkFor(category, calculator);
+        }
         a.textContent = calculator;
         a.title = `Open ${calculator}`;
         listItem.appendChild(a);
