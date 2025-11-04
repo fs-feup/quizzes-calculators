@@ -16,7 +16,19 @@
     </div>
     <div class="main-content">
         <div class="sidebar" id="sidebar"></div>
-    <div id="calculator-container"></div>
+        <div class="content-area">
+            <div id="controls" class="controls-bar">
+                <div class="switch-wrap" title="Toggle Non FSG scorings">
+                    <span class="switch-text fsg">FSG</span>
+                    <label class="switch">
+                        <input type="checkbox" id="nonFsgToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-text nonfsg">Non FSG</span>
+                </div>
+            </div>
+            <div id="calculator-container"></div>
+        </div>
     <script src="script.js"></script>
     <script src="../sidebar.js"></script>
     </div>
