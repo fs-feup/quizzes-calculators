@@ -58,12 +58,16 @@ const sidebarData = {
         "Curving Problem",
         "Slip Angle Calculator"
     ],
+    "Mathematics": [
+        "Mid Point Curve Problem",
+    ],
     "External Calculators": [
         "Calculation of planetary gear ratios",
         "Circuit simulation",
         "Transfer function from circuit",
         "Beam Calculator"
     ]
+
 };
 
 const pageMap = {
@@ -78,7 +82,9 @@ const pageMap = {
     "Thermodynamics": "thermodynamics/thermodynamics.html",
     "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html",
+    "Mathematics": "mathematics/mathematics.html"
 };
+
 
 const externalLinksMap = {
     "Calculation of planetary gear ratios": "https://www.thecatalystis.com/gears/",
