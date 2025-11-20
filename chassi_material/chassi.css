@@ -1,0 +1,64 @@
+.chassi-image {
+    text-align: center;
+}
+
+.controls-bar {
+    margin: 0;
+}
+
+.shape-label {
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.switch-wrap {
+    margin-bottom: 12px;
+}
+
+.result-container {
+    display: inline-block;
+    border-top: 1px solid #aaa;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.result-row .name {
+    width: 100px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.result-row .value {
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.squares-container {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.square {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #000;
+    background-color: grey;
+    color: #fff;
+    font-weight: bold;
+}
+
+.num-input {
+    width: 60px;
+}

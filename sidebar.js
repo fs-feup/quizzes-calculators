@@ -61,6 +61,9 @@ const sidebarData = {
     "Mathematics": [
         "Mid Point Curve Problem",
     ],
+    "Chassi Material": [
+        "Chassi Material"
+    ],
     "External Calculators": [
         "Calculation of planetary gear ratios",
         "Circuit simulation",
@@ -82,7 +85,8 @@ const pageMap = {
     "Thermodynamics": "thermodynamics/thermodynamics.html",
     "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html",
-    "Mathematics": "mathematics/mathematics.html"
+    "Mathematics": "mathematics/mathematics.html",
+    "Chassi Material": "chassi_material/chassi_material.html"
 };
 
 

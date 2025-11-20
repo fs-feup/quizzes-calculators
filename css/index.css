@@ -16,16 +16,13 @@ h1 {
 }
 
 .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 30px;
 }
-
+  
 .image-container img {
-    max-width: 31%;
+    width: 300px;
     height: auto;
-    display: block;
 }
 
 .main-content {

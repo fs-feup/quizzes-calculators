@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Keep vertical scrollbar width stable to avoid layout shift */
+html { scrollbar-gutter: stable both-edges; }
+body { overflow-y: scroll; }
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ---------- Main Layout (Sidebar + Content) ---------- */
+.main-content {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.content-area {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar {
+    width: 14%;
+    flex-shrink: 0;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Sidebar Categories ---------- */
+.category {
+    margin-bottom: 20px;
+}
+
+.category h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.category ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category ul li {
+    margin-bottom: 5px;
+}
+
+.category ul li a {
+    color: #1e88e5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category ul li a:hover {
+    text-decoration: underline;
+}
+
+.category h2:hover {
+    text-decoration: underline;
+}
+
+.calculator {
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.configuration-div {
+    display: flex;
+    align-items: center;
+}
+
+#segments-checkbox-text,
+#calculatormode-checkbox-text {
+    margin-right: 8px;
+}
+
+#segments-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Small clean button for advanced mode */
+#calculatormode-checkbox {
+    width: 200px;
+    height: 30px;
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#calculatormode-checkbox:hover {
+    background-color: #005bb5;
+}
+
+
+/* 🔥 NEW — three sections side-by-side */
+#calculator-contents {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 10px;
+    margin: 10px;
+}
+
+#calculator-contents > div {
+    flex: 1;
+    min-width: 280px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.calculator-section {
+    border: 2px solid #000;
+    border-radius: 4px;
+}
+
+
+/* ---------- Inputs, Buttons ---------- */
+input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    font-weight: bold;
+}
+
+/* ---------- Images (Logo + Calculator Images) ---------- */
+.calculator-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.image-container img {
+    width: 300px;
+    height: auto;
+}
+
