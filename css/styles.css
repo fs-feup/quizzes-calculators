@@ -17,9 +17,9 @@ h1 {
 .main-content {
     display: flex;
     width: 100%;
-    /* max-width: 1200px; */
-    justify-content: center;
+    justify-content: flex-start; /* Keep items aligned to left */
     align-items: flex-start;
+    gap: 20px; /* Spacing between sidebar and content */
 }
 
 .content-area {
@@ -29,12 +29,12 @@ h1 {
 }
 
 .sidebar {
-    width: 250px;
+    width: 14%; /* Fixed size */
+    flex-shrink: 0; /* Prevent shrinking */
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px;
 }
 
 .category {
@@ -74,23 +74,18 @@ h1 {
 .calculator {
     background: #fff;
     padding: 20px;
+    box-sizing: border-box;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    max-width: 400px;
-    /* margin: 0 auto; */
+    width: 24%; /* Four calculators per row */
 }
 
 /* Make calculators fill in the free space */
 #calculator-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Optional: Adds space between calculators */
-}
-
-.calculator {
-    flex: 1 1 calc(33.333% - 40px); /* Adjust the percentage as needed */
-    box-sizing: border-box;
+    gap: 10px;
+    justify-content: flex-start; /* Always start from left */
 }
 
 input {
@@ -127,17 +122,14 @@ p {
 }
 
 .image-container {
-    display: flex;
-    justify-content: center; /* Center the logo horizontally */
-    align-items: center;    /* Center the logo vertically if necessary */
-    padding: 10px;          /* Add some padding for spacing */
-  }
+    text-align: center;
+    margin-bottom: 15px;
+}
   
-  .logo-image {
-    max-width: 50%;    /* The logo will scale to at most 50% of its container's width */
-    height: auto;      /* Maintains the aspect ratio */
-    max-height: 150px; /* Set an upper limit for height */
-  }
+.image-container img {
+    width: 300px;
+    height: auto;
+}
 
 /* ----------- Toggle (FSG ↔ Non FSG) ----------- */
 .controls-bar {

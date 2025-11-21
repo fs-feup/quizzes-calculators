@@ -129,13 +129,12 @@ function createCalculator(title, inputFields, formulas, imageUrl) {
     const calculatorDiv = document.createElement('div');
     calculatorDiv.className = 'calculator';
 
-    // Create image element if imageUrl is provided
-
     // Create title element
     const titleElement = document.createElement('h2');
     titleElement.innerText = title;
     calculatorDiv.appendChild(titleElement);
 
+    // Create image element if imageUrl is provided
     if (imageUrl) {
         const image = document.createElement('img');
         image.src = imageUrl;
