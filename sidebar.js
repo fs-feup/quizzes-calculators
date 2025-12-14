@@ -64,6 +64,9 @@ const sidebarData = {
     "Chassis Material": [
         "Chassis Material"
     ],
+    "Electro": [
+        "Eletrical Power Calculator",
+    ],
     "External Calculators": [
         "Calculation of planetary gear ratios",
         "Circuit simulation",
@@ -86,7 +89,8 @@ const pageMap = {
     "Vehicle Dynamics": "vehicle-dynamics/vehicle-dynamics.html",
     "Computer Vision": "computer_vision/computer_vision.html",
     "Mathematics": "mathematics/mathematics.html",
-    "Chassis Material": "chassis_material/chassis_material.html"
+    "Chassis Material": "chassis_material/chassis_material.html",
+    "Electro": "electro/electro.html"
 };
 
 
