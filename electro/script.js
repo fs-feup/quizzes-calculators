@@ -136,7 +136,7 @@ const formula_power_full = (ocv, req_mohm, current, power) => {
             const I1 = (-b + Math.sqrt(disc)) / (2*a);
             const I2 = (-b - Math.sqrt(disc)) / (2*a);
 
-            const I = Math.max(I1, I2); // choose positive
+            const I = Math.min(I1, I2); // choose smaller positive root
 
             return {
                 ok: true,
